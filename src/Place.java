@@ -1,10 +1,11 @@
-import java.util.Vector;
+import java.util.HashMap;
+import java.util.Random;
 
 public class Place {
 
 // --- MEMBERS ---
     // list containing all the places in the program
-    public static Vector<Place> PLACES = new Vector<Place>();
+    private static HashMap<Integer, Place> PLACES = new HashMap<Integer, Place>();
     private static int ID = 0;
 
     Account host;
@@ -27,8 +28,9 @@ public class Place {
 // --- CONSTRUCTORS ---
     public Place() {
         rules = new PlaceRules();
-        PLACES.add(this); // adding the place to PLACES list every time we create a place
-        placeID = ++ID;
+        isReserved = false;
+        placeID = generatePlaceID();
+        PLACES.put(placeID, this); // adding the place to PLACES list every time we create a place
     }
     public Place(String placeType, Account host, int area, int numOfRooms, Location location, int price,
                  int rentalDuration, PlaceRules rules, String description, boolean isReserved) {
@@ -41,12 +43,22 @@ public class Place {
         this.rentalDuration = rentalDuration;
         this.rules = rules;
         this.description = description;
-        this.isReserved = isReserved;
-        PLACES.add(this); // adding the place to PLACES list every time we create a place
-        this.placeID = ++ID;
+        this.isReserved = false;
+        this.placeID = generatePlaceID();
+        PLACES.put(placeID, this); // adding the place to PLACES list every time we create a place
     }
 
 // --- METHODS ---
+
+    // helper function that generates unique random ID for every place
+    private int generatePlaceID() {
+        Random rand = new Random();
+        int id;
+        do {
+            id = Math.abs(rand.nextInt());
+        } while (PLACES.get(id) != null);
+        return id;
+    }
 
     // PRINT CLASS DATA
     @Override
@@ -70,17 +82,30 @@ public class Place {
 
 // --- STATIC METHODS ---
     // removing a place from the list that contains all the places
-    // removes by object
-    public static void removePlace(Place obj) {
-        PLACES.remove(obj);
+    // removes by ID
+    public static void removePlace(int placeID) {
+        PLACES.remove(placeID);
     }
 
-    // removes by index
-    public static void removePlace(int index) {
-        PLACES.remove(index);
+    public static HashMap<Integer, Place> getPlaces() {
+        return PLACES;
     }
 
+    public static void displayPlaces() {
+        int size = PLACES.size();
+        for (int i = 0; i < size; i++) {
+            System.out.println(PLACES.get(i).toString());
+            System.out.println("#####################################################################");
+        }
+    }
 
+    // returns the place with the passed id
+    public static Place findPlace(int id) throws Exception {
+        Place place = PLACES.get(id);
+        if (place != null)
+            return place;
+        throw new Exception("Place doesn't exist."); // throwing an exception if no place found
+    }
 
 // --- SETTERS & GETTERS ---
     public Account getHost() {

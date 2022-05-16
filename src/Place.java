@@ -1,10 +1,11 @@
-import java.util.LinkedList;
+import java.util.Vector;
 
 public class Place {
 
 // --- MEMBERS ---
     // list containing all the places in the program
-    public static LinkedList<Place> PLACES = new LinkedList<Place>();
+    public static Vector<Place> PLACES = new Vector<Place>();
+    private static int ID = 0;
 
     Account host;
     String placeType;
@@ -21,12 +22,13 @@ public class Place {
     PlaceRules rules;
     private String description;
     private boolean isReserved;
+    private int placeID;
 
 // --- CONSTRUCTORS ---
     public Place() {
         rules = new PlaceRules();
         PLACES.add(this); // adding the place to PLACES list every time we create a place
-
+        placeID = ++ID;
     }
     public Place(String placeType, Account host, int area, int numOfRooms, Location location, int price,
                  int rentalDuration, PlaceRules rules, String description, boolean isReserved) {
@@ -40,7 +42,8 @@ public class Place {
         this.rules = rules;
         this.description = description;
         this.isReserved = isReserved;
-        PLACES.add(this);
+        PLACES.add(this); // adding the place to PLACES list every time we create a place
+        this.placeID = ++ID;
     }
 
 // --- METHODS ---
@@ -76,6 +79,8 @@ public class Place {
     public static void removePlace(int index) {
         PLACES.remove(index);
     }
+
+
 
 // --- SETTERS & GETTERS ---
     public Account getHost() {
@@ -180,5 +185,13 @@ public class Place {
 
     public void setReserved(boolean reserved) {
         isReserved = reserved;
+    }
+
+    public int getPlaceID() {
+        return placeID;
+    }
+
+    public void setPlaceID(int placeID) {
+        this.placeID = placeID;
     }
 }

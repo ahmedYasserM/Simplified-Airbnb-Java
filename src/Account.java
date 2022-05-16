@@ -142,13 +142,15 @@ public class Account {
     public void reservePlace(Place place) {
 
         reservedPlace = place;
+        place.setReserved(true);
     }  // end of reservePlace function
 
 
-    
+
     public void deleteReservedPlace(){
 
         reservedPlace = null;
+        reservedPlace.setReserved(false);
         System.out.println("The place has been deleted successfully.");
     } // end of deleteReservedPlace function
 

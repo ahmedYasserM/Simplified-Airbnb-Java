@@ -131,12 +131,18 @@ public class Account {
 
     // deleting the hosted place by the object itself
     public void deleteHostedPlace(Place obj) {
-        hostedPlaces.remove(obj);
+        if (hostedPlaces.remove(obj) == true) // checks if the place exists
+            System.out.println("The place was deleted successfully.");
+        else
+            System.out.println("Place not found.");
     } // end of deleteHostedPlace function
 
     // deleting the hosted place by its index
     public void deleteHostedPlace(int index) {
-        hostedPlaces.remove(index);
+        if (hostedPlaces.remove(index) != null) // checks if the place exists
+            System.out.println("The place was deleted successfully.");
+        else
+            System.out.println("Place not found.");
     } // end of deleteHostedPlace function
 
     //setters and getters

@@ -81,16 +81,17 @@ public class Place {
     }
 
 // --- STATIC METHODS ---
-    // removing a place from the list that contains all the places
+    // removing a place from the PLACES container and returning it
     // removes by ID
-    public static void removePlace(int placeID) {
-        PLACES.remove(placeID);
+    public static Place removePlace(int placeID) {
+        return PLACES.remove(placeID);
     }
 
     public static HashMap<Integer, Place> getPlaces() {
         return PLACES;
     }
 
+    // prints all the places in the PLACES hashmap
     public static void displayPlaces() {
         int size = PLACES.size();
         for (int i = 0; i < size; i++) {

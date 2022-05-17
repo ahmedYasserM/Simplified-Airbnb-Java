@@ -44,7 +44,7 @@ public class Main {
         System.out.println(p0.getPlaceID());
         System.out.println(p.getPlaceID());
         try {
-            System.out.println(Place.findPlace(8923).getArea());
+            System.out.println(Place.findPlace(n).getArea());
         } catch (Exception e) {
             System.out.println(e);
         }

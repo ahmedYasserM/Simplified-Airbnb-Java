@@ -5,7 +5,7 @@ public class Place {
 
 // --- MEMBERS ---
     // list containing all the places in the program
-    private static HashMap<Integer, Place> PLACES = new HashMap<Integer, Place>();
+    private static HashMap<String, Place> PLACES = new HashMap<String, Place>();
     private static int ID = 0;
 
     Account host;
@@ -23,7 +23,7 @@ public class Place {
     PlaceRules rules;
     private String description;
     private boolean isReserved;
-    private int placeID;
+    private String placeID;
 
 // --- CONSTRUCTORS ---
     public Place() {
@@ -51,12 +51,31 @@ public class Place {
 // --- METHODS ---
 
     // helper function that generates unique random ID for every place
-    private int generatePlaceID() {
-        Random rand = new Random();
-        int id;
+    private String generatePlaceID() {
+        // string contains all characters that could be in the ID
+        String alpha_numeric = "0123456789" +
+                "ABCDEFJHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789" + "abcdefghijklmnopqrstuvwxyz";
+
+        // empty string to add in it the chosen characters from the alpha_numeric string
+        String id;
+
+        /* the "do while" loop is to make sure we don't have two identical IDs.
+            chance to happen less than 1%.
+         */
         do {
-            id = Math.abs(rand.nextInt());
-        } while (PLACES.get(id) != null);
+            Random rand = new Random();
+            id = "";
+
+            // the number of iteration of the loop is the preferred size of the ID
+            for (int i = 0; i < 6; i++) {
+                // generating random index of the 'alpha_numeric' string
+                int index = Math.abs(rand.nextInt(alpha_numeric.length()));
+
+                // appending the character at position 'index' to 'id' string
+                id += alpha_numeric.charAt(index);
+            }
+        } while (PLACES.get(id) != null); // making sure no duplicates IDs
         return id;
     }
 
@@ -66,6 +85,8 @@ public class Place {
         String finalShape = "";
         finalShape += "--- " + placeType.toUpperCase() + " ---" + '\n';
         finalShape += "Owner: " + host.getFirstName() + ' ' + host.getLastName() + '\n';
+        finalShape += "ID: " + placeID + '\n';
+        finalShape += "Status: " + (isReserved ? "Reserved" : "Available") + '\n';
         finalShape += "Area: " + area + " m\n";
         finalShape += "# Rooms: " + numOfRooms + '\n';
         finalShape += "Location: " + location.toString() + '\n';
@@ -83,11 +104,11 @@ public class Place {
 // --- STATIC METHODS ---
     // removing a place from the PLACES container and returning it
     // removes by ID
-    public static Place removePlace(int placeID) {
+    public static Place removePlace(String placeID) {
         return PLACES.remove(placeID);
     }
 
-    public static HashMap<Integer, Place> getPlaces() {
+    public static HashMap<String, Place> getPlaces() {
         return PLACES;
     }
 
@@ -213,11 +234,11 @@ public class Place {
         isReserved = reserved;
     }
 
-    public int getPlaceID() {
+    public String getPlaceID() {
         return placeID;
     }
 
-    public void setPlaceID(int placeID) {
+    public void setPlaceID(String placeID) {
         this.placeID = placeID;
     }
 }

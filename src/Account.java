@@ -130,7 +130,7 @@ public class Account {
     } // end of hostPlace function
 
     // deleting the hosted place by its ID
-    public void deleteHostedPlace(int id) {
+    public void deleteHostedPlace(String id) {
         Place place = Place.removePlace(id); // returns the place and removes it from the PLACES container
         if (place != null) { // checks if the place exists
             hostedPlaces.remove(place);

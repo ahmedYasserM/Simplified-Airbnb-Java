@@ -23,6 +23,7 @@ public class Main {
         p0.setReserved(false);
         p0.setPrice(3800);
         p0.setRentalDuration(20);
+        p0.setReserved(true);
         System.out.println(p0.toString());
 
 

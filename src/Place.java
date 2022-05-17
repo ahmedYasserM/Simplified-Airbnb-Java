@@ -57,26 +57,32 @@ public class Place {
                 "ABCDEFJHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789" + "abcdefghijklmnopqrstuvwxyz";
 
-        // empty string to add in it the chosen characters from the alpha_numeric string
-        String id;
+
+        /*
+            NOTICE: we used 'StringBuilder' instead of regular 'String' because of
+                    the immutability of the 'String' class.
+            In other words to SAVE MEMORY.
+         */
+        StringBuilder id;  // empty string to add in it the chosen characters from the alpha_numeric string
 
         /* the "do while" loop is to make sure we don't have two identical IDs.
             chance to happen less than 1%.
          */
         do {
             Random rand = new Random();
-            id = "";
+            id = new StringBuilder();
 
-            // the number of iteration of the loop is the preferred size of the ID
-            for (int i = 0; i < 6; i++) {
+            // the number of iteration is the preferred size of the ID
+            for (int i = 0; i < 5; i++) {
                 // generating random index of the 'alpha_numeric' string
                 int index = Math.abs(rand.nextInt(alpha_numeric.length()));
 
                 // appending the character at position 'index' to 'id' string
-                id += alpha_numeric.charAt(index);
+                id.append(alpha_numeric.charAt(index));
             }
-        } while (PLACES.get(id) != null); // making sure no duplicates IDs
-        return id;
+
+        } while (PLACES.get(id.toString()) != null); // making sure no duplicates IDs
+        return id.toString();
     }
 
     // PRINT CLASS DATA
@@ -88,7 +94,7 @@ public class Place {
         finalShape += "ID: " + placeID + '\n';
         finalShape += "Status: " + (isReserved ? "Reserved" : "Available") + '\n';
         finalShape += "Area: " + area + " m\n";
-        finalShape += "# Rooms: " + numOfRooms + '\n';
+        finalShape += "Rooms: " + numOfRooms + '\n';
         finalShape += "Location: " + location.toString() + '\n';
         finalShape += "Rental Duration: " + rentalDuration + " day/s" + '\n';
         finalShape += "Rules: " + '\n';

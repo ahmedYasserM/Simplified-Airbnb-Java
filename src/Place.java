@@ -63,14 +63,14 @@ public class Place {
                     the immutability of the 'String' class.
             In other words to SAVE MEMORY.
          */
-        StringBuilder id;  // empty string to add in it the chosen characters from the alpha_numeric string
+        StringBuilder id = new StringBuilder();  // empty string to add in it the chosen characters from the alpha_numeric string
 
         /* the "do while" loop is to make sure we don't have two identical IDs.
             chance to happen less than 1%.
          */
         do {
             Random rand = new Random();
-            id = new StringBuilder();
+            id.setLength(0);
 
             // the number of iteration is the preferred size of the ID
             for (int i = 0; i < 5; i++) {

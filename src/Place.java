@@ -53,12 +53,14 @@ public class Place {
     // helper function that generates unique random ID for every place
     private String generatePlaceID() {
         // string contains all characters that could be in the ID
-        String alpha_numeric = "abcdefghijklmnopqrstuvwxyz" + "0123456789";
+        String alpha_numeric = "0123456789" +
+                "ABCDEFJHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789" + "abcdefghijklmnopqrstuvwxyz";
 
         // empty string to add in it the chosen characters from the alpha_numeric string
         String id;
 
-        /* the "do while" loop is to make sure we don't have two identical ID.
+        /* the "do while" loop is to make sure we don't have two identical IDs.
             chance to happen less than 1%.
          */
         do {
@@ -73,7 +75,7 @@ public class Place {
                 // appending the character at position 'index' to 'id' string
                 id += alpha_numeric.charAt(index);
             }
-        } while (PLACES.get(id) != null); // making sure no duplicates
+        } while (PLACES.get(id) != null); // making sure no duplicates IDs
         return id;
     }
 

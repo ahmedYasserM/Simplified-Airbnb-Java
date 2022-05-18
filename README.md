@@ -1,10 +1,11 @@
 # Simplified-Airbnb-Java
 
-you will find changes here & when you compare files in Github 
+Khtb : you will find changes here & when you compare files in Github 
 
-i changed
+i changed the following  :
 
-		 ### ----- Account class ---------
+__________________________________________________________
+		 ###  Account class 
 
 ACCOUNTS => ALL_ACCOUNTS  (tree map)   -- Account class
 
@@ -15,8 +16,9 @@ i have make 2 new  variables :
 		
 
 
+__________________________________________________________
 
-		### ----- Place class ---------
+		### Place class 
 
 
 PLACES => ALL_PLACES 			   

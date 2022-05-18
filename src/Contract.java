@@ -39,6 +39,7 @@ public class Contract {
     // PRINT CLASS DATA
     @Override
     public String toString() {
+
         String finalShape = "--- Host Info --- \n";
         finalShape += host.toString();
         finalShape += '\n';

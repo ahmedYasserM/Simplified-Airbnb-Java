@@ -30,7 +30,6 @@ public class Date {
         this.day = day;
         this.month = month;
         this.year = year;
-
     }
 
     // method to copy obj date attributes to our Date object in class contract we will use it in contract constructer

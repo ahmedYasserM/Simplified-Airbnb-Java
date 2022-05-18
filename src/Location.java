@@ -47,7 +47,6 @@ public class Location {
         city = location.city;
         street = location.street;
         buildingNumber = location.buildingNumber;
-
     }
 
 // --- SETTERS & GETTERS ---

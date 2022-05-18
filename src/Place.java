@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class Place {
@@ -6,7 +7,7 @@ public class Place {
 // --- MEMBERS ---
     // list containing all the places in the program
     private static HashMap<String, Place> ALL_PLACES = new HashMap<String, Place>();
-    public static int place_orderd_ID_Cnt;   //(khtb)   just added to count every place created, but don't worry it doesn't affect any thing :) .
+    // public static int place_orderd_ID_Cnt;   //(khtb)   just added to count every place created, but don't worry it doesn't affect any thing :) .
 
     Account host;
     String placeType;
@@ -27,12 +28,12 @@ public class Place {
     private boolean isReserved_place;
     private String placeID;
 
-    private int place_ordered_ID = 0 ;  //  (khtb)      to make the place have an "ordered" ID  it doesn't affect any thing .
+    //private int place_ordered_ID = 0 ;  //  (khtb)      to make the place have an "ordered" ID  it doesn't affect any thing .
 
 // --- CONSTRUCTORS ---
 
     public Place() {
-        place_ordered_ID = ++place_orderd_ID_Cnt;  //(khtb)
+        //place_ordered_ID = ++place_orderd_ID_Cnt;  //(khtb)
         rules = new PlaceRules();
         isReserved_place = false;
         placeID = generatePlaceID();
@@ -42,7 +43,7 @@ public class Place {
     public Place(String placeType, Account host, int area, int numOfRooms, Location location, int price_of_place,
                  int rentalDuration, PlaceRules rules, String place_description, boolean isReserved_place) {
 
-        place_ordered_ID = ++place_orderd_ID_Cnt; //(khtb)
+        //place_ordered_ID = ++place_orderd_ID_Cnt; //(khtb)
         this.placeType = placeType;
         this.host = host;
         this.area = area;
@@ -62,11 +63,7 @@ public class Place {
     // helper function that generates unique random ID for every place
     private String generatePlaceID() {
         // string contains all characters that could be in the ID
-        String alpha_numeric = "0123456789" +
-                "ABCDEFJHIJKLMNOPQRSTUVWXYZ"
-                + "0123456789" + "abcdefghijklmnopqrstuvwxyz";
-
-
+        String alpha_numeric = "0123456789ABCDEFJHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
         /*
             NOTICE: we used 'StringBuilder' instead of regular 'String' because of
                     the immutability of the 'String' class .
@@ -121,18 +118,18 @@ public class Place {
     // removes by ID
     public static Place removePlace(String placeID) {
         return ALL_PLACES.remove(placeID);
-
     }  //this method is used in another method : removeHostedPlace (Khtb)
 
-    public static HashMap<String, Place> getPlaces() {
+    public static HashMap<String, Place> getAllPlaces() {
         return ALL_PLACES;
     }
 
     // prints all the places in the PLACES hashmap
     public static void displayPlaces() {
-        int size = ALL_PLACES.size();
-        for (int i = 0; i < size; i++) {
-            System.out.println(ALL_PLACES.get(i).toString());
+        for (Map.Entry<String, Place> place : ALL_PLACES.entrySet()) {
+            Place p = place.getValue();
+            if (!p.isReserved_place())
+                System.out.println(p.toString());
             System.out.println("#####################################################################");
         }
     }
@@ -257,5 +254,6 @@ public class Place {
     public void setPlaceID(String placeID) {
         this.placeID = placeID;
     }
+
 }
 

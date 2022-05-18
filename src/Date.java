@@ -5,6 +5,8 @@
 
 //Date class to use it in date of arrival,leaving and booking in Class contract
 
+import java.util.Scanner;
+
 public class Date {
 
     //attributes
@@ -39,6 +41,21 @@ public class Date {
         month = date.month;
         year = date.year;
     } // end of copyAnotherDate function
+
+    public void inputInterface(String date) {
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("Enter Date of: " + date);
+
+        System.out.print("Day: ");
+        day = in.nextLine();
+
+        System.out.print("Month: ");
+        month = in.nextLine();
+
+        System.out.print("Year: ");
+        year = in.nextLine();
+    }
 
     // method to return data in string in form of dd/mm/yyyy   ex->   25/4/2022;
     // PRINT CLASS DATA

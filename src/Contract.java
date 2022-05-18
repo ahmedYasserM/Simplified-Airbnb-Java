@@ -1,10 +1,12 @@
+import java.util.HashMap;
+
 public class Contract {
 
     // --- MEMBER ---
+
     private Date dateOfBooking;
     private Date dateOfArrival;
     private Date dateOfLeaving;
-    private Location location;
     private Account host;
     private Account customer;
     private int price;
@@ -14,11 +16,10 @@ public class Contract {
     public Contract() {}
 
     public Contract(Date dateOfBooking, Date dateOfArrival, Date dateOfLeaving,
-                    int price, Account customer, Location location, Account host) {
+                    int price, Account customer, Account host) {
         this.dateOfBooking = dateOfBooking;
         this.dateOfArrival = dateOfArrival;
         this.dateOfLeaving = dateOfLeaving;
-        this.location = location;
         this.host = host;
         this.customer = customer;
         this.price = price;
@@ -56,6 +57,7 @@ public class Contract {
         return finalShape;
     }
 
+
 // --- SETTERS & GETTERS ---
     public Date getDateOfBooking() {
         return dateOfBooking;
@@ -81,13 +83,6 @@ public class Contract {
         this.dateOfLeaving = dateOfLeaving;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
 
     public Account getHost() {
         return host;

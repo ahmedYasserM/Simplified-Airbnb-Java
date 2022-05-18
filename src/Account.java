@@ -74,12 +74,9 @@ public class Account {
 
     public static void signUp(Account account) {
 
-        if (findAccount(account.getUserName()) != null)  // checks if the username is taken or not
-            System.out.println("User name already taken!");
-        else {
-            ALL_ACCOUNTS.put(account.getUserName(), account);
-            System.out.println("Account has been added"); // if we want to remove this statement no problem :)
-        }
+        ALL_ACCOUNTS.put(account.getUserName(), account);
+        System.out.println("Account has been added"); // if we want to remove this statement no problem :)
+
     } // end of signUp function
 
 
@@ -196,6 +193,10 @@ public class Account {
         this.password = password;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
 
     public void setFirstName(String firstName) {
 
@@ -246,6 +247,9 @@ public class Account {
         return phoneNumber;
     }
 
+    public Place getReservedPlace() {
+        return reservedPlace;
+    }
 
     public LinkedList<Place> getHostedPlaces() {
         return hostedPlaces;

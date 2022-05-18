@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Place {
 
@@ -14,7 +15,7 @@ public class Place {
     private int area;
     private int numOfRooms;
     private Location location;
-    private int price_of_place;
+    private int place_price;
     private int rentalDuration;
 
     private class PlaceRules {
@@ -23,7 +24,7 @@ public class Place {
         boolean isSmokeFree;
     }
     PlaceRules rules;
-
+    Contract place_contract;
     private String place_description;
     private boolean isReserved_place;
     private String placeID;
@@ -36,11 +37,12 @@ public class Place {
         //place_ordered_ID = ++place_orderd_ID_Cnt;  //(khtb)
         rules = new PlaceRules();
         isReserved_place = false;
+        location = new Location();
         placeID = generatePlaceID();
         ALL_PLACES.put(placeID, this); // adding the place to PLACES list every time we create a place
     }
 
-    public Place(String placeType, Account host, int area, int numOfRooms, Location location, int price_of_place,
+    public Place(String placeType, Account host, int area, int numOfRooms, Location location, int place_price,
                  int rentalDuration, PlaceRules rules, String place_description, boolean isReserved_place) {
 
         //place_ordered_ID = ++place_orderd_ID_Cnt; //(khtb)
@@ -49,7 +51,7 @@ public class Place {
         this.area = area;
         this.numOfRooms = numOfRooms;
         this.location = location;
-        this.price_of_place = price_of_place;
+        this.place_price = place_price;
         this.rentalDuration = rentalDuration;
         this.rules = rules;
         this.place_description = place_description;
@@ -91,6 +93,24 @@ public class Place {
         return id.toString();
     }
 
+    public void create_contract(Account customer) {
+        place_contract = new Contract();
+        place_contract.setHost(host);
+        place_contract.setCustomer(customer);
+        place_contract.setPrice(place_price);
+        Date date = new Date();
+
+        date.inputInterface("Booking");
+        place_contract.setDateOfBooking(date);
+
+        date.inputInterface("Arrival");
+        place_contract.setDateOfArrival(date);
+
+        date.inputInterface("Leaving");
+        place_contract.setDateOfLeaving(date);
+
+    }
+
     // PRINT CLASS DATA
     @Override
     public String toString() {
@@ -107,7 +127,7 @@ public class Place {
         finalShape += (rules.arePetsAllowed ? "\tPets Allowed." : "\tNo Pets.") + '\n';
         finalShape += (rules.isSmokeFree ? "\tSmoking Allowed." : "\tNo Smoking.") + '\n';
         finalShape += "\t" + rules.maximumGuests + " Guest/s at most.\n";
-        finalShape += "Price: " + price_of_place + "$\n";
+        finalShape += "Price: " + place_price + "$\n";
         finalShape += "Additional details: \n" + "\t\"" + place_description + "\"\n";
 
         return finalShape;
@@ -140,6 +160,21 @@ public class Place {
         if (place != null)
             return place;
         throw new Exception("Place doesn't exist."); // throwing an exception if no place found
+    }
+
+    public void inputInterface() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Enter place type: ");
+        setPlaceType(in.nextLine());
+
+        System.out.print("Enter Place area: ");
+        setArea(in.nextInt());
+
+        System.out.print("Enter place number of rooms: ");
+        setNumOfRooms(in.nextInt());
+
+//        System.out.print("Enter ");
+
     }
 
 // --- SETTERS & GETTERS ---
@@ -184,11 +219,11 @@ public class Place {
     }
 
     public int getPrice_of_place() {
-        return price_of_place;
+        return place_price;
     }
 
-    public void setPrice_of_place(int price_of_place) {
-        this.price_of_place = price_of_place;
+    public void setPrice_of_place(int place_price) {
+        this.place_price = place_price;
     }
 
     public int getRentalDuration() {
@@ -255,5 +290,12 @@ public class Place {
         this.placeID = placeID;
     }
 
+    public Contract getContract() {
+        return place_contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.place_contract = contract;
+    }
 }
 

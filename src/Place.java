@@ -138,7 +138,7 @@ public class Place {
     }
 
     // returns the place with the passed id
-    public static Place findPlace(int id) throws Exception {
+    public static Place findPlace(String id) throws Exception {
         Place place = ALL_PLACES.get(id);
         if (place != null)
             return place;

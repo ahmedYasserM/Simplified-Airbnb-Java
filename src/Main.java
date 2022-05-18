@@ -3,7 +3,7 @@
 public class Main {
     public static void main(String[] args) throws Exception {
 
-// EX 1
+// EX 1 // ss
         // Account a = new Account("malvister", "dkmf2340m32",
         //         "011239348", "7/4/2002");
         // a.setFirstName("Suhail");

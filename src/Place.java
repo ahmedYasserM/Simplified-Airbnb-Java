@@ -5,47 +5,56 @@ public class Place {
 
 // --- MEMBERS ---
     // list containing all the places in the program
-    private static HashMap<String, Place> PLACES = new HashMap<String, Place>();
-    private static int ID = 0;
+    private static HashMap<String, Place> ALL_PLACES = new HashMap<String, Place>();
+    public static int place_orderd_ID_Cnt;   //(khtb)   just added to count every place created, but don't worry it doesn't affect any thing :) .
 
     Account host;
     String placeType;
     private int area;
     private int numOfRooms;
     private Location location;
-    private int price;
+    private int price_of_place;
     private int rentalDuration;
+
     private class PlaceRules {
         int maximumGuests;
         boolean arePetsAllowed;
         boolean isSmokeFree;
     }
     PlaceRules rules;
-    private String description;
-    private boolean isReserved;
+
+    private String place_description;
+    private boolean isReserved_place;
     private String placeID;
 
+    private int place_ordered_ID = 0 ;  //  (khtb)      to make the place have an "ordered" ID  it doesn't affect any thing .
+
 // --- CONSTRUCTORS ---
+
     public Place() {
+        place_ordered_ID = ++place_orderd_ID_Cnt;  //(khtb)
         rules = new PlaceRules();
-        isReserved = false;
+        isReserved_place = false;
         placeID = generatePlaceID();
-        PLACES.put(placeID, this); // adding the place to PLACES list every time we create a place
+        ALL_PLACES.put(placeID, this); // adding the place to PLACES list every time we create a place
     }
-    public Place(String placeType, Account host, int area, int numOfRooms, Location location, int price,
-                 int rentalDuration, PlaceRules rules, String description, boolean isReserved) {
+
+    public Place(String placeType, Account host, int area, int numOfRooms, Location location, int price_of_place,
+                 int rentalDuration, PlaceRules rules, String place_description, boolean isReserved_place) {
+
+        place_ordered_ID = ++place_orderd_ID_Cnt; //(khtb)
         this.placeType = placeType;
         this.host = host;
         this.area = area;
         this.numOfRooms = numOfRooms;
         this.location = location;
-        this.price = price;
+        this.price_of_place = price_of_place;
         this.rentalDuration = rentalDuration;
         this.rules = rules;
-        this.description = description;
-        this.isReserved = false;
+        this.place_description = place_description;
+        this.isReserved_place = false;
         this.placeID = generatePlaceID();
-        PLACES.put(placeID, this); // adding the place to PLACES list every time we create a place
+        ALL_PLACES.put(placeID, this); // adding the place to PLACES list every time we create a place
     }
 
 // --- METHODS ---
@@ -60,7 +69,7 @@ public class Place {
 
         /*
             NOTICE: we used 'StringBuilder' instead of regular 'String' because of
-                    the immutability of the 'String' class.
+                    the immutability of the 'String' class .
             In other words to SAVE MEMORY.
          */
         StringBuilder id = new StringBuilder();  // empty string to add in it the chosen characters from the alpha_numeric string
@@ -81,7 +90,7 @@ public class Place {
                 id.append(alpha_numeric.charAt(index));
             }
 
-        } while (PLACES.get(id.toString()) != null); // making sure no duplicates IDs
+        } while (ALL_PLACES.get(id.toString()) != null); // making sure no duplicates IDs
         return id.toString();
     }
 
@@ -92,7 +101,7 @@ public class Place {
         finalShape += "--- " + placeType.toUpperCase() + " ---" + '\n';
         finalShape += "Owner: " + host.getFirstName() + ' ' + host.getLastName() + '\n';
         finalShape += "ID: " + placeID + '\n';
-        finalShape += "Status: " + (isReserved ? "Reserved" : "Available") + '\n';
+        finalShape += "Status: " + (isReserved_place ? "Reserved" : "Available") + '\n';
         finalShape += "Area: " + area + " m\n";
         finalShape += "Rooms: " + numOfRooms + '\n';
         finalShape += "Location: " + location.toString() + '\n';
@@ -101,8 +110,8 @@ public class Place {
         finalShape += (rules.arePetsAllowed ? "\tPets Allowed." : "\tNo Pets.") + '\n';
         finalShape += (rules.isSmokeFree ? "\tSmoking Allowed." : "\tNo Smoking.") + '\n';
         finalShape += "\t" + rules.maximumGuests + " Guest/s at most.\n";
-        finalShape += "Price: " + price + "$\n";
-        finalShape += "Additional details: \n" + "\t\"" + description + "\"\n";
+        finalShape += "Price: " + price_of_place + "$\n";
+        finalShape += "Additional details: \n" + "\t\"" + place_description + "\"\n";
 
         return finalShape;
     }
@@ -111,25 +120,26 @@ public class Place {
     // removing a place from the PLACES container and returning it
     // removes by ID
     public static Place removePlace(String placeID) {
-        return PLACES.remove(placeID);
-    }
+        return ALL_PLACES.remove(placeID);
+
+    }  //this method is used in another method : removeHostedPlace (Khtb)
 
     public static HashMap<String, Place> getPlaces() {
-        return PLACES;
+        return ALL_PLACES;
     }
 
     // prints all the places in the PLACES hashmap
     public static void displayPlaces() {
-        int size = PLACES.size();
+        int size = ALL_PLACES.size();
         for (int i = 0; i < size; i++) {
-            System.out.println(PLACES.get(i).toString());
+            System.out.println(ALL_PLACES.get(i).toString());
             System.out.println("#####################################################################");
         }
     }
 
     // returns the place with the passed id
     public static Place findPlace(int id) throws Exception {
-        Place place = PLACES.get(id);
+        Place place = ALL_PLACES.get(id);
         if (place != null)
             return place;
         throw new Exception("Place doesn't exist."); // throwing an exception if no place found
@@ -176,12 +186,12 @@ public class Place {
         this.location = location;
     }
 
-    public int getPrice() {
-        return price;
+    public int getPrice_of_place() {
+        return price_of_place;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setPrice_of_place(int price_of_place) {
+        this.price_of_place = price_of_place;
     }
 
     public int getRentalDuration() {
@@ -224,20 +234,20 @@ public class Place {
         rules.maximumGuests = maximumGuests;
     }
 
-    public String getDescription() {
-        return description;
+    public String getPlace_description() {
+        return place_description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPlace_description(String place_description) {
+        this.place_description = place_description;
     }
 
-    public boolean isReserved() {
-        return isReserved;
+    public boolean isReserved_place() {
+        return isReserved_place;
     }
 
-    public void setReserved(boolean reserved) {
-        isReserved = reserved;
+    public void setReserved_place(boolean reserved_place) {
+        isReserved_place = reserved_place;
     }
 
     public String getPlaceID() {

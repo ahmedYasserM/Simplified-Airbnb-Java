@@ -10,7 +10,9 @@ public class Contract {
     private int price;
 
 // --- CONSTRUCTORS ---
+
     public Contract() {}
+
     public Contract(Date dateOfBooking, Date dateOfArrival, Date dateOfLeaving,
                     int price, Account customer, Location location, Account host) {
         this.dateOfBooking = dateOfBooking;

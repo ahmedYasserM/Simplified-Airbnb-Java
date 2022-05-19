@@ -2,10 +2,9 @@
 // Created by Yasser.
 //
 
-
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.TreeMap;
+import java.util.Scanner;
 
 public class Account {
 
@@ -42,6 +41,7 @@ public class Account {
     public Account() {
         account_orderd_ID = ++account_orderd_ID_Cnt;
         hostedPlaces = new LinkedList<Place>();
+        dateOfBirth = new Date();
     }
 
 
@@ -70,30 +70,54 @@ public class Account {
         return finalShape;
     } // end of toString function
 
+    public void inputInterface() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("--- Enter your information ---");
 
+        System.out.print("First Name: ");
+        setFirstName(in.nextLine());
+
+        System.out.print("Last Name: ");
+        setLastName(in.nextLine());
+
+        System.out.print("Username: ");
+        setUserName(in.nextLine());
+
+        System.out.print("Password: ");
+        setPassword(in.nextLine());
+        
+        System.out.print("Phone Number : ");
+        setPhoneNumber(in.nextLine());
+
+        dateOfBirth.inputInterface("Birth");
+
+    }
 
     public static void signUp(Account account) {
 
         ALL_ACCOUNTS.put(account.getUserName(), account);
-        System.out.println("Account has been added"); // if we want to remove this statement no problem :)
+        System.out.println("Account has been created successfully."); // if we want to remove this statement no problem :)
 
     } // end of signUp function
 
 
 
-    public static void login(String userName, String password) {
+    public static Account login(String userName, String password) {
 
         Account user = findAccount(userName); // here we fetch the account whose username is provided from the TreeMap Data Structure
         // if user is equal to null => this mean that there is no account in the TreeMap Data Structure has the username which is provided.
+        
         if (user == null) {
             System.out.println("Incorrect username");
-            Pages.loginPage();
-        } else if (user.getPassword() != password) {
+            //Pages.loginPage();
+        } else if (!(user.getPassword()).equals(password)) {
             System.out.println("Incorrect password");
-            Pages.loginPage();
+            user = null;
+            //Pages.loginPage();
         } else {
-            Pages.homePage();
+            //Pages.homePage();
         }
+        return user;
 
     } // end of login function
 
@@ -194,7 +218,12 @@ public class Account {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        if (ALL_ACCOUNTS.get(userName) != null) {
+            System.out.println("Username already taken!, try again.");
+            this.inputInterface();
+        }
+        else
+            this.userName = userName;
     }
 
 

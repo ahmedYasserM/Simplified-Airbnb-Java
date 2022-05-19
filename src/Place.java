@@ -145,9 +145,11 @@ public class Place {
     }
 
     // prints all the places in the PLACES hashmap
-    public static void displayPlaces() {
+    public static void displayPlaces(Account user) {
         for (Map.Entry<String, Place> place : ALL_PLACES.entrySet()) {
             Place p = place.getValue();
+            if (p.getHost().getUserName() == user.getUserName())
+                continue;
             if (!p.isReserved_place())
                 System.out.println(p.toString());
             System.out.println("#####################################################################");

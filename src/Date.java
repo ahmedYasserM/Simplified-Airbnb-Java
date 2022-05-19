@@ -45,16 +45,17 @@ public class Date {
     public void inputInterface(String date) {
         Scanner in = new Scanner(System.in);
 
-        System.out.println("Enter Date of: " + date);
+        System.out.println("Date of " + date + ": ");
 
         System.out.print("Day: ");
-        day = in.nextLine();
+        setDay(in.nextLine());
 
         System.out.print("Month: ");
-        month = in.nextLine();
+        setMonth(in.nextLine());
 
         System.out.print("Year: ");
-        year = in.nextLine();
+        setYear(in.nextLine());
+
     }
 
     // method to return data in string in form of dd/mm/yyyy   ex->   25/4/2022;

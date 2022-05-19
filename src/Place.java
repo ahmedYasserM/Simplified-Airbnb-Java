@@ -115,6 +115,7 @@ public class Place {
     @Override
     public String toString() {
         String finalShape = "";
+        
         finalShape += "--- " + placeType.toUpperCase() + " ---" + '\n';
         finalShape += "Owner: " + host.getFirstName() + ' ' + host.getLastName() + '\n';
         finalShape += "ID: " + placeID + '\n';

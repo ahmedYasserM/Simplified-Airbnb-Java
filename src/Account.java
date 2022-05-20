@@ -125,7 +125,7 @@ public class Account {
 
     public static void logout() {
 
-        Pages.loginPage();
+        Pages.login_page();
     } // end of logout function
 
 

@@ -39,7 +39,7 @@ public class Place {
         isReserved_place = false;
         location = new Location();
         placeID = generatePlaceID();
-        ALL_PLACES.put(placeID, this); // adding the place to PLACES list every time we create a place
+        ALL_PLACES.put(placeID, this); // adding the place to ALL_PLACES list every time we create a place
     }
 
     public Place(String placeType, Account host, int area, int numOfRooms, Location location, int place_price,
@@ -57,7 +57,7 @@ public class Place {
         this.place_description = place_description;
         this.isReserved_place = false;
         this.placeID = generatePlaceID();
-        ALL_PLACES.put(placeID, this); // adding the place to PLACES list every time we create a place
+        ALL_PLACES.put(placeID, this); // adding the place to ALL_PLACES list every time we create a place
     }
 
 // --- METHODS ---
@@ -135,7 +135,7 @@ public class Place {
     }
 
 // --- STATIC METHODS ---
-    // removing a place from the PLACES container and returning it
+    // removing a place from the ALL_PLACES container and returning it
     // removes by ID
     public static Place removePlace(String placeID) {
         return ALL_PLACES.remove(placeID);
@@ -145,14 +145,20 @@ public class Place {
         return ALL_PLACES;
     }
 
-    // prints all the places in the PLACES hashmap
+    // prints all the places in the ALL_PLACES hashmap
     public static void displayPlaces(Account user) {
-        for (Map.Entry<String, Place> place : ALL_PLACES.entrySet()) {
-            Place p = place.getValue();
-            if (p.getHost().getUserName() == user.getUserName())
+
+        // printing all non-reserved places
+        for (Map.Entry<String, Place> it : ALL_PLACES.entrySet()) {
+            Place place = it.getValue();
+
+            // to avoid printing the user's own places
+            // because a host cannot reserve his own places
+            if ((place.getHost().getUserName()).equals(user.getUserName()))
                 continue;
-            if (!p.isReserved_place())
-                System.out.println(p.toString());
+
+            if (!place.isReserved_place())
+                System.out.println(place.toString());
             System.out.println("#####################################################################");
         }
     }

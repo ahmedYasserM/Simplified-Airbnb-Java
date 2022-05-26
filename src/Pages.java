@@ -67,6 +67,7 @@ public class Pages {
             case 1: {
                 hosting();
             }
+
             break;
             case 2: {
                 if (currentUser.getReservedPlace() != null) {

@@ -88,7 +88,6 @@ public class Place {
                 // appending the character at position 'index' to 'id' string
                 id.append(alpha_numeric.charAt(index));
             }
-
         } while (ALL_PLACES.get(id.toString()) != null); // making sure no duplicates IDs
         return id.toString();
     }
@@ -108,7 +107,6 @@ public class Place {
 
         date.inputInterface("Leaving");
         place_contract.setDateOfLeaving(date);
-
     }
 
     // PRINT CLASS DATA

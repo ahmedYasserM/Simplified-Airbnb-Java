@@ -5,6 +5,15 @@
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.Vector;
+
+/*
+    TO DO:
+        - handling deleteting the account if it has reserved places
+        - function to display all the accounts in the ALL_ACCOUNTS map
+        - handling input 'userName'
+        -
+ */
 
 public class Account {
 
@@ -29,7 +38,8 @@ public class Account {
     private String lastName;
     private Date dateOfBirth;
     private String phoneNumber;
-    private LinkedList<Place> hostedPlaces; // this LinkedList will contain the places which every user host
+    private Vector<Place> hostedPlaces; // this LinkedList will contain the places which every user host
+
     private Place reservedPlace; // this object will contain the place which is reserved by the traveler
 
     private int account_orderd_ID;  //(khtb)    to make the account have an "ordered" ID  it doesn't affect any thing .
@@ -40,7 +50,7 @@ public class Account {
     // default constructor
     public Account() {
         account_orderd_ID = ++account_orderd_ID_Cnt;
-        hostedPlaces = new LinkedList<Place>();
+        hostedPlaces = new Vector<>();
         dateOfBirth = new Date();
     }
 
@@ -52,7 +62,7 @@ public class Account {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
-        hostedPlaces = new LinkedList<Place>();
+        hostedPlaces = new Vector<Place>();
     } // end of Account parametrised constructor
 
 
@@ -90,7 +100,6 @@ public class Account {
         setPhoneNumber(in.nextLine());
 
         dateOfBirth.inputInterface("Birth");
-
     }
 
     public static void signUp(Account account) {
@@ -136,15 +145,19 @@ public class Account {
           ( because this is important operation so, he has to be sure of that) and then you will send his userName to this function to delete the account :)
         */
 
+        // IMPORTANT
+        // TO-DO: handling deleteting the account if it has reserved places
         Account user = ALL_ACCOUNTS.remove(userName); // TreeMap. remove() is a built-in method of TreeMap class and is used to remove the mapping of any particular key from the map.
 
         if (user == null)
             System.out.println("Incorrect username");
         else
         {
+
             for (Place place : user.hostedPlaces) {
                 Place.removePlace(place.getPlaceID());
             }
+
             System.out.println("Account has been deleted");
             account_orderd_ID_Cnt--;        //(khtb)
         }
@@ -217,7 +230,7 @@ public class Account {
         this.password = password;
     }
 
-    public void setUserName(String userName) {
+    private void setUserName(String userName) {
         if (ALL_ACCOUNTS.get(userName) != null) {
             System.out.println("Username already taken!, try again.");
             this.inputInterface();
@@ -280,7 +293,7 @@ public class Account {
         return reservedPlace;
     }
 
-    public LinkedList<Place> getHostedPlaces() {
+    public Vector<Place> getHostedPlaces() {
         return hostedPlaces;
     }
 }

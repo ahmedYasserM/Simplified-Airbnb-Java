@@ -182,6 +182,10 @@ public class Place {
 
     public void edit() {
 
+        if (this.isReserved) {
+            System.out.println("You cannot edit a reserved place.");
+            return;
+        }
         
         System.out.println("---- [ Edit Place ] ----");
         

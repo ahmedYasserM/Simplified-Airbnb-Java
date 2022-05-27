@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Place {
 
-// --- MEMBERS ---
+    // --- MEMBERS ---
     // list containing all the places in the program
     private static HashMap<String, Place> ALL_PLACES = new HashMap<String, Place>();
 
@@ -30,6 +30,7 @@ public class Place {
     private String placeID;
 
 
+
 // --- CONSTRUCTORS ---
 
     public Place() {
@@ -43,7 +44,6 @@ public class Place {
     public Place(String placeType, Account host, int area, int numOfRooms, Location location, int price,
                  int rentalDuration, PlaceRules rules, String place_description, boolean isReserved_place) {
 
-        //place_ordered_ID = ++place_orderd_ID_Cnt; //(khtb)
         this.placeType = placeType;
         this.host = host;
         this.area = area;
@@ -95,6 +95,7 @@ public class Place {
         place_contract.setHost(host);
         place_contract.setCustomer(customer);
         place_contract.setPrice(price);
+
         Date date = new Date();
 
         date.inputInterface("Booking");
@@ -110,8 +111,8 @@ public class Place {
     // PRINT CLASS DATA
     @Override
     public String toString() {
-        String finalShape = "";
-        
+        String finalShape = "";        
+
         finalShape += "--- " + placeType.toUpperCase() + " ---" + '\n';
         finalShape += "Owner: " + host.getFirstName() + ' ' + host.getLastName() + '\n';
         finalShape += "ID: " + placeID + '\n';
@@ -126,6 +127,7 @@ public class Place {
         finalShape += "\t" + rules.maximumGuests + " Guest/s at most.\n";
         finalShape += "Price: " + price + "$\n";
         finalShape += "Additional details: \n" + "\t\"" + description + "\"\n";
+
 
         return finalShape;
     }
@@ -167,6 +169,7 @@ public class Place {
 
 
 // ---- METHODS -----
+
     public void inputInterface() {
         Scanner in = new Scanner(System.in);
         System.out.print("Enter place type: ");
@@ -177,7 +180,6 @@ public class Place {
 
         System.out.print("Enter place number of rooms: ");
         setNumOfRooms(in.nextInt());
-
     }
 
     public void edit() {
@@ -268,6 +270,7 @@ public class Place {
     }
 
 // --- SETTERS & GETTERS ---
+
     public Account getHost() {
         return host;
     }
@@ -308,7 +311,7 @@ public class Place {
         this.location = location;
     }
 
-    public int getPrice_of_place() {
+    public int getPrice() {
         return price;
     }
 
@@ -388,4 +391,3 @@ public class Place {
         this.place_contract = contract;
     }
 }
-

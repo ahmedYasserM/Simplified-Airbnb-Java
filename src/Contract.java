@@ -10,19 +10,21 @@ public class Contract {
     private Account host;
     private Account customer;
     private int price;
+    private int penaltyClause;
 
 // --- CONSTRUCTORS ---
 
     public Contract() {}
 
     public Contract(Date dateOfBooking, Date dateOfArrival, Date dateOfLeaving,
-                    int price, Account customer, Account host) {
+                    int price, Account customer, Account host,  int penaltyClause) {
         this.dateOfBooking = dateOfBooking;
         this.dateOfArrival = dateOfArrival;
         this.dateOfLeaving = dateOfLeaving;
         this.host = host;
         this.customer = customer;
         this.price = price;
+        this.penaltyClause = penaltyClause;
     }
 
 // --- METHODS ---
@@ -53,12 +55,14 @@ public class Contract {
         finalShape += "Date of Booking: " + dateOfBooking.toString() + '\n';
         finalShape += "Date of Arrival: " + dateOfArrival.toString() + '\n';
         finalShape += "Date of Leaving: " + dateOfLeaving.toString() + '\n';
+        finalShape += "Penalty Clause: "  + penaltyClause + '$' + '\n';
 
         return finalShape;
     }
 
 
-// --- SETTERS & GETTERS ---
+
+    // --- SETTERS & GETTERS ---
     public Date getDateOfBooking() {
         return dateOfBooking;
     }
@@ -106,5 +110,13 @@ public class Contract {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getPenaltyClause() {
+        return penaltyClause;
+    }
+
+    public void setPenaltyClause(int penaltyClause) {
+        this.penaltyClause = penaltyClause;
     }
 }

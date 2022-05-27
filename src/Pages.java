@@ -12,11 +12,11 @@ public class Pages {
         
         // Every time we return to the 'Home Page' i.e "logged out", we set the currentUser to null
         currentUser = null; 
-        
 
         Scanner in = new Scanner(System.in);
         System.out.println("[1] Login: ");
         System.out.println("[2] Signup: ");
+
 
         int n = in.nextInt();
 
@@ -43,7 +43,6 @@ public class Pages {
 
         currentUser = user;
     }
-
     public static  void login_page(){
         System.out.println();
         System.out.println("\t-----( Login )-----");
@@ -112,6 +111,10 @@ public class Pages {
         }
         user_menu();
     }
+    
+
+
+
 
     public static void profile_page() {
         System.out.println();
@@ -129,7 +132,65 @@ public class Pages {
 
         switch (choice) {
             case 1: {
-                
+                int choice2;
+                 do {
+
+                     System.out.println("[1] Change First Name: ");
+                     System.out.println("[2] Change Last Name: ");
+                     System.out.println("[3] Change Password: ");
+                     System.out.println("[4] Change Phone Number: ");
+                     System.out.println("[5] Delete Account: ");
+                     System.out.println("[0] Back: ");
+     
+                     choice2 = in.nextInt();
+                     
+                     switch (choice2) {
+                         case 1: {
+                             Scanner input = new Scanner(System.in);
+                             System.out.print("Enter new First Name: ");
+                             String name = input.nextLine();
+                             currentUser.setFirstName(name);
+                             System.out.println("First Name has been changed successfully");
+                         }
+                         break;
+                         
+                         case 2: {
+                             System.out.print("Enter new Last Name: ");
+                             Scanner input = new Scanner(System.in);
+                             String name = input.nextLine();
+                             currentUser.setLastName(name);
+                             System.out.println("Last Name has been changed successfully");
+                         }
+                         break;
+                     
+                         case 3: {
+                                 Scanner input = new Scanner(System.in);
+                                 System.out.print("Enter new Password: ");
+                                 String password = input.nextLine();
+                                 currentUser.setPassword(password);
+                                 System.out.println("Password has been changed successfully");
+                             }
+                         break;
+                         
+                         case 4: {
+                             Scanner input = new Scanner(System.in);
+                             System.out.print("Enter new Phone Number: ");
+                             String number = input.nextLine();
+                             currentUser.setPhoneNumber(number);
+                             System.out.println("Phone Number has been changed successfully");
+                         }
+                         break;
+     
+                         case 5: {
+                             boolean isDeleted = Account.deleteAccount(currentUser);
+                             if(isDeleted == true)
+                             home_page();
+                             else
+                                 profile_page();
+                         }
+                         break;
+                     }
+                 }  while (choice2 > 0);
             }
             break;
 
@@ -162,8 +223,9 @@ public class Pages {
             }
             break;
 
-            case 0: 
+            case 0: {
                 user_menu();
+            }
             break;
         }
     }
@@ -232,5 +294,9 @@ public class Pages {
         currentUser.reservePlace(place);
         System.out.println("Place was reserved successfully");
     }
+
+
+   
+
 
 }

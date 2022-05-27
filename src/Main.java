@@ -1,9 +1,4 @@
-import java.util.Scanner;
 
-/*
-*   fuction to compare to objects of accounts { implementing comparable }
-*
-* */
 
 public class Main {
 

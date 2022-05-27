@@ -144,19 +144,15 @@ public class Place {
     }
 
     // prints all the places in the ALL_PLACES hashmap
-    public static void displayPlaces(Account user) {
+    public static void displayPlaces() {
 
         // printing all non-reserved places
         for (Map.Entry<String, Place> it : ALL_PLACES.entrySet()) {
             Place place = it.getValue();
 
-            // to avoid printing the user's own places
-            // because a host cannot reserve his own places
-            if ((place.getHost().getUserName()).equals(user.getUserName()))
-                continue;
-
             if (!place.isReserved_place())
                 System.out.println(place.toString());
+                
             System.out.println("#####################################################################");
         }
     }

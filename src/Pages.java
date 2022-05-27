@@ -6,10 +6,7 @@
 import java.util.Scanner;
 
 
-/*
-    TO DO:
-        - Edit the 'reserving()' to display all the places and forbids the owner from reserving his own places
- */
+
 
 public class Pages {
 
@@ -17,6 +14,9 @@ public class Pages {
 
     public static void home_page() {
 
+        // Every time we return to the 'Home Page' i.e "logged out", we set the currentUser to null
+        currentUser = null; 
+        
         System.out.println("     HOME PAGE     ");
         Scanner in = new Scanner(System.in);
         System.out.println("1 -> Login: ");
@@ -77,29 +77,18 @@ public class Pages {
             case 1: {
                 hosting();
             }
-
             break;
+
             case 2: {
-                if (currentUser.getReservedPlace() != null) {
-                    System.out.println("You reserved a place already!");
-                    break;
-                }
-
-                if (Place.getAllPlaces().size() == currentUser.getHostedPlaces().size() || Place.getAllPlaces().size() == 0) {
-                    System.out.println("No Avaliable places at the moment.");
-                    break;
-                }
-
-                Place.displayPlaces(currentUser);
                 reserving();
-                System.out.println("Place was reserved successfully");
-
             }
             break;
+
             case 3: {
                 home_page();
             }
             break;
+            
             case 4: {
                 System.exit(0);
             }
@@ -111,28 +100,39 @@ public class Pages {
         Place place = new Place();
         place.inputInterface();
         currentUser.hostPlace(place);
-
         System.out.println("Place was added successfully");
     }
 
     public static void reserving() {
+        // Checks if the user has a reserved place already
+        if (currentUser.getReservedPlace() != null) {
+            System.out.println("You cannot reserve 2 at a time.");
+            return;
+        }
+
+        // Prints all the available places
+        Place.displayPlaces();
+
         Scanner in = new Scanner(System.in);
 
-        System.out.print("Enter place ID: ");
-        String ID = in.nextLine();
-
+        String ID;
         Place place;
-        try {
+
+        // The loop is for wrong entries, it will keep iterating till the user enters an existing ID
+        do {
+            System.out.print("Enter place ID: ");
+            ID = in.nextLine();
             place = Place.getAllPlaces().get(ID);
-            place.create_contract(currentUser);
-            currentUser.reservePlace(place);
-        } catch (Exception e) {
-            System.out.println("Wrong ID, try again.");
-            reserving();
-        }
+
+            if (place == null) 
+                System.out.println("Wrong ID, try again.");
+        } while (place == null);
+    
+        // Creating a contract with currentUser as a "Customer"
+        place.create_contract(currentUser);
+        currentUser.reservePlace(place);
+        System.out.println("Place was reserved successfully");
+
     }
-
-
-
 
 }

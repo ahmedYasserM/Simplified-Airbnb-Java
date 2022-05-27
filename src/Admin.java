@@ -1,7 +1,7 @@
 
 /*
     TO DO:
-        do the WHOLLLLLE CLASSSS
+        do the WHOLE CLASS
  */
 public class Admin {
 

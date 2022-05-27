@@ -7,24 +7,10 @@ import java.util.Scanner;
 
 public class Main {
 
-
-    /////////////////////////////
     public static void main(String[] args) {
-
-
         Pages.home_page();
-        // cout << "Hello World" << endl;
-
-
-
-
     }
-    /////////////////////////////
-
-
-
-
-     
+   
 }
 
 

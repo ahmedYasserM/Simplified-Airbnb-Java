@@ -5,6 +5,7 @@
 
 import java.beans.Customizer;
 import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
 
 
 
@@ -14,11 +15,13 @@ public class Pages {
     static Account currentUser;
 
     public static void home_page() {
-
+        System.out.println();
+        System.out.println("\t-----( Home Page )-----");
+        
         // Every time we return to the 'Home Page' i.e "logged out", we set the currentUser to null
         currentUser = null; 
         
-        System.out.println("     HOME PAGE     ");
+
         Scanner in = new Scanner(System.in);
         System.out.println("1 -> Login: ");
         System.out.println("2 -> Signup: ");
@@ -37,7 +40,9 @@ public class Pages {
     }
 
     public static void signup_page(){
-        System.out.println("     SignUp PAGE     ");
+        System.out.println();
+        System.out.println("\t-----( SignUp )-----");
+
         Scanner in = new Scanner(System.in);
 
         Account user = new Account();
@@ -48,7 +53,9 @@ public class Pages {
     }
 
     public static  void login_page(){
-        System.out.println("    LOGIN PAGE    ");
+        System.out.println();
+        System.out.println("\t-----( Login )-----");
+
         Scanner in = new Scanner(System.in);
 
         System.out.print("Username: ");
@@ -66,22 +73,32 @@ public class Pages {
     }
 
     public static void user_menu() {
+        System.out.println();
+        System.out.println("\t-----( Main Menu )-----");
+
         Scanner in = new Scanner(System.in);
 
         System.out.println("1 -> Host a Place: ");
-        System.out.println("2 -> Reserve a Place: ");
+        System.out.println("2 -> Check available Places: ");
         System.out.println("3 -> Logout: ");
         System.out.println("4 -> Exit: ");
 
-        int choose = in.nextInt();
-        switch (choose) {
+        int choice = in.nextInt();
+        switch (choice) {
             case 1: {
                 hosting();
             }
             break;
 
             case 2: {
-                reserving();
+                System.out.println("1 -> Reserve");
+                System.out.println("2 -> Back");
+
+                int choice_2 = in.nextInt();
+                if (choice_2 == 1) 
+                    reserving();
+                else 
+                    user_menu();
             }
             break;
 
@@ -98,6 +115,9 @@ public class Pages {
     }
 
     public static void hosting() {
+        System.out.println();
+        System.out.println("\t-----( Hosting )-----");
+
         Place place = new Place();
         place.inputInterface();
         currentUser.hostPlace(place);
@@ -105,14 +125,17 @@ public class Pages {
     }
 
     public static void reserving() {
+        System.out.println();
+        System.out.println("\t-----( Available Places )-----");
+
+        // Prints all the available places
+        Place.displayPlaces();
+        
         // Checks if the user has a reserved place 
         if (currentUser.getReservedPlace() != null) {
             System.out.println("You cannot reserve 2 at a time.");
             return;
         }
-
-        // Prints all the available places
-        Place.displayPlaces();
 
         Scanner in = new Scanner(System.in);
 
@@ -121,14 +144,23 @@ public class Pages {
 
         // The loop is for wrong entries, it will keep iterating till the user enters an existing ID
         do {
-            System.out.print("Enter place ID: ");
+            System.out.print("Type the Place ID, or press enter to return: ");
             ID = in.nextLine();
+
+            // Return to the main menu on Enter press
+            if (ID.length() == 0) 
+                user_menu();
+            
             place = Place.getAllPlaces().get(ID);
 
             //  Checks if the ID matches with any of the displayed places
-            if (place == null || !(place.isReserved_place())) {
+            //  and if the entered ID is somehow the ID of a non-printed reserved place
+            if (place == null || place.isReserved_place()) {
                 System.out.println("Wrong ID, try again.");
                 System.out.println();
+
+                // if the place is reserved
+                place = null;
             }
 
             // Prevents the user from reserving his own places

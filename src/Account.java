@@ -7,11 +7,11 @@ import java.util.Scanner;
 import java.util.Vector;
 
 
+
 public class Account {
 
     // attributes
     private static HashMap<String, Account> ALL_ACCOUNTS = new HashMap<>();
-
 
     /*this map will contain the account of every user
      (the key will be the username of the user and the value will be its account)
@@ -30,12 +30,8 @@ public class Account {
     private String lastName;
     private Date dateOfBirth;
     private String phoneNumber;
-    private Vector<Place> hostedPlaces; // this vector will contain the places which every user host
-
+    private Vector<Place> hostedPlaces; // this LinkedList will contain the places which every user host
     private Place reservedPlace; // this object will contain the place which is reserved by the traveler
-
-
-
 
     //methods
 
@@ -56,7 +52,6 @@ public class Account {
     } // end of Account parametrised constructor
 
 
-    // PRINT CLASS DATA => used with contract
     @Override
     public String toString() {
 
@@ -67,13 +62,8 @@ public class Account {
         finalShape += "Phone Number: " + phoneNumber + '\n';
         finalShape += "Username: " + userName + '\n';
 
-
         return finalShape;
     } // end of toString function (contract version)
-
-
-
-
 
 
 
@@ -145,12 +135,13 @@ public class Account {
 
         Account user = ALL_ACCOUNTS.get(userName); // here we fetch the account whose username is provided from the TreeMap Data Structure
         // if user is equal to null => this mean that there is no account in the TreeMap Data Structure has the username which is provided.
-        if (user == null) {
+       /* if (user == null) {
             System.out.println("Incorrect username");
-        }
+        }*/
         return user; // if the there is no account has the username provided it will return => null
 
     } // end of findAccount function
+
 
 
     public static Account login(String userName, String password) {
@@ -191,7 +182,7 @@ public class Account {
             for (Place place : user.hostedPlaces) {
                 String placeId = place.getPlaceID();
 
-                if(place.isReserved_place() == true){
+                if(place.isReserved() == true){
                     System.out.println("The place with id "+placeId +" is reserved.");
                     System.out.println("if you still want to delete your account you must pay "+ place.getContract().getPenaltyClause()+" $, the penalty clause value.");
 
@@ -216,24 +207,19 @@ public class Account {
 
     } // end of deleteAccount function
 
-
-
-
-
     public static HashMap<String, Account> getAllAccounts() {
         return ALL_ACCOUNTS;
     }
 
     public void reservePlace(Place place) {
         reservedPlace = place;
-        place.setReserved_place(true);
+        place.setReserved(true);
     }  // end of reservePlace function
 
 
 
     public void deleteReservedPlace(){
-
-        reservedPlace.setReserved_place(false);
+        reservedPlace.setReserved(false);
         reservedPlace = null;
         System.out.println("The place has been deleted successfully.");
 
@@ -335,4 +321,6 @@ public class Account {
     public Vector<Place> getHostedPlaces() {
         return hostedPlaces;
     }
+
 }
+

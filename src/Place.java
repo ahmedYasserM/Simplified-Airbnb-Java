@@ -8,14 +8,13 @@ public class Place {
     // --- MEMBERS ---
     // list containing all the places in the program
     private static HashMap<String, Place> ALL_PLACES = new HashMap<String, Place>();
-    // public static int place_orderd_ID_Cnt;   //(khtb)   just added to count every place created, but don't worry it doesn't affect any thing :) .
 
     Account host;
     String placeType;
     private int area;
     private int numOfRooms;
     private Location location;
-    private int place_price;
+    private int price;
     private int rentalDuration;
 
     private class PlaceRules {
@@ -23,39 +22,38 @@ public class Place {
         boolean arePetsAllowed;
         boolean isSmokeFree;
     }
+
     PlaceRules rules;
     Contract place_contract;
-    private String place_description;
-    private boolean isReserved_place;
+    private String description;
+    private boolean isReserved;
     private String placeID;
 
-    //private int place_ordered_ID = 0 ;  //  (khtb)      to make the place have an "ordered" ID  it doesn't affect any thing .
+
 
 // --- CONSTRUCTORS ---
 
     public Place() {
-        //place_ordered_ID = ++place_orderd_ID_Cnt;  //(khtb)
         rules = new PlaceRules();
-        isReserved_place = false;
+        isReserved = false;
         location = new Location();
         placeID = generatePlaceID();
         ALL_PLACES.put(placeID, this); // adding the place to ALL_PLACES list every time we create a place
     }
 
-    public Place(String placeType, Account host, int area, int numOfRooms, Location location, int place_price,
+    public Place(String placeType, Account host, int area, int numOfRooms, Location location, int price,
                  int rentalDuration, PlaceRules rules, String place_description, boolean isReserved_place) {
 
-        //place_ordered_ID = ++place_orderd_ID_Cnt; //(khtb)
         this.placeType = placeType;
         this.host = host;
         this.area = area;
         this.numOfRooms = numOfRooms;
         this.location = location;
-        this.place_price = place_price;
+        this.price = price;
         this.rentalDuration = rentalDuration;
         this.rules = rules;
-        this.place_description = place_description;
-        this.isReserved_place = false;
+        this.description = place_description;
+        this.isReserved = false;
         this.placeID = generatePlaceID();
         ALL_PLACES.put(placeID, this); // adding the place to ALL_PLACES list every time we create a place
     }
@@ -96,7 +94,8 @@ public class Place {
         place_contract = new Contract();
         place_contract.setHost(host);
         place_contract.setCustomer(customer);
-        place_contract.setPrice(place_price);
+        place_contract.setPrice(price);
+
         Date date = new Date();
 
         date.inputInterface("Booking");
@@ -112,12 +111,12 @@ public class Place {
     // PRINT CLASS DATA
     @Override
     public String toString() {
-        String finalShape = "";
+        String finalShape = "";        
 
         finalShape += "--- " + placeType.toUpperCase() + " ---" + '\n';
         finalShape += "Owner: " + host.getFirstName() + ' ' + host.getLastName() + '\n';
         finalShape += "ID: " + placeID + '\n';
-        finalShape += "Status: " + (isReserved_place ? "Reserved" : "Available") + '\n';
+        finalShape += "Status: " + (isReserved ? "Reserved" : "Available") + '\n';
         finalShape += "Area: " + area + " m\n";
         finalShape += "Rooms: " + numOfRooms + '\n';
         finalShape += "Location: " + location.toString() + '\n';
@@ -126,24 +125,24 @@ public class Place {
         finalShape += (rules.arePetsAllowed ? "\tPets Allowed." : "\tNo Pets.") + '\n';
         finalShape += (rules.isSmokeFree ? "\tSmoking Allowed." : "\tNo Smoking.") + '\n';
         finalShape += "\t" + rules.maximumGuests + " Guest/s at most.\n";
-        finalShape += "Price: " + place_price + "$\n";
-        finalShape += "Additional details: \n" + "\t\"" + place_description + "\"\n";
+        finalShape += "Price: " + price + "$\n";
+        finalShape += "Additional details: \n" + "\t\"" + description + "\"\n";
+
 
         return finalShape;
     }
 
-    // --- STATIC METHODS ---
+// --- STATIC METHODS ---
+
     // removing a place from the ALL_PLACES container and returning it
     // removes by ID
     public static Place removePlace(String placeID) {
         return ALL_PLACES.remove(placeID);
     }  //this method is used in another method : removeHostedPlace (Khtb)
 
-
     public static HashMap<String, Place> getAllPlaces() {
         return ALL_PLACES;
     }
-
 
     // prints all the places in the ALL_PLACES hashmap
     public static void displayPlaces() {
@@ -152,20 +151,24 @@ public class Place {
         for (Map.Entry<String, Place> it : ALL_PLACES.entrySet()) {
             Place place = it.getValue();
 
-            if (!place.isReserved_place())
+            if (!place.isReserved())
                 System.out.println(place.toString());
-
+                
             System.out.println("#####################################################################");
         }
     }
 
-    // returns the place with the passed id
+    // Returns the place with the passed id
     public static Place findPlace(String id) throws Exception {
         Place place = ALL_PLACES.get(id);
+        // TO BE CHANGED
         if (place != null)
             return place;
         throw new Exception("Place doesn't exist."); // throwing an exception if no place found
     }
+
+
+// ---- METHODS -----
 
     public void inputInterface() {
         Scanner in = new Scanner(System.in);
@@ -177,12 +180,97 @@ public class Place {
 
         System.out.print("Enter place number of rooms: ");
         setNumOfRooms(in.nextInt());
-
-//        System.out.print("Enter ");
-
     }
 
-    // --- SETTERS & GETTERS ---
+    public void edit() {
+
+        if (this.isReserved) {
+            System.out.println("You cannot edit a reserved place.");
+            return;
+        }
+        
+        System.out.println("---- [ Edit Place ] ----");
+        
+        int choice;
+        do {
+            Scanner in = new Scanner(System.in);
+            System.out.println("[1] Price");
+            System.out.println("[2] Rental Duration");
+            System.out.println("[3] Rules");
+            System.out.println("[4] Description");
+            System.out.println("[0] Back");
+            System.out.print("> ");
+           choice = in.nextInt();
+    
+           switch (choice) {
+               case 1: {
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("Enter new price, or '0' to return: ");
+                    int nPrice = input.nextInt();
+
+                    if (nPrice == 0) 
+                        continue;
+                    
+                    setPrice(nPrice);
+                }
+                break;
+                
+                case 2: {
+                    Scanner input = new Scanner(System.in);
+                    System.out.println("Enter new Rental Duration, or '0' to return: ");
+                    int new_RentalDuration;
+                    while (true) {
+                        new_RentalDuration = input.nextInt();
+
+                        if (this.rentalDuration == new_RentalDuration) {
+                            System.out.println("You entered the same rental duration, try again!");
+                            continue;
+                        }
+                        
+                        if (new_RentalDuration == 0) 
+                            continue;
+                        
+
+                        this.setRentalDuration(new_RentalDuration);
+                        break;
+                    } 
+                }
+                break;
+
+                case 3: {
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("Maximum Guests: ");
+                    setMaximumGuests(input.nextInt());
+
+                    Scanner input2 = new Scanner(System.in);
+                    System.out.print("Pets Allowed (yes / ENTER): ");
+                    String flag = input2.nextLine();
+                    if (flag.equals("yes"))
+                        setPetsAllowed(true);
+                    else setPetsAllowed(false);
+
+
+                    System.out.print("SmokeFree (yes / ENTER): ");
+                    flag = input2.nextLine();
+                    if (flag.equals("yes")) 
+                        setSmokeFree(true);
+                    else setSmokeFree(false);
+                }
+                break;
+
+                case 4: {
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("New Description: ");
+                    setDescription(input.nextLine());
+                }
+                break;
+            }
+
+        } while (choice > 0);
+    }
+
+// --- SETTERS & GETTERS ---
+
     public Account getHost() {
         return host;
     }
@@ -223,12 +311,12 @@ public class Place {
         this.location = location;
     }
 
-    public int getPrice_of_place() {
-        return place_price;
+    public int getPrice() {
+        return price;
     }
 
-    public void setPrice_of_place(int place_price) {
-        this.place_price = place_price;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public int getRentalDuration() {
@@ -271,20 +359,20 @@ public class Place {
         rules.maximumGuests = maximumGuests;
     }
 
-    public String getPlace_description() {
-        return place_description;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPlace_description(String place_description) {
-        this.place_description = place_description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public boolean isReserved_place() {
-        return isReserved_place;
+    public boolean isReserved() {
+        return isReserved;
     }
 
-    public void setReserved_place(boolean reserved_place) {
-        isReserved_place = reserved_place;
+    public void setReserved(boolean reserved) {
+        isReserved = reserved;
     }
 
     public String getPlaceID() {

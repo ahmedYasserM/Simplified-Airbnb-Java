@@ -61,6 +61,7 @@ public class Contract {
     }
 
 
+
     // --- SETTERS & GETTERS ---
     public Date getDateOfBooking() {
         return dateOfBooking;

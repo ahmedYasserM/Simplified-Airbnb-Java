@@ -1,7 +1,3 @@
-//
-// Created by Yasser.
-//
-
 
 import java.util.Scanner;
 
@@ -13,14 +9,14 @@ public class Pages {
     public static void home_page() {
         System.out.println();
         System.out.println("\t-----( Home Page )-----");
-
+        
         // Every time we return to the 'Home Page' i.e "logged out", we set the currentUser to null
-        currentUser = null;
-
+        currentUser = null; 
 
         Scanner in = new Scanner(System.in);
-        System.out.println("1 -> Login: ");
-        System.out.println("2 -> Signup: ");
+        System.out.println("[1] Login: ");
+        System.out.println("[2] Signup: ");
+
 
         int n = in.nextInt();
 
@@ -33,7 +29,7 @@ public class Pages {
         }
 
         user_menu();
-    } // end of home_Page function
+    }
 
     public static void signup_page(){
         System.out.println();
@@ -46,14 +42,12 @@ public class Pages {
         Account.signUp(user);
 
         currentUser = user;
-    } // end of signup_page function
-
+    }
     public static  void login_page(){
         System.out.println();
         System.out.println("\t-----( Login )-----");
 
         Scanner in = new Scanner(System.in);
-
 
         System.out.print("Username: ");
         String userName = in.nextLine();
@@ -67,70 +61,7 @@ public class Pages {
             System.out.println("try again.");
             login_page();
         }
-    } // end of login_page function
-
-
-
-    public static void profile_page(){
-        System.out.println();
-        System.out.println("\t-----( Profile )-----");
-
-        System.out.println("1 -> Change First Name: ");
-        System.out.println("2 -> Change Last Name: ");
-        System.out.println("3 -> Change Password: ");
-        System.out.println("4 -> Change Phone Number: ");
-        System.out.println("5 -> Delete Account: ");
-
-        Scanner in = new Scanner(System.in);
-
-        int choice = in.nextInt();
-
-        switch(choice){
-            case 1: {
-                System.out.println("Enter new First Name: ");
-                String name = in.nextLine();
-                currentUser.setFirstName(name);
-                System.out.println("First Name has been changed successfully");
-            }
-            break;
-
-            case 2: {System.out.println("Enter new Last Name: ");
-                String name = in.nextLine();
-                currentUser.setLastName(name);
-                System.out.println("Last Name has been changed successfully");
-
-            }
-            break;
-
-            case 3: {
-                System.out.println("Enter new Password: ");
-                String password = in.nextLine();
-                currentUser.setPassword(password);
-                System.out.println("Password has been changed successfully");
-            }
-            break;
-
-            case 4: {
-                System.out.println("Enter new Phone Number: ");
-                String number = in.nextLine();
-                currentUser.setPhoneNumber(number);
-                System.out.println("Phone Number has been changed successfully");
-            }
-            break;
-
-            case 5: {
-                boolean isDeleted = Account.deleteAccount(currentUser);
-                if(isDeleted == true)
-                home_page();
-                else
-                    profile_page();
-            }
-            break;
-        }
-
-    } // end of profile_page function
-
-
+    }
 
     public static void user_menu() {
         System.out.println();
@@ -138,34 +69,34 @@ public class Pages {
 
         Scanner in = new Scanner(System.in);
 
-        System.out.println("1 -> Host a Place: ");
-        System.out.println("2 -> Check available Places: ");
-        System.out.println("3 -> Profile: ");
-        System.out.println("4 -> Logout: ");
-        System.out.println("5 -> Exit: ");
+        System.out.println("[1] Profile: ");
+        System.out.println("[2] Host a Place: ");
+        System.out.println("[3] Check available Places: ");
+        System.out.println("[4] Logout: ");
+        System.out.println("[0] Exit: ");
 
         int choice = in.nextInt();
         switch (choice) {
             case 1: {
-                hosting();
+                profile_page();
             }
             break;
 
             case 2: {
-                System.out.println();
-                System.out.println("1 -> Reserve");
-                System.out.println("2 -> Back");
-
-                int choice_2 = in.nextInt();
-                if (choice_2 == 1)
-                    reserving();
-                else
-                    user_menu();
+                hosting();
             }
             break;
 
             case 3: {
-                profile_page();
+                System.out.println();
+                System.out.println("[1] Reserve");
+                System.out.println("[2] Back");
+
+                int choice_2 = in.nextInt();
+                if (choice_2 == 1) 
+                    reserving();
+                else 
+                    user_menu();
             }
             break;
 
@@ -173,15 +104,131 @@ public class Pages {
                 home_page();
             }
             break;
-
-            case 5: {
+            
+            case 0: {
                 System.exit(0);
             }
         }
         user_menu();
-    } // end of user_menu function
+    }
+    
 
 
+
+
+    public static void profile_page() {
+        System.out.println();
+        System.out.println("\t-----( Profile )-----");
+
+        System.out.println(currentUser.toString());
+
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("[1] Edit your personal info");
+        System.out.println("[2] View Hosted Places");
+        System.out.println("[0] Back");
+
+        int choice = in.nextInt();
+
+        switch (choice) {
+            case 1: {
+                int choice2;
+                 do {
+
+                     System.out.println("[1] Change First Name: ");
+                     System.out.println("[2] Change Last Name: ");
+                     System.out.println("[3] Change Password: ");
+                     System.out.println("[4] Change Phone Number: ");
+                     System.out.println("[5] Delete Account: ");
+                     System.out.println("[0] Back: ");
+     
+                     choice2 = in.nextInt();
+                     
+                     switch (choice2) {
+                         case 1: {
+                             Scanner input = new Scanner(System.in);
+                             System.out.print("Enter new First Name: ");
+                             String name = input.nextLine();
+                             currentUser.setFirstName(name);
+                             System.out.println("First Name has been changed successfully");
+                         }
+                         break;
+                         
+                         case 2: {
+                             System.out.print("Enter new Last Name: ");
+                             Scanner input = new Scanner(System.in);
+                             String name = input.nextLine();
+                             currentUser.setLastName(name);
+                             System.out.println("Last Name has been changed successfully");
+                         }
+                         break;
+                     
+                         case 3: {
+                                 Scanner input = new Scanner(System.in);
+                                 System.out.print("Enter new Password: ");
+                                 String password = input.nextLine();
+                                 currentUser.setPassword(password);
+                                 System.out.println("Password has been changed successfully");
+                             }
+                         break;
+                         
+                         case 4: {
+                             Scanner input = new Scanner(System.in);
+                             System.out.print("Enter new Phone Number: ");
+                             String number = input.nextLine();
+                             currentUser.setPhoneNumber(number);
+                             System.out.println("Phone Number has been changed successfully");
+                         }
+                         break;
+     
+                         case 5: {
+                             boolean isDeleted = Account.deleteAccount(currentUser);
+                             if(isDeleted == true)
+                             home_page();
+                             else
+                                 profile_page();
+                         }
+                         break;
+                     }
+                 }  while (choice2 > 0);
+            }
+            break;
+
+            case 2: {
+                Scanner input = new Scanner(System.in);
+                System.out.println();
+
+                var hostedPlaces = currentUser.getHostedPlaces();
+
+                int hp_size = hostedPlaces.size();
+                for (int i = 0; i < hp_size; i++) {
+                    System.out.println("# " + (i + 1));
+                    System.out.println(hostedPlaces.elementAt(i).toString());
+                    System.out.println("===================================================");
+                }
+
+                System.out.println();
+                
+                System.out.print("Enter place number to edit, or press Enter to return:");
+                String place_idx = input.nextLine();
+
+                if (place_idx.length() == 0) {
+                    profile_page();
+                    return;
+                }
+
+                hostedPlaces.elementAt(Integer.valueOf(place_idx) - 1).edit();
+
+                profile_page();
+            }
+            break;
+
+            case 0: {
+                user_menu();
+            }
+            break;
+        }
+    }
 
     public static void hosting() {
         System.out.println();
@@ -191,9 +238,7 @@ public class Pages {
         place.inputInterface();
         currentUser.hostPlace(place);
         System.out.println("Place added successfully");
-    } // end of hosting function
-
-
+    }
 
     public static void reserving() {
         System.out.println();
@@ -201,8 +246,8 @@ public class Pages {
 
         // Prints all the available places
         Place.displayPlaces();
-
-        // Checks if the user has a reserved place
+        
+        // Checks if the user has a reserved place 
         if (currentUser.getReservedPlace() != null) {
             System.out.println("You cannot reserve 2 at a time.");
             return;
@@ -219,18 +264,20 @@ public class Pages {
             ID = in.nextLine();
 
             // Return to the main menu on Enter press
-            if (ID.length() == 0)
+            if (ID.length() == 0) {
                 user_menu();
-
+                return;
+            }
+            
             place = Place.getAllPlaces().get(ID);
 
             //  Checks if the ID matches with any of the displayed places
             //  and if the entered ID is somehow the ID of a non-printed reserved place
-            if (place == null || place.isReserved_place()) {
+            if (place == null || place.isReserved()) {
                 System.out.println("Wrong ID, try again.");
                 System.out.println();
 
-                // if the place is reserved
+                // In case the place is reserved then we set it back to null
                 place = null;
             }
 
@@ -241,12 +288,15 @@ public class Pages {
             }
 
         } while (place == null);
-
+    
         // Creating a contract with currentUser as a "Customer"
         place.create_contract(currentUser);
         currentUser.reservePlace(place);
         System.out.println("Place was reserved successfully");
+    }
 
-    } // end of reserving function
+
+   
+
 
 }

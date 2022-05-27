@@ -1,6 +1,6 @@
 public class Location {
 
-// --- MEMBERS ---
+    // --- MEMBERS ---
     private String country;
     private String city;
     private String town;
@@ -47,10 +47,9 @@ public class Location {
         city = location.city;
         street = location.street;
         buildingNumber = location.buildingNumber;
-
     }
 
-// --- SETTERS & GETTERS ---
+    // --- SETTERS & GETTERS ---
     public String getCountry() {
         return country;
     }

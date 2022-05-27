@@ -1,27 +1,30 @@
+import java.util.HashMap;
+
 public class Contract {
 
     // --- MEMBER ---
+
     private Date dateOfBooking;
     private Date dateOfArrival;
     private Date dateOfLeaving;
-    private Location location;
     private Account host;
     private Account customer;
     private int price;
+    private int penaltyClause;
 
 // --- CONSTRUCTORS ---
 
     public Contract() {}
 
     public Contract(Date dateOfBooking, Date dateOfArrival, Date dateOfLeaving,
-                    int price, Account customer, Location location, Account host) {
+                    int price, Account customer, Account host,  int penaltyClause) {
         this.dateOfBooking = dateOfBooking;
         this.dateOfArrival = dateOfArrival;
         this.dateOfLeaving = dateOfLeaving;
-        this.location = location;
         this.host = host;
         this.customer = customer;
         this.price = price;
+        this.penaltyClause = penaltyClause;
     }
 
 // --- METHODS ---
@@ -39,6 +42,7 @@ public class Contract {
     // PRINT CLASS DATA
     @Override
     public String toString() {
+
         String finalShape = "--- Host Info --- \n";
         finalShape += host.toString();
         finalShape += '\n';
@@ -51,11 +55,13 @@ public class Contract {
         finalShape += "Date of Booking: " + dateOfBooking.toString() + '\n';
         finalShape += "Date of Arrival: " + dateOfArrival.toString() + '\n';
         finalShape += "Date of Leaving: " + dateOfLeaving.toString() + '\n';
+        finalShape += "Penalty Clause: "  + penaltyClause + '$' + '\n';
 
         return finalShape;
     }
 
-// --- SETTERS & GETTERS ---
+
+    // --- SETTERS & GETTERS ---
     public Date getDateOfBooking() {
         return dateOfBooking;
     }
@@ -80,13 +86,6 @@ public class Contract {
         this.dateOfLeaving = dateOfLeaving;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
 
     public Account getHost() {
         return host;
@@ -110,5 +109,13 @@ public class Contract {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getPenaltyClause() {
+        return penaltyClause;
+    }
+
+    public void setPenaltyClause(int penaltyClause) {
+        this.penaltyClause = penaltyClause;
     }
 }

@@ -1,19 +1,21 @@
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Place {
 
-// --- MEMBERS ---
+    // --- MEMBERS ---
     // list containing all the places in the program
     private static HashMap<String, Place> ALL_PLACES = new HashMap<String, Place>();
-    public static int place_orderd_ID_Cnt;   //(khtb)   just added to count every place created, but don't worry it doesn't affect any thing :) .
+    // public static int place_orderd_ID_Cnt;   //(khtb)   just added to count every place created, but don't worry it doesn't affect any thing :) .
 
     Account host;
     String placeType;
     private int area;
     private int numOfRooms;
     private Location location;
-    private int price_of_place;
+    private int place_price;
     private int rentalDuration;
 
     private class PlaceRules {
@@ -22,39 +24,40 @@ public class Place {
         boolean isSmokeFree;
     }
     PlaceRules rules;
-
+    Contract place_contract;
     private String place_description;
     private boolean isReserved_place;
     private String placeID;
 
-    private int place_ordered_ID = 0 ;  //  (khtb)      to make the place have an "ordered" ID  it doesn't affect any thing .
+    //private int place_ordered_ID = 0 ;  //  (khtb)      to make the place have an "ordered" ID  it doesn't affect any thing .
 
 // --- CONSTRUCTORS ---
 
     public Place() {
-        place_ordered_ID = ++place_orderd_ID_Cnt;  //(khtb)
+        //place_ordered_ID = ++place_orderd_ID_Cnt;  //(khtb)
         rules = new PlaceRules();
         isReserved_place = false;
+        location = new Location();
         placeID = generatePlaceID();
-        ALL_PLACES.put(placeID, this); // adding the place to PLACES list every time we create a place
+        ALL_PLACES.put(placeID, this); // adding the place to ALL_PLACES list every time we create a place
     }
 
-    public Place(String placeType, Account host, int area, int numOfRooms, Location location, int price_of_place,
+    public Place(String placeType, Account host, int area, int numOfRooms, Location location, int place_price,
                  int rentalDuration, PlaceRules rules, String place_description, boolean isReserved_place) {
 
-        place_ordered_ID = ++place_orderd_ID_Cnt; //(khtb)
+        //place_ordered_ID = ++place_orderd_ID_Cnt; //(khtb)
         this.placeType = placeType;
         this.host = host;
         this.area = area;
         this.numOfRooms = numOfRooms;
         this.location = location;
-        this.price_of_place = price_of_place;
+        this.place_price = place_price;
         this.rentalDuration = rentalDuration;
         this.rules = rules;
         this.place_description = place_description;
         this.isReserved_place = false;
         this.placeID = generatePlaceID();
-        ALL_PLACES.put(placeID, this); // adding the place to PLACES list every time we create a place
+        ALL_PLACES.put(placeID, this); // adding the place to ALL_PLACES list every time we create a place
     }
 
 // --- METHODS ---
@@ -62,11 +65,7 @@ public class Place {
     // helper function that generates unique random ID for every place
     private String generatePlaceID() {
         // string contains all characters that could be in the ID
-        String alpha_numeric = "0123456789" +
-                "ABCDEFJHIJKLMNOPQRSTUVWXYZ"
-                + "0123456789" + "abcdefghijklmnopqrstuvwxyz";
-
-
+        String alpha_numeric = "0123456789ABCDEFJHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
         /*
             NOTICE: we used 'StringBuilder' instead of regular 'String' because of
                     the immutability of the 'String' class .
@@ -89,15 +88,32 @@ public class Place {
                 // appending the character at position 'index' to 'id' string
                 id.append(alpha_numeric.charAt(index));
             }
-
         } while (ALL_PLACES.get(id.toString()) != null); // making sure no duplicates IDs
         return id.toString();
+    }
+
+    public void create_contract(Account customer) {
+        place_contract = new Contract();
+        place_contract.setHost(host);
+        place_contract.setCustomer(customer);
+        place_contract.setPrice(place_price);
+        Date date = new Date();
+
+        date.inputInterface("Booking");
+        place_contract.setDateOfBooking(date);
+
+        date.inputInterface("Arrival");
+        place_contract.setDateOfArrival(date);
+
+        date.inputInterface("Leaving");
+        place_contract.setDateOfLeaving(date);
     }
 
     // PRINT CLASS DATA
     @Override
     public String toString() {
         String finalShape = "";
+
         finalShape += "--- " + placeType.toUpperCase() + " ---" + '\n';
         finalShape += "Owner: " + host.getFirstName() + ' ' + host.getLastName() + '\n';
         finalShape += "ID: " + placeID + '\n';
@@ -110,29 +126,35 @@ public class Place {
         finalShape += (rules.arePetsAllowed ? "\tPets Allowed." : "\tNo Pets.") + '\n';
         finalShape += (rules.isSmokeFree ? "\tSmoking Allowed." : "\tNo Smoking.") + '\n';
         finalShape += "\t" + rules.maximumGuests + " Guest/s at most.\n";
-        finalShape += "Price: " + price_of_place + "$\n";
+        finalShape += "Price: " + place_price + "$\n";
         finalShape += "Additional details: \n" + "\t\"" + place_description + "\"\n";
 
         return finalShape;
     }
 
-// --- STATIC METHODS ---
-    // removing a place from the PLACES container and returning it
+    // --- STATIC METHODS ---
+    // removing a place from the ALL_PLACES container and returning it
     // removes by ID
     public static Place removePlace(String placeID) {
         return ALL_PLACES.remove(placeID);
-
     }  //this method is used in another method : removeHostedPlace (Khtb)
 
-    public static HashMap<String, Place> getPlaces() {
+
+    public static HashMap<String, Place> getAllPlaces() {
         return ALL_PLACES;
     }
 
-    // prints all the places in the PLACES hashmap
+
+    // prints all the places in the ALL_PLACES hashmap
     public static void displayPlaces() {
-        int size = ALL_PLACES.size();
-        for (int i = 0; i < size; i++) {
-            System.out.println(ALL_PLACES.get(i).toString());
+
+        // printing all non-reserved places
+        for (Map.Entry<String, Place> it : ALL_PLACES.entrySet()) {
+            Place place = it.getValue();
+
+            if (!place.isReserved_place())
+                System.out.println(place.toString());
+
             System.out.println("#####################################################################");
         }
     }
@@ -145,7 +167,22 @@ public class Place {
         throw new Exception("Place doesn't exist."); // throwing an exception if no place found
     }
 
-// --- SETTERS & GETTERS ---
+    public void inputInterface() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Enter place type: ");
+        setPlaceType(in.nextLine());
+
+        System.out.print("Enter Place area: ");
+        setArea(in.nextInt());
+
+        System.out.print("Enter place number of rooms: ");
+        setNumOfRooms(in.nextInt());
+
+//        System.out.print("Enter ");
+
+    }
+
+    // --- SETTERS & GETTERS ---
     public Account getHost() {
         return host;
     }
@@ -187,11 +224,11 @@ public class Place {
     }
 
     public int getPrice_of_place() {
-        return price_of_place;
+        return place_price;
     }
 
-    public void setPrice_of_place(int price_of_place) {
-        this.price_of_place = price_of_place;
+    public void setPrice_of_place(int place_price) {
+        this.place_price = place_price;
     }
 
     public int getRentalDuration() {
@@ -257,5 +294,12 @@ public class Place {
     public void setPlaceID(String placeID) {
         this.placeID = placeID;
     }
-}
 
+    public Contract getContract() {
+        return place_contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.place_contract = contract;
+    }
+}

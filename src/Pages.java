@@ -3,11 +3,7 @@
 //
 
 
-import java.beans.Customizer;
 import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
-
-
 
 
 public class Pages {
@@ -91,6 +87,7 @@ public class Pages {
             break;
 
             case 2: {
+                System.out.println();
                 System.out.println("1 -> Reserve");
                 System.out.println("2 -> Back");
 
@@ -121,7 +118,7 @@ public class Pages {
         Place place = new Place();
         place.inputInterface();
         currentUser.hostPlace(place);
-        System.out.println("Place was added successfully");
+        System.out.println("Place added successfully");
     }
 
     public static void reserving() {

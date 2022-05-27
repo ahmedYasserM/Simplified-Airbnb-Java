@@ -3,6 +3,7 @@
 //
 
 
+import java.beans.Customizer;
 import java.util.Scanner;
 
 
@@ -104,7 +105,7 @@ public class Pages {
     }
 
     public static void reserving() {
-        // Checks if the user has a reserved place already
+        // Checks if the user has a reserved place 
         if (currentUser.getReservedPlace() != null) {
             System.out.println("You cannot reserve 2 at a time.");
             return;
@@ -124,8 +125,18 @@ public class Pages {
             ID = in.nextLine();
             place = Place.getAllPlaces().get(ID);
 
-            if (place == null) 
+            //  Checks if the ID matches with any of the displayed places
+            if (place == null || !(place.isReserved_place())) {
                 System.out.println("Wrong ID, try again.");
+                System.out.println();
+            }
+
+            // Prevents the user from reserving his own places
+            else if (place.getHost() == currentUser) {
+                System.out.println("You cannot reserve your own places.");
+                place = null;
+            }
+
         } while (place == null);
     
         // Creating a contract with currentUser as a "Customer"

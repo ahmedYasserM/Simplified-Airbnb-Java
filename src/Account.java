@@ -85,7 +85,7 @@ public class Account {
         return finalShape;
     } // end of toString function (admin version)
 
-    public void displayAccounts(){
+    public static void displayAccounts(){
         String data = "";
 
         for(Account user : ALL_ACCOUNTS.values()){

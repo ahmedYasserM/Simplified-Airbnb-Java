@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public abstract class Pages {
 
-    static Account currentUser;
-    static Scanner input = new Scanner(System.in);
+    public static Account currentUser;
+    public static Scanner input = new Scanner(System.in);
 
     public static void home_page() {
         System.out.println();

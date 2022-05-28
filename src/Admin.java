@@ -5,15 +5,15 @@ public class Admin {
 
     private static Scanner input = new Scanner(System.in);
     // Attributes
-    private String username;
-    private String password;
+    private final String userName = "admin";
+    private final String password = "admin";
 
     // Getters
-    public String getusername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public String getpassword() {
+    public String getPassword() {
         return password;
     }
 
@@ -28,7 +28,8 @@ public class Admin {
 
     // Delete functions
     public void deletePlace(String id) {
-        Place.removePlace(id);
+        Account host = Place.getAllPlaces().get(id).getHost();
+        host.deleteHostedPlace(id);
     }
 
     public void deleteAccount(String userName) {
@@ -38,45 +39,53 @@ public class Admin {
     // Edit the attributes of the places
     public void editPlaces(String id) throws Exception {
 
-        Place p = Place.findPlace(id);
+        Place place = Place.findPlace(id);
         int change;
-        System.out.println("To change place type enter 1");
-        System.out.println("To change location enter 2");
-        System.out.println("To change discreption enter 3");
-        System.out.println("To change number of rooms enter 4");
-        System.out.println("To change price enter 5");
-        System.out.println("To change rules enter 6");
-        System.out.println("To change rental duration enter 7");
-        System.out.println("To change area enter 8");
+        System.out.println("[1] Place Type");
+        System.out.println("[2] Location");
+        System.out.println("[3] Description");
+        System.out.println("[4] Number of Rooms");
+        System.out.println("[5] Price");
+        System.out.println("[6] Rules");
+        System.out.println("[7] Rental Duration");
+        System.out.println("[8] Area");
         change = input.nextInt();
         input.nextLine();
         
         switch (change) {
             case 1: {
-                String placetype;
+                String placeType;
                 System.out.println("Enter the new place type");
-                placetype = input.next();
-                p.setPlaceType(placetype);
+                placeType = input.nextLine();
+                place.setPlaceType(placeType);
                 System.out.println("The place type is updated successfully");
             }
                 break;
                 
             case 2: {
-                Location location = null;
+                Location location = new Location();
                 String country, city, town, street, bn;
                 System.out.println("Enter the new country");
-                country = input.next();
+                country = input.nextLine();
                 location.setCountry(country);
+
                 System.out.println("Enter the new city");
-                city = input.next();
+                city = input.nextLine();
                 location.setCity(city);
+
                 System.out.println("Enter the new town");
-                town = input.next();
+                town = input.nextLine();
                 location.setTown(town);
+
+                System.out.println("Enter the new street");
+                street = input.nextLine();
+                location.setStreet(street);
+
                 System.out.println("Enter the new building number");
-                bn = input.next();
+                bn = input.nextLine();
                 location.setBuildingNumber(bn);
-                p.setLocation(location);
+
+                place.setLocation(location);
                 System.out.println("The country is updated successfully");
             }
                 break;
@@ -84,19 +93,19 @@ public class Admin {
             case 3: {
                 String description;
                 System.out.println("Enter the new description");
-                description = input.next();
-                p.setDescription(description); 
+                description = input.nextLine();
+                place.setDescription(description); 
                 System.out.println("The description of the place is updated successfully");
             }
                 break;
 
             case 4: {
-                int roomsnum;
+                int roomsNum;
                 System.out.println("Enter the new number of rooms");
-                roomsnum = input.nextInt();
+                roomsNum = input.nextInt();
                 input.nextLine();
 
-                p.setNumOfRooms(roomsnum);
+                place.setNumOfRooms(roomsNum);
                 System.out.println("The number of rooms is updated successfully");
             }       
                 break;
@@ -107,7 +116,7 @@ public class Admin {
                 price = input.nextInt();
                 input.nextLine();
 
-                p.setPrice(price);
+                place.setPrice(price);
                 System.out.println("The price of the place is updated successfully");
             }
                 break;
@@ -118,17 +127,17 @@ public class Admin {
                 maximumGuests = input.nextInt();
                 input.nextLine();
 
-                p.setMaximumGuests(maximumGuests);
+                place.setMaximumGuests(maximumGuests);
                 System.out.println("The maximum number of guests is updated successfully");
                 System.out.println("If you wants to allow pets in this place enter 1");
                 allowp = input.nextInt();
                 input.nextLine();
 
                 if (allowp == 1) {
-                    p.setPetsAllowed(true);
+                    place.setPetsAllowed(true);
                     System.out.println("Pets are allowed");
                 } else {
-                    p.setPetsAllowed(false);
+                    place.setPetsAllowed(false);
                     System.out.println("Pets are not allowed");
                 }
                 System.out.println("If you wants to allow pets in this place enter 1");
@@ -136,10 +145,10 @@ public class Admin {
                 input.nextLine();
 
                 if (allows == 1) {
-                    p.setSmokeFree(true);
+                    place.setSmokeFree(true);
                     System.out.println("Smoking is allowed");
                 } else {
-                    p.setSmokeFree(false);
+                    place.setSmokeFree(false);
                     System.out.println("Smoking is not allowed");
                 }
             }
@@ -151,7 +160,7 @@ public class Admin {
                 rentalduration = input.nextInt();
                 input.nextLine();
 
-                p.setRentalDuration(rentalduration);
+                place.setRentalDuration(rentalduration);
             }
                 break;
 
@@ -161,7 +170,7 @@ public class Admin {
                 area = input.nextInt();
                 input.nextLine();
 
-                p.setArea(area);
+                place.setArea(area);
             }
                 break;
 
@@ -170,9 +179,9 @@ public class Admin {
                 System.out.println("Enter 1 to make the place reserved or 0 to make it unreserved");
                 reserved = input.hasNext();
                 if (reserved == true)
-                    p.setReserved(true);
+                    place.setReserved(true);
                 else
-                    p.setReserved(false);
+                    place.setReserved(false);
             }
                 break;
                 
@@ -197,31 +206,31 @@ public class Admin {
 
         switch (change) {
             case 1: {
-                String firstname;
+                String firstName;
                 System.out.println("Enter the new first name");
-                firstname = input.next();
-                a.setFirstName(firstname);
+                firstName = input.nextLine();
+                a.setFirstName(firstName);
             }
                 break;
             case 2: {
                 String lastname;
                 System.out.println("Enter the new last name");
-                lastname = input.next();
+                lastname = input.nextLine();
                 a.setLastName(lastname);
             }
                 break;
             case 3: {
                 String password;
                 System.out.println("Enter the new password");
-                password = input.next();
+                password = input.nextLine();
                 a.setPassword(password);
             }
                 break;
             case 4: {
-                String phonenumber;
+                String phoneNumber;
                 System.out.println("Enter the new phone number");
-                phonenumber = input.next();
-                a.setPhoneNumber(phonenumber);
+                phoneNumber = input.nextLine();
+                a.setPhoneNumber(phoneNumber);
             }
                 break;
             default:

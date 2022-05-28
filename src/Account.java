@@ -11,6 +11,7 @@ import java.util.Vector;
 public class Account {
 
     // attributes
+    private static Scanner input = new Scanner(System.in);
     private static HashMap<String, Account> ALL_ACCOUNTS = new HashMap<>();
 
     /*this map will contain the account of every user
@@ -97,23 +98,23 @@ public class Account {
 
 
     public void inputInterface() {
-        Scanner in = new Scanner(System.in);
-        System.out.println("--- Enter your information ---");
+        
+        System.out.println("--- Enter your inputformation ---");
 
         System.out.print("First Name: ");
-        setFirstName(in.nextLine());
+        setFirstName(input.nextLine());
 
         System.out.print("Last Name: ");
-        setLastName(in.nextLine());
+        setLastName(input.nextLine());
 
         System.out.print("Username: ");
-        setUserName(in.nextLine());
+        setUserName(input.nextLine());
 
         System.out.print("Password: ");
-        setPassword(in.nextLine());
+        setPassword(input.nextLine());
 
         System.out.print("Phone Number : ");
-        setPhoneNumber(in.nextLine());
+        setPhoneNumber(input.nextLine());
 
         dateOfBirth.inputInterface("Birth");
     } // end of inputInterface function
@@ -129,12 +130,12 @@ public class Account {
 
     public static Account findAccount(String userName) {
       /*
-        The java.util.HashMap.get() method of HashMap class is used to retrieve or fetch the value mapped by a particular key mentioned in the parameter.
+        The java.util.HashMap.get() method of HashMap class is used to retrieve or fetch the value mapped by a particular key mentioned input the parameter.
          It returns NULL when the map contains no such mapping for the key.
          */
 
         Account user = ALL_ACCOUNTS.get(userName); // here we fetch the account whose username is provided from the TreeMap Data Structure
-        // if user is equal to null => this mean that there is no account in the TreeMap Data Structure has the username which is provided.
+        // if user is equal to null => this mean that there is no account input the TreeMap Data Structure has the username which is provided.
        /* if (user == null) {
             System.out.println("Incorrect username");
         }*/
@@ -147,7 +148,7 @@ public class Account {
     public static Account login(String userName, String password) {
 
         Account user = findAccount(userName); // here we fetch the account whose username is provided from the TreeMap Data Structure
-        // if user is equal to null => this mean that there is no account in the TreeMap Data Structure has the username which is provided.
+        // if user is equal to null => this mean that there is no account input the TreeMap Data Structure has the username which is provided.
 
         if (user == null) {
             return null;
@@ -170,9 +171,9 @@ public class Account {
 
 
     public static boolean deleteAccount(Account user) {
-        System.out.println("\n In order to delete your account write \'DELETE MY ACCOUNT\' without quotes");
-        Scanner in1 = new Scanner(System.in);
-        String choice1 = in1.nextLine();
+        System.out.println("\n input order to delete your account write \'DELETE MY ACCOUNT\' without quotes");
+        
+        String choice1 = input.nextLine();
         if(!(choice1.equals("DELETE MY ACCOUNT"))){
             System.out.println("Account hasn't been deleted");
             return false;
@@ -189,8 +190,8 @@ public class Account {
                     System.out.println("1 -> continue: ");
                     System.out.println("2 -> back: ");
 
-                    Scanner in2 = new Scanner(System.in);
-                    int choice2 = in2.nextInt();
+                    int choice2 = input.nextInt();
+                    input.nextLine();
 
                     if(choice2 == 0){
                         System.out.println("Account hasn't been deleted");
@@ -257,7 +258,7 @@ public class Account {
 
     private void setUserName(String userName) {
         if (ALL_ACCOUNTS.get(userName) != null) {
-            System.out.println("Username already taken!, try again.");
+            System.out.println("Username already taken!, try againput.");
             this.inputInterface();
         }
         else

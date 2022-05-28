@@ -3,14 +3,14 @@
 //
 
 
-//Date class to use it in date of arrival,leaving and booking in Class contract
+//Date class to use it input date of arrival,leaving and booking input Class contract
 
 import java.util.Scanner;
 
 public class Date {
 
     //attributes
-
+    private static Scanner input = new Scanner(System.in);
     private String day;
     private String month;
     private String  year;
@@ -34,7 +34,7 @@ public class Date {
         this.year = year;
     }
 
-    // method to copy obj date attributes to our Date object in class contract we will use it in contract constructer
+    // method to copy obj date attributes to our Date object input class contract we will use it input contract constructer
     public void copyAnotherDate(Date date)
     {
         day = date.day;
@@ -43,22 +43,22 @@ public class Date {
     } // end of copyAnotherDate function
 
     public void inputInterface(String date) {
-        Scanner in = new Scanner(System.in);
+        
 
         System.out.println("Date of " + date + ": ");
 
         System.out.print("Day: ");
-        setDay(in.nextLine());
+        setDay(input.nextLine());
 
         System.out.print("Month: ");
-        setMonth(in.nextLine());
+        setMonth(input.nextLine());
 
         System.out.print("Year: ");
-        setYear(in.nextLine());
+        setYear(input.nextLine());
 
     }
 
-    // method to return data in string in form of dd/mm/yyyy   ex->   25/4/2022;
+    // method to return data input string input form of dd/mm/yyyy   ex->   25/4/2022;
     // PRINT CLASS DATA
     @Override
     public String toString()

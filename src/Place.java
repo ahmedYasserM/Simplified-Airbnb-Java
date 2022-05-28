@@ -187,7 +187,7 @@ public class Place {
     public void edit() {
 
         if (this.isReserved) {
-            System.out.println("You cannot edit a reserved place.");
+            System.out.println("You cannot edit/delete a reserved place.");
             return;
         }
         
@@ -200,6 +200,7 @@ public class Place {
             System.out.println("[2] Rental Duration");
             System.out.println("[3] Rules");
             System.out.println("[4] Description");
+            System.out.println("[5] Delete Place");
             System.out.println("[0] Back");
             
             System.out.print("> ");
@@ -270,6 +271,21 @@ public class Place {
                     setDescription(input.nextLine());
                 }
                 break;
+
+                case 5: {
+                    System.out.println("\n Input order to delete your account write \'DELETE PLACE\' without quotes");
+                    String choice1;
+                    do {
+                         choice1 = input.nextLine();
+                        if(!(choice1.equals("DELETE PLACE"))) {
+                            System.out.println("Place has been deleted successfully");
+                        
+                            host.deleteHostedPlace(this.placeID);
+                            return;
+                        }
+
+                    } while (!choice1.equals("DELETE PLACE"));
+                }
             }
 
         } while (choice > 0);

@@ -171,40 +171,40 @@ public class Account {
 
 
     public static boolean deleteAccount(Account user) {
-        System.out.println("\n input order to delete your account write \'DELETE MY ACCOUNT\' without quotes");
+        System.out.println("\n Input order to delete your account write \'DELETE MY ACCOUNT\' without quotes");
         
         String choice1 = input.nextLine();
-        if(!(choice1.equals("DELETE MY ACCOUNT"))){
+        if(!(choice1.equals("DELETE MY ACCOUNT"))) {
             System.out.println("Account hasn't been deleted");
             return false;
         }
 
 
-            for (Place place : user.hostedPlaces) {
-                String placeId = place.getPlaceID();
+        for (Place place : user.hostedPlaces) {
+            String placeId = place.getPlaceID();
 
-                if(place.isReserved() == true){
-                    System.out.println("The place with id "+placeId +" is reserved.");
-                    System.out.println("if you still want to delete your account you must pay "+ place.getContract().getPenaltyClause()+" $, the penalty clause value.");
+            if(place.isReserved() == true){
+                System.out.println("The place with id "+placeId +" is reserved.");
+                System.out.println("If you still want to delete your account you must pay "+ place.getContract().getPenaltyClause()+" $, the penalty clause value.");
 
-                    System.out.println("1 -> continue: ");
-                    System.out.println("2 -> back: ");
+                System.out.println("1 -> continue: ");
+                System.out.println("2 -> back: ");
 
-                    int choice2 = input.nextInt();
-                    input.nextLine();
+                int choice2 = input.nextInt();
+                input.nextLine();
 
-                    if(choice2 == 0){
-                        System.out.println("Account hasn't been deleted");
-                        return false;
-                    }
-
+                if(choice2 == 0){
+                    System.out.println("Account hasn't been deleted");
+                    return false;
                 }
-                Place.removePlace(placeId);
 
             }
-            ALL_ACCOUNTS.remove(user.getUserName()); // HashMap.remove() is a built-in method of HashMap class and is used to remove the mapping of any particular key from the map.
-            System.out.println("Account has been deleted successfully");
-            return true;
+            Place.removePlace(placeId);
+
+        }
+        ALL_ACCOUNTS.remove(user.getUserName()); // HashMap.remove() is a built-in method of HashMap class and is used to remove the mapping of any particular key from the map.
+        System.out.println("Account has been deleted successfully");
+        return true;
 
     } // end of deleteAccount function
 
@@ -238,16 +238,12 @@ public class Account {
     public void deleteHostedPlace(String id) {
         Place place = Place.removePlace(id); // returns the place and removes it from the PLACES container
 
-        if (place != null) { // checks if the place exists   // ???? and you have to check if this place is taken or not also from a user (khtb)
+        if (place != null)  // checks if the place exists   // ???? and you have to check if this place is taken or not also from a user (khtb)
             hostedPlaces.remove(place);
-            System.out.println("The place has deleted successfully.");
-            //Place.place_orderd_ID_Cnt--;   //(khtb)
-        }
+        
         else
             System.out.println("Place not found.");
     } // end of deleteHostedPlace function
-
-
 
     //setters and getters
 

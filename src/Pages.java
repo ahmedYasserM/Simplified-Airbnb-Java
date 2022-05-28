@@ -2,9 +2,10 @@
 import java.util.Scanner;
 
 
-public class Pages {
+public abstract class Pages {
 
     static Account currentUser;
+    static Scanner input = new Scanner(System.in);
 
     public static void home_page() {
         System.out.println();
@@ -13,14 +14,15 @@ public class Pages {
         // Every time we return to the 'Home Page' i.e "logged out", we set the currentUser to null
         currentUser = null; 
 
-        Scanner in = new Scanner(System.in);
+        
         System.out.println("[1] Login: ");
         System.out.println("[2] Signup: ");
 
+        System.out.print("> ");
+        int choice = input.nextInt();
+        input.nextLine();
 
-        int n = in.nextInt();
-
-        switch (n) {
+        switch (choice) {
             case 1: login_page();
                 break;
 
@@ -35,7 +37,7 @@ public class Pages {
         System.out.println();
         System.out.println("\t-----( SignUp )-----");
 
-        Scanner in = new Scanner(System.in);
+        
 
         Account user = new Account();
         user.inputInterface();
@@ -47,13 +49,13 @@ public class Pages {
         System.out.println();
         System.out.println("\t-----( Login )-----");
 
-        Scanner in = new Scanner(System.in);
+        
 
         System.out.print("Username: ");
-        String userName = in.nextLine();
+        String userName = input.nextLine();
 
         System.out.print("Password: ");
-        String password = in.nextLine();
+        String password = input.nextLine();
 
         currentUser = Account.login(userName, password);
 
@@ -67,7 +69,7 @@ public class Pages {
         System.out.println();
         System.out.println("\t-----( Main Menu )-----");
 
-        Scanner in = new Scanner(System.in);
+        
 
         System.out.println("[1] Profile: ");
         System.out.println("[2] Host a Place: ");
@@ -75,7 +77,10 @@ public class Pages {
         System.out.println("[4] Logout: ");
         System.out.println("[0] Exit: ");
 
-        int choice = in.nextInt();
+        System.out.print("> ");
+        int choice = input.nextInt();
+        input.nextLine();
+
         switch (choice) {
             case 1: {
                 profile_page();
@@ -89,10 +94,22 @@ public class Pages {
 
             case 3: {
                 System.out.println();
-                System.out.println("[1] Reserve");
-                System.out.println("[2] Back");
+                System.out.println("\t-----( Available Places )-----");
+        
+                if (Place.getAllPlaces().size() == 0) {
+                    System.out.println("No Available Places at the moment.");
+                    break;
+                }
+                // Prints all the available places
+                Place.displayPlaces();
 
-                int choice_2 = in.nextInt();
+                System.out.println("[1] Reserve");
+                System.out.println("[0] Back");
+
+                System.out.print("> ");
+                int choice_2 = input.nextInt();
+                input.nextLine();
+
                 if (choice_2 == 1) 
                     reserving();
                 else 
@@ -122,17 +139,19 @@ public class Pages {
 
         System.out.println(currentUser.toString());
 
-        Scanner in = new Scanner(System.in);
+        
 
         System.out.println("[1] Edit your personal info");
         System.out.println("[2] View Hosted Places");
         System.out.println("[0] Back");
 
-        int choice = in.nextInt();
+        System.out.print("> ");
+        int choice = input.nextInt();
+        input.nextLine();
 
         switch (choice) {
             case 1: {
-                int choice2;
+                int choice_2;
                  do {
 
                      System.out.println("[1] Change First Name: ");
@@ -141,12 +160,14 @@ public class Pages {
                      System.out.println("[4] Change Phone Number: ");
                      System.out.println("[5] Delete Account: ");
                      System.out.println("[0] Back: ");
-     
-                     choice2 = in.nextInt();
-                     
-                     switch (choice2) {
+                    
+                     System.out.print("> ");
+                     choice_2 = input.nextInt();
+                     input.nextLine();
+
+                     switch (choice_2) {
                          case 1: {
-                             Scanner input = new Scanner(System.in);
+                             
                              System.out.print("Enter new First Name: ");
                              String name = input.nextLine();
                              currentUser.setFirstName(name);
@@ -156,7 +177,7 @@ public class Pages {
                          
                          case 2: {
                              System.out.print("Enter new Last Name: ");
-                             Scanner input = new Scanner(System.in);
+                             
                              String name = input.nextLine();
                              currentUser.setLastName(name);
                              System.out.println("Last Name has been changed successfully");
@@ -164,7 +185,7 @@ public class Pages {
                          break;
                      
                          case 3: {
-                                 Scanner input = new Scanner(System.in);
+                                 
                                  System.out.print("Enter new Password: ");
                                  String password = input.nextLine();
                                  currentUser.setPassword(password);
@@ -173,7 +194,7 @@ public class Pages {
                          break;
                          
                          case 4: {
-                             Scanner input = new Scanner(System.in);
+                             
                              System.out.print("Enter new Phone Number: ");
                              String number = input.nextLine();
                              currentUser.setPhoneNumber(number);
@@ -190,12 +211,12 @@ public class Pages {
                          }
                          break;
                      }
-                 }  while (choice2 > 0);
+                 }  while (choice_2 > 0);
             }
             break;
 
             case 2: {
-                Scanner input = new Scanner(System.in);
+                
                 System.out.println();
 
                 var hostedPlaces = currentUser.getHostedPlaces();
@@ -241,19 +262,12 @@ public class Pages {
     }
 
     public static void reserving() {
-        System.out.println();
-        System.out.println("\t-----( Available Places )-----");
 
-        // Prints all the available places
-        Place.displayPlaces();
-        
         // Checks if the user has a reserved place 
         if (currentUser.getReservedPlace() != null) {
             System.out.println("You cannot reserve 2 at a time.");
             return;
         }
-
-        Scanner in = new Scanner(System.in);
 
         String ID;
         Place place;
@@ -261,7 +275,7 @@ public class Pages {
         // The loop is for wrong entries, it will keep iterating till the user enters an existing ID
         do {
             System.out.print("Type the Place ID, or press enter to return: ");
-            ID = in.nextLine();
+            ID = input.nextLine();
 
             // Return to the main menu on Enter press
             if (ID.length() == 0) {

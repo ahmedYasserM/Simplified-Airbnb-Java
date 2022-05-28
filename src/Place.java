@@ -6,7 +6,8 @@ import java.util.Scanner;
 public class Place {
 
     // --- MEMBERS ---
-    // list containing all the places in the program
+    // list containing all the places input the program
+    private static Scanner input = new Scanner(System.in);
     private static HashMap<String, Place> ALL_PLACES = new HashMap<String, Place>();
 
     Account host;
@@ -62,14 +63,14 @@ public class Place {
 
     // helper function that generates unique random ID for every place
     private String generatePlaceID() {
-        // string contains all characters that could be in the ID
+        // string contains all characters that could be input the ID
         String alpha_numeric = "0123456789ABCDEFJHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
         /*
             NOTICE: we used 'StringBuilder' instead of regular 'String' because of
                     the immutability of the 'String' class .
             In other words to SAVE MEMORY.
          */
-        StringBuilder id = new StringBuilder();  // empty string to add in it the chosen characters from the alpha_numeric string
+        StringBuilder id = new StringBuilder();  // empty string to add input it the chosen characters from the alpha_numeric string
 
         /* the "do while" loop is to make sure we don't have two identical IDs.
             chance to happen less than 1%.
@@ -138,13 +139,13 @@ public class Place {
     // removes by ID
     public static Place removePlace(String placeID) {
         return ALL_PLACES.remove(placeID);
-    }  //this method is used in another method : removeHostedPlace (Khtb)
+    }  //this method is used input another method : removeHostedPlace (Khtb)
 
     public static HashMap<String, Place> getAllPlaces() {
         return ALL_PLACES;
     }
 
-    // prints all the places in the ALL_PLACES hashmap
+    // prints all the places input the ALL_PLACES hashmap
     public static void displayPlaces() {
 
         // printing all non-reserved places
@@ -171,15 +172,16 @@ public class Place {
 // ---- METHODS -----
 
     public void inputInterface() {
-        Scanner in = new Scanner(System.in);
         System.out.print("Enter place type: ");
-        setPlaceType(in.nextLine());
-
+        setPlaceType(input.nextLine());
+        
         System.out.print("Enter Place area: ");
-        setArea(in.nextInt());
+        setArea(input.nextInt());
+        input.nextLine();
 
         System.out.print("Enter place number of rooms: ");
-        setNumOfRooms(in.nextInt());
+        setNumOfRooms(input.nextInt());
+        input.nextLine();
     }
 
     public void edit() {
@@ -193,20 +195,23 @@ public class Place {
         
         int choice;
         do {
-            Scanner in = new Scanner(System.in);
+            
             System.out.println("[1] Price");
             System.out.println("[2] Rental Duration");
             System.out.println("[3] Rules");
             System.out.println("[4] Description");
             System.out.println("[0] Back");
+            
             System.out.print("> ");
-           choice = in.nextInt();
-    
+           choice = input.nextInt();
+           input.nextLine();
+
            switch (choice) {
                case 1: {
-                    Scanner input = new Scanner(System.in);
+                    
                     System.out.print("Enter new price, or '0' to return: ");
                     int nPrice = input.nextInt();
+                    input.nextLine();
 
                     if (nPrice == 0) 
                         continue;
@@ -216,11 +221,12 @@ public class Place {
                 break;
                 
                 case 2: {
-                    Scanner input = new Scanner(System.in);
+                    
                     System.out.println("Enter new Rental Duration, or '0' to return: ");
                     int new_RentalDuration;
                     while (true) {
                         new_RentalDuration = input.nextInt();
+                        input.nextLine();
 
                         if (this.rentalDuration == new_RentalDuration) {
                             System.out.println("You entered the same rental duration, try again!");
@@ -238,20 +244,20 @@ public class Place {
                 break;
 
                 case 3: {
-                    Scanner input = new Scanner(System.in);
+                    
                     System.out.print("Maximum Guests: ");
                     setMaximumGuests(input.nextInt());
+                    input.nextLine();
 
-                    Scanner input2 = new Scanner(System.in);
                     System.out.print("Pets Allowed (yes / ENTER): ");
-                    String flag = input2.nextLine();
+                    String flag = input.nextLine();
                     if (flag.equals("yes"))
                         setPetsAllowed(true);
                     else setPetsAllowed(false);
 
 
                     System.out.print("SmokeFree (yes / ENTER): ");
-                    flag = input2.nextLine();
+                    flag = input.nextLine();
                     if (flag.equals("yes")) 
                         setSmokeFree(true);
                     else setSmokeFree(false);
@@ -259,7 +265,7 @@ public class Place {
                 break;
 
                 case 4: {
-                    Scanner input = new Scanner(System.in);
+                    
                     System.out.print("New Description: ");
                     setDescription(input.nextLine());
                 }

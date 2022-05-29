@@ -247,7 +247,8 @@ public class Account {
 
                     System.out.print("Enter new Phone Number: ");
                     String number = input.nextLine();
-                    this.phoneNumber = phoneNumber;
+                    this.phoneNumber = number;
+                    
                     System.out.println("Phone Number has been changed successfully");
                     System.out.println();
                 }

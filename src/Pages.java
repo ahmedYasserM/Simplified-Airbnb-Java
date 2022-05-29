@@ -28,10 +28,14 @@ public abstract class Pages {
 
             case 2: signup_page();
                 break;
+
+            default:
+                System.out.println("You entered wrong number");
+                break;
         }
 
         user_menu();
-    }
+    }  // end of home_page function
 
     public static void signup_page(){
         System.out.println();
@@ -44,7 +48,9 @@ public abstract class Pages {
         Account.signUp(user);
 
         currentUser = user;
-    }
+    } // end of signup_page function
+
+
     public static  void login_page(){
         System.out.println();
         System.out.println("\t-----( Login )-----");
@@ -63,7 +69,9 @@ public abstract class Pages {
             System.out.println("try again.");
             login_page();
         }
-    }
+    } // end of login_page function
+
+
 
     public static void user_menu() {
         System.out.println();
@@ -125,9 +133,14 @@ public abstract class Pages {
             case 0: {
                 System.exit(0);
             }
+            break;
+
+            default:
+                System.out.println("You entered wrong number");
+                break;
         }
         user_menu();
-    }
+    } // end of user_menu function
     
 
 
@@ -150,76 +163,24 @@ public abstract class Pages {
         input.nextLine();
 
         switch (choice) {
+            // Edit your personal info case
             case 1: {
-                int choice_2;
-                 do {
-
-                     System.out.println("[1] Change First Name: ");
-                     System.out.println("[2] Change Last Name: ");
-                     System.out.println("[3] Change Password: ");
-                     System.out.println("[4] Change Phone Number: ");
-                     System.out.println("[5] Delete Account: ");
-                     System.out.println("[0] Back: ");
-                    
-                     System.out.print("> ");
-                     choice_2 = input.nextInt();
-                     input.nextLine();
-
-                     switch (choice_2) {
-                         case 1: {
-                             
-                             System.out.print("Enter new First Name: ");
-                             String name = input.nextLine();
-                             currentUser.setFirstName(name);
-                             System.out.println("First Name has been changed successfully");
-                         }
-                         break;
-                         
-                         case 2: {
-                             System.out.print("Enter new Last Name: ");
-                             
-                             String name = input.nextLine();
-                             currentUser.setLastName(name);
-                             System.out.println("Last Name has been changed successfully");
-                         }
-                         break;
-                     
-                         case 3: {
-                                 
-                                 System.out.print("Enter new Password: ");
-                                 String password = input.nextLine();
-                                 currentUser.setPassword(password);
-                                 System.out.println("Password has been changed successfully");
-                             }
-                         break;
-                         
-                         case 4: {
-                             
-                             System.out.print("Enter new Phone Number: ");
-                             String number = input.nextLine();
-                             currentUser.setPhoneNumber(number);
-                             System.out.println("Phone Number has been changed successfully");
-                         }
-                         break;
-     
-                         case 5: {
-                             boolean isDeleted = Account.deleteAccount(currentUser);
-                             if(isDeleted == true)
-                             home_page();
-                             else
-                                 profile_page();
-                         }
-                         break;
-                     }
-                 }  while (choice_2 > 0);
+                currentUser.edit();
+                profile_page();
             }
             break;
 
+            // View Hosted Places case
             case 2: {
                 
                 System.out.println();
 
                 var hostedPlaces = currentUser.getHostedPlaces();
+                /*
+                 var can be used in a local variable declaration instead of the variable’s type.
+                 With var, the Java compiler infers the type of the variable at compile time, using type information obtained from the variable’s initializer.
+                 The inferred type is then used as the static type of the variable.
+                 */
 
                 int hp_size = hostedPlaces.size();
                 for (int i = 0; i < hp_size; i++) {
@@ -244,10 +205,15 @@ public abstract class Pages {
             }
             break;
 
+            // Back case (exit profile function)
             case 0: {
                 user_menu();
             }
             break;
+
+            default:
+                System.out.println("You entered wrong number");
+                break;
         }
     }
 

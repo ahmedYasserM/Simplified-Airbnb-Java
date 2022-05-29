@@ -1,0 +1,17 @@
+ht: user1
+pt: apartment
+id: place2
+ar: 125
+#r: 3
+rd: 10
+pr: 320
+rs: false
+LC: Egypt
+Lc: Giza
+Lt: El-Haram
+Ls: 7ambola
+Lb: 125
+Rg: 3
+Rp: true
+Rs: true
+ds: Amazing place to spend the holiday in.

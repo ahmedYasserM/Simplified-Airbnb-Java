@@ -1,6 +1,8 @@
 
 import java.util.Scanner;
 
+import javax.xml.crypto.Data;
+
 
 public abstract class Pages {
 
@@ -232,6 +234,12 @@ public abstract class Pages {
         Place place = new Place();
         place.inputInterface();
         currentUser.hostPlace(place);
+
+        DataFiles.writePlace(place);
+        String typeDef = "hp" + (currentUser.getHostedPlaces().size() + 1) + ": ";
+
+        DataFiles.editFile(currentUser.getUserName(), typeDef, "", place.getPlaceID());
+
         System.out.println("Place added successfully");
     }
 

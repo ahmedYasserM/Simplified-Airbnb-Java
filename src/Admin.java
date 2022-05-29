@@ -150,7 +150,7 @@ public class Admin {
                 break;
 
             case 6: {
-                int maximumGuests = 0, allowp = 0, allows = 0;
+                int maximumGuests = 0, allowPets = 0, allows = 0;
                 System.out.println("Enter the maximum number of guests");
                 maximumGuests = input.nextInt();
                 input.nextLine();
@@ -158,10 +158,10 @@ public class Admin {
                 place.setMaximumGuests(maximumGuests);
                 System.out.println("The maximum number of guests is updated successfully");
                 System.out.println("If you wants to allow pets in this place enter 1");
-                allowp = input.nextInt();
+                allowPets = input.nextInt();
                 input.nextLine();
 
-                if (allowp == 1) {
+                if (allowPets == 1) {
                     place.setPetsAllowed(true);
                     System.out.println("Pets are allowed");
                 } else {
@@ -169,7 +169,7 @@ public class Admin {
                     System.out.println("Pets are not allowed");
                 }
                 System.out.println("If you wants to allow pets in this place enter 1");
-                allowp = input.nextInt();
+                allowPets = input.nextInt();
                 input.nextLine();
 
                 if (allows == 1) {
@@ -183,12 +183,12 @@ public class Admin {
                 break;
 
             case 7: {
-                int rentalduration;
+                int rentalDuration;
                 System.out.println("Enter the new rental duration");
-                rentalduration = input.nextInt();
+                rentalDuration = input.nextInt();
                 input.nextLine();
 
-                place.setRentalDuration(rentalduration);
+                place.setRentalDuration(rentalDuration);
             }
                 break;
 

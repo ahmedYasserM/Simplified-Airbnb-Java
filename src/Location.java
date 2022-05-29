@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Location {
 
     // --- MEMBERS ---
@@ -39,6 +41,25 @@ public class Location {
         finalShape += city + ", ";
         finalShape += country + '.';
         return finalShape;
+    }
+
+    public void inputInterface() {
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Country: ");
+        setCountry(input.nextLine());
+
+        System.out.print("City: ");
+        setCity(input.nextLine());
+
+        System.out.print("Town: ");
+        setTown(input.nextLine());
+
+        System.out.print("Street: ");
+        setStreet(input.nextLine());
+
+        System.out.print("Building Number: ");
+        setBuildingNumber(input.nextLine());
     }
 
     // copy another location to our location ->>will be useful in constructor in class Contract in passing arguments  :)

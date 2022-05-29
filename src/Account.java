@@ -38,19 +38,19 @@ public class Account {
 
     // default constructor
     public Account() {
-        hostedPlaces = new Vector<>();
+        hostedPlaces = new Vector<Place>();
         dateOfBirth = new Date();
     }
 
 
-    // parametrised constructor
+    // parametrized constructor
     public Account(String userName, String password, String phoneNumber, Date dateOfBirth) {
         this.userName = userName;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
         hostedPlaces = new Vector<Place>();
-    } // end of Account parametrised constructor
+    } // end of Account parametrized constructor
 
 
     @Override
@@ -88,7 +88,7 @@ public class Account {
 
     public void inputInterface() {
         
-        System.out.println("--- Enter your inputformation ---");
+        System.out.println("--- Enter your information ---");
 
         System.out.print("First Name: ");
         setFirstName(input.nextLine());
@@ -112,6 +112,8 @@ public class Account {
     public static void signUp(Account account) {
 
         ALL_ACCOUNTS.put(account.getUserName(), account);
+        DataFiles.writeAccount(account); // Add new file.txt with account data
+
         System.out.println("Account has been created successfully.");
 
     } // end of signUp function
@@ -189,6 +191,9 @@ public class Account {
             Place.removePlace(placeId);
 
         }
+
+        DataFiles.eraseAccount(user.getUserName()); // Removes the file.txt that contains the account
+
         ALL_ACCOUNTS.remove(user.getUserName()); // HashMap.remove() is a built-in method of HashMap class and is used to remove the mapping of any particular key from the map.
         System.out.println("Account has been deleted successfully");
         return true;
@@ -217,6 +222,9 @@ public class Account {
 
                     System.out.print("Enter new First Name: ");
                     String name = input.nextLine();
+
+                    DataFiles.editFile(userName, "fn", this.firstName, name); // edit first name in the file.txt
+                    
                     this.firstName = name;
                     System.out.println("First Name has been changed successfully");
                     System.out.println();
@@ -227,6 +235,9 @@ public class Account {
                     System.out.print("Enter new Last Name: ");
 
                     String name = input.nextLine();
+
+                    DataFiles.editFile(userName, "ln", this.lastName, name); // edit last name in the file.txt
+
                     this.lastName = name;
                     System.out.println("Last Name has been changed successfully");
                     System.out.println();
@@ -237,6 +248,9 @@ public class Account {
 
                     System.out.print("Enter new Password: ");
                     String password = input.nextLine();
+
+                    DataFiles.editFile(userName, "ps", this.password, password); // edit password in the file.txt
+
                     this.password = password;
                     System.out.println("Password has been changed successfully");
                     System.out.println();
@@ -247,8 +261,10 @@ public class Account {
 
                     System.out.print("Enter new Phone Number: ");
                     String number = input.nextLine();
-                    this.phoneNumber = number;
                     
+                    DataFiles.editFile(userName, "ph", this.phoneNumber, number); // edit phone number in the file.txt
+                    
+                    this.phoneNumber = number;
                     System.out.println("Phone Number has been changed successfully");
                     System.out.println();
                 }
@@ -302,9 +318,11 @@ public class Account {
     public void deleteHostedPlace(String id) {
         Place place = Place.removePlace(id); // returns the place and removes it from the PLACES container
 
-        if (place != null)  // checks if the place exists   // ???? and you have to check if this place is taken or not also from a user (khtb)
+        if (place != null)  {// checks if the place exists   // ???? and you have to check if this place is taken or not also from a user (khtb)
+            String typeDef = "hp" + (this.getHostedPlaces().size() + 1) + ": ";
+            DataFiles.editFile(userName, typeDef, id, "");
             hostedPlaces.remove(place);
-        
+        }
         else
             System.out.println("Place not found.");
     } // end of deleteHostedPlace function
@@ -318,7 +336,7 @@ public class Account {
 
     public void setUserName(String userName) {
         if (ALL_ACCOUNTS.get(userName) != null) {
-            System.out.println("Username already taken!, try againput.");
+            System.out.println("Username already taken!, try again.");
             this.inputInterface();
         }
         else

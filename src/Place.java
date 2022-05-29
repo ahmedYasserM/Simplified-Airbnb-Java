@@ -3,6 +3,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
+import javafx.scene.chart.PieChart.Data;
+
 public class Place {
 
     // --- MEMBERS ---
@@ -40,6 +42,13 @@ public class Place {
         location = new Location();
         placeID = generatePlaceID();
         ALL_PLACES.put(placeID, this); // adding the place to ALL_PLACES list every time we create a place
+    }
+
+    public Place(int ignore) {
+        host = null;
+        rules = new PlaceRules();
+        isReserved = false;
+        location = new Location();
     }
 
     public Place(String placeType, Account host, int area, int numOfRooms, Location location, int price,
@@ -138,6 +147,7 @@ public class Place {
     // removing a place from the ALL_PLACES container and returning it
     // removes by ID
     public static Place removePlace(String placeID) {
+        DataFiles.erasePlace(placeID);
         return ALL_PLACES.remove(placeID);
     }  //this method is used input another method : removeHostedPlace (Khtb)
 
@@ -172,16 +182,48 @@ public class Place {
 // ---- METHODS -----
 
     public void inputInterface() {
-        System.out.print("Enter place type: ");
+        System.out.println("--- [ Place Details ] ---");
+        System.out.println();
+
+        System.out.print("Type: ");
         setPlaceType(input.nextLine());
         
-        System.out.print("Enter Place area: ");
+        System.out.print("Area: ");
         setArea(input.nextInt());
         input.nextLine();
 
-        System.out.print("Enter place number of rooms: ");
+        System.out.print("Number of rooms: ");
         setNumOfRooms(input.nextInt());
         input.nextLine();
+
+        System.out.print("Rental Duration: ");
+        setRentalDuration(input.nextInt());
+        input.nextLine();
+
+        System.out.print("Price: ");
+        setPrice(input.nextInt());
+        input.nextLine();
+
+        System.out.print("Location: ");
+
+        Location location = new Location();
+        location.inputInterface();
+        setLocation(location);
+
+        System.out.print("Maximum Guests: ");
+        setMaximumGuests(input.nextInt());
+        input.nextLine();
+
+        System.out.print("Pets Allowed: ");
+        setPetsAllowed(input.nextBoolean());
+        input.nextLine();
+
+        System.out.print("SmokeFree: ");
+        setSmokeFree(input.nextBoolean());
+        input.nextLine();
+
+        System.out.println("Description: ");
+        setDescription(input.nextLine());
     }
 
     public void edit() {
@@ -216,7 +258,9 @@ public class Place {
 
                     if (nPrice == 0) 
                         continue;
-                    
+
+                    DataFiles.editFile(placeID, "pr", String.valueOf(price), String.valueOf(nPrice));
+
                     setPrice(nPrice);
                 }
                 break;
@@ -224,21 +268,22 @@ public class Place {
                 case 2: {
                     
                     System.out.println("Enter new Rental Duration, or '0' to return: ");
-                    int new_RentalDuration;
+                    int newRentalDuration;
                     while (true) {
-                        new_RentalDuration = input.nextInt();
+                        newRentalDuration = input.nextInt();
                         input.nextLine();
 
-                        if (this.rentalDuration == new_RentalDuration) {
+                        if (this.rentalDuration == newRentalDuration) {
                             System.out.println("You entered the same rental duration, try again!");
                             continue;
                         }
                         
-                        if (new_RentalDuration == 0) 
+                        if (newRentalDuration == 0) 
                             continue;
                         
+                        DataFiles.editFile(placeID, "rd", String.valueOf(rentalDuration), String.valueOf(newRentalDuration));
 
-                        this.setRentalDuration(new_RentalDuration);
+                        setRentalDuration(newRentalDuration);
                         break;
                     } 
                 }
@@ -252,23 +297,37 @@ public class Place {
 
                     System.out.print("Pets Allowed (yes / ENTER): ");
                     String flag = input.nextLine();
-                    if (flag.equals("yes"))
+                    if (flag.equals("yes")) {
+                        DataFiles.editFile(placeID, "Rs", String.valueOf(arePetsAllowed()), "true");
                         setPetsAllowed(true);
-                    else setPetsAllowed(false);
+                    }
+                    else {
+                        DataFiles.editFile(placeID, "Rs", String.valueOf(arePetsAllowed()), "false");
+                        setPetsAllowed(false);
+                    }
 
 
                     System.out.print("SmokeFree (yes / ENTER): ");
                     flag = input.nextLine();
-                    if (flag.equals("yes")) 
+                    if (flag.equals("yes")) {
+                        DataFiles.editFile(placeID, "Rs", String.valueOf(isSmokeFree()), "true");
                         setSmokeFree(true);
-                    else setSmokeFree(false);
+                    }
+                    else {
+                        DataFiles.editFile(placeID, "Rs", String.valueOf(isSmokeFree()), "false");
+                        setSmokeFree(false);
+                    }
                 }
                 break;
 
                 case 4: {
                     
                     System.out.print("New Description: ");
-                    setDescription(input.nextLine());
+                    String newDes = input.nextLine();
+
+                    DataFiles.editFile(placeID, "ds", description, newDes);
+
+                    setDescription(newDes);
                 }
                 break;
 
@@ -282,6 +341,7 @@ public class Place {
                             System.out.print("Incorrect, try again.\n> ");
                             continue;
                         }
+
                         System.out.println("Place has been deleted successfully");
                         System.out.println();
                         host.deleteHostedPlace(this.placeID);

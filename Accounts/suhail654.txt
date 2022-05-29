@@ -1,0 +1,11 @@
+fn: Suhail Mahmoud
+ln: Kamal Abdel-Aal
+un: suhail654
+ps: 01027583898sS
+ph: 01021534155
+dd: 7
+mm: 4
+yy: 2002
+hp1: 
+hp2: 
+hp3: 

@@ -32,6 +32,8 @@ i have make 2 new  variables :
  
 
 
+-------------------------------
+I have turned Location attribute in place to public // AK
 
 
  

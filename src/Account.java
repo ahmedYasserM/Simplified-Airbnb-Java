@@ -12,7 +12,10 @@ public class Account {
 
     // attributes
     private static Scanner input = new Scanner(System.in);
-    private static HashMap<String, Account> ALL_ACCOUNTS = new HashMap<>();
+    public static HashMap<String, Account> ALL_ACCOUNTS = new HashMap<>();
+    public static float Male_Counter = 0;
+    public static float Female_Counter = 0;
+    public static int AccountCnt = 0;   // counter for Accounts NEW - Khatab
 
     /*this map will contain the account of every user
      (the key will be the username of the user and the value will be its account)
@@ -34,22 +37,30 @@ public class Account {
     private Vector<Place> hostedPlaces; // this vector will contain the places which every user host
     private Place reservedPlace; // this object will contain the place which is reserved by the traveler
 
+    enum Gender_Types_Enum{             // NEW - khatab
+        Male,Female
+    }
+    private Gender_Types_Enum AccountGenderTypes ;
+
     //methods
 
     // default constructor
     public Account() {
         hostedPlaces = new Vector<>();
         dateOfBirth = new Date();
+        AccountCnt++;
     }
 
 
     // parametrised constructor
-    public Account(String userName, String password, String phoneNumber, Date dateOfBirth) {
+    public Account(String userName, String password, String phoneNumber, Date dateOfBirth ,Gender_Types_Enum GenderType ) {
         this.userName = userName;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
         hostedPlaces = new Vector<Place>();
+        this.AccountGenderTypes = GenderType;
+        AccountCnt++;
     } // end of Account parametrised constructor
 
 
@@ -62,6 +73,7 @@ public class Account {
         finalShape += lastName + '\n';
         finalShape += "Phone Number: " + phoneNumber + '\n';
         finalShape += "Username: " + userName + '\n';
+        finalShape += "Gender " + AccountGenderTypes + '\n';
 
         return finalShape;
     } // end of toString function (contract version)
@@ -112,7 +124,7 @@ public class Account {
     public static void signUp(Account account) {
 
         ALL_ACCOUNTS.put(account.getUserName(), account);
-        System.out.println("Account has been created successfully.");
+        System.out.println("Account has created successfully.");
 
     } // end of signUp function
 
@@ -146,13 +158,14 @@ public class Account {
             return null;
         }
 
-        return user;
+        return user; // if you reach to this , will return the user
+
     } // end of login function
 
 
 
     public static void logout() {
-
+        System.out.println("\t -----( Thanks for Visiting Us )-----");
         Pages.login_page();
     } // end of logout function
 
@@ -162,7 +175,7 @@ public class Account {
         
         String choice1 = input.nextLine();
         if(!(choice1.equals("DELETE MY ACCOUNT"))) {
-            System.out.println("Account hasn't been deleted");
+            System.out.println("Account has NOT deleted");
             return false;
         }
 
@@ -181,7 +194,7 @@ public class Account {
                 input.nextLine();
 
                 if(choice2 == 0){
-                    System.out.println("Account hasn't been deleted");
+                    System.out.println("Account has NOT deleted");
                     return false;
                 }
 
@@ -190,13 +203,14 @@ public class Account {
 
         }
         ALL_ACCOUNTS.remove(user.getUserName()); // HashMap.remove() is a built-in method of HashMap class and is used to remove the mapping of any particular key from the map.
-        System.out.println("Account has been deleted successfully");
+        System.out.println("Account has deleted successfully");
+        AccountCnt--;
         return true;
 
     } // end of deleteAccount function
 
 
-    public void edit(){
+    public void edit_Account(){
 
         int choice;
         do {
@@ -213,12 +227,19 @@ public class Account {
             input.nextLine();
 
             switch (choice) {
+
+                case 0:{                                                // khtb
+                    System.out.println("Returning Previous Page...");
+                    Pages.profile_page();
+                }
+                break;
+
                 case 1: {
 
                     System.out.print("Enter new First Name: ");
                     String name = input.nextLine();
                     this.firstName = name;
-                    System.out.println("First Name has been changed successfully");
+                    System.out.println("First Name has changed successfully");
                     System.out.println();
                 }
                 break;
@@ -228,7 +249,7 @@ public class Account {
 
                     String name = input.nextLine();
                     this.lastName = name;
-                    System.out.println("Last Name has been changed successfully");
+                    System.out.println("Last Name has changed successfully");
                     System.out.println();
                 }
                 break;
@@ -236,9 +257,10 @@ public class Account {
                 case 3: {
 
                     System.out.print("Enter new Password: ");
-                    String password = input.nextLine();
-                    this.password = password;
-                    System.out.println("Password has been changed successfully");
+                    String new_password = input.nextLine();
+
+                    this.password = new_password;
+                    System.out.println("Password has changed successfully");
                     System.out.println();
                 }
                 break;
@@ -248,8 +270,8 @@ public class Account {
                     System.out.print("Enter new Phone Number: ");
                     String number = input.nextLine();
                     this.phoneNumber = number;
-                    
-                    System.out.println("Phone Number has been changed successfully");
+
+                    System.out.println("Phone Number has changed successfully");
                     System.out.println();
                 }
                 break;
@@ -265,14 +287,12 @@ public class Account {
                 break;
 
                 default:
-                    System.out.println("You entered wrong number");
+                    System.out.println("You entered a wrong number"); // -ve number
                     break;
             }
-        }  while (choice > 0);
+        }  while (choice < 0 || choice>5); // to make the user if he choose a -ve Num or a number more than the choices (5) return back again -Khatab
 
     } // end edit function
-
-
 
 
 
@@ -286,15 +306,16 @@ public class Account {
     public void deleteReservedPlace(){
         reservedPlace.setReserved(false);
         reservedPlace = null;
-        System.out.println("The place has been deleted successfully.");
+        System.out.println("The place has deleted successfully.");
 
     } // end of deleteReservedPlace function
 
 
 
     public void hostPlace(Place place) {
-        hostedPlaces.add(place); // adds the place to LinkedList of places
+        hostedPlaces.add(place); // adds the place to Vector of places
         place.setHost(this); // sets the host of the place to the calling object which is the class account
+
     } // end of hostPlace function
 
 
@@ -309,7 +330,10 @@ public class Account {
             System.out.println("Place not found.");
     } // end of deleteHostedPlace function
 
-    //setters and getters
+
+
+
+    //setters and getters-----
 
     public void setPassword(String password) {
 
@@ -318,7 +342,7 @@ public class Account {
 
     public void setUserName(String userName) {
         if (ALL_ACCOUNTS.get(userName) != null) {
-            System.out.println("Username already taken!, try againput.");
+            System.out.println("Username already taken!, try again put.");
             this.inputInterface();
         }
         else
@@ -387,5 +411,8 @@ public class Account {
         return hostedPlaces;
     }
 
+    public Gender_Types_Enum getAccountGenderTypes() {
+        return AccountGenderTypes;
+    }
 }
 

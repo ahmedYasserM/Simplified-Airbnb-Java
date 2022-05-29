@@ -8,13 +8,13 @@ public class Place {
     // --- MEMBERS ---
     // list containing all the places input the program
     private static Scanner input = new Scanner(System.in);
-    private static HashMap<String, Place> ALL_PLACES = new HashMap<String, Place>();
+    public static HashMap<String, Place> ALL_PLACES = new HashMap<String, Place>();
 
     Account host;
     String placeType;
     private int area;
     private int numOfRooms;
-    private Location location;
+    public Location location;
     private int price;
     private int rentalDuration;
 

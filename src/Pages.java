@@ -63,7 +63,6 @@ public abstract class Pages {
         System.out.println();
         System.out.println("\t-----( Login )-----");
 
-        
 
         System.out.print("Username: ");
         String userName = input.nextLine();
@@ -74,9 +73,22 @@ public abstract class Pages {
         currentUser = Account.login(userName, password);
 
         if (currentUser == null) {
+
             System.out.println("try again.");
-            login_page();
+            System.out.println("You Sure you are already Have an Account: [1] ");
+            System.out.println("Not Registed Yet? SignUp: [2]");
+
+            int in = input.nextInt();
+            input.nextLine();
+
+            if(in == 1) {login_page();}
+
+            else if(in == 2) {signup_page();}
+
+            else {home_page();}     // dump but clean ...  if enter -> [1]:login // [2]:SignUp  // [anything else]:Return back to Home page -- Khtb
+
         }
+
     } // end of login_page function
 
 
@@ -173,7 +185,7 @@ public abstract class Pages {
         switch (choice) {
             // Edit your personal info case
             case 1: {
-                currentUser.edit();
+                currentUser.edit_Account();
                 profile_page();
             }
             break;

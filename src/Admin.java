@@ -11,31 +11,59 @@ public class Admin {
     // Getters
     public String getUserName() {
         return userName;
-    }
+    } // end of getUserName function
 
     public String getPassword() {
         return password;
-    }
+    } // end of getPassword function
 
     // Display functions
     public void displayPlaces() {
         Place.displayPlaces();
-    }
+    } // end of displayPlaces function
 
-    public void displayAccounts() {
-        Account.displayAccounts();
-    }
+    public void displayAllAccounts(){
+
+        int accountNumber = 0;
+
+        for(Account user : Account.getAllAccounts().values()){
+
+            System.out.println("Account # " + accountNumber + ":");
+            System.out.println(user.toString());
+            System.out.println("#####################################################################");
+        }
+
+
+    } // end of displayAllAccounts function
+
+    public void displayAllUserNames(){
+
+        int userNumber = 1;
+        for(Account user : Account.getAllAccounts().values()){
+            System.out.println("User # "+userNumber+" => "+ user.getUserName());
+        }
+
+
+    } // end of displayAllUserNames function
+
 
     // Delete functions
     public void deletePlace(String id) {
         Account host = Place.getAllPlaces().get(id).getHost();
         host.deleteHostedPlace(id);
-    }
+    } // end of deletePlace function
 
+    /*
+    // delete an account using its username
     public void deleteAccount(String userName) {
-        Account.deleteAccount(Account.getAllAccounts().get(userName));
-    }
+        Account account = Account.findAccount(userName);
+        if(account != null){
+            Account.deleteAccount(account);
+        }
 
+    } // end of deleteAccount function
+
+     */
     // Edit the attributes of the places
     public void editPlaces(String id) throws Exception {
 
@@ -189,53 +217,76 @@ public class Admin {
                 System.out.println("You entered wrong number");
                 break;
         }
-    }
+    } // end of editPlaces function
 
     // Edit the attributes of the accounts
     public void editAccounts(String userName) {
 
-        Account a = Account.findAccount(userName);
-        int change;
-        System.out.println("To change first name enter  1");
-        System.out.println("To change last name enter 2");
-        System.out.println("To change password enter 3");
-        System.out.println("To change phone number enter 4");
-        
-        change = input.nextInt();
-        input.nextLine();
+        Account account = Account.findAccount(userName);
+        // if the userName does not exist findAccount() will return null and print(incorrect userName) and then exit editAccounts function
+        if(account != null) {
 
-        switch (change) {
-            case 1: {
-                String firstName;
-                System.out.println("Enter the new first name");
-                firstName = input.nextLine();
-                a.setFirstName(firstName);
-            }
-                break;
-            case 2: {
-                String lastname;
-                System.out.println("Enter the new last name");
-                lastname = input.nextLine();
-                a.setLastName(lastname);
-            }
-                break;
-            case 3: {
-                String password;
-                System.out.println("Enter the new password");
-                password = input.nextLine();
-                a.setPassword(password);
-            }
-                break;
-            case 4: {
-                String phoneNumber;
-                System.out.println("Enter the new phone number");
-                phoneNumber = input.nextLine();
-                a.setPhoneNumber(phoneNumber);
-            }
-                break;
-            default:
-                System.out.println("You entered wrong number");
-                break;
+
+            int choice;
+            do {
+
+                System.out.println("[1] Change First Name: ");
+                System.out.println("[2] Change Last Name: ");
+                System.out.println("[4] Change Username: ");
+                System.out.println("[4] Change Password: ");
+                System.out.println("[0] Back: ");
+
+                System.out.print("> ");
+                choice = input.nextInt();
+                input.nextLine();
+
+                switch (choice) {
+                    case 1: {
+
+                        System.out.print("Enter new First Name: ");
+                        String name = input.nextLine();
+                        account.setFirstName(name);
+                        System.out.println("First Name has been changed successfully");
+                        System.out.println();
+                    }
+                    break;
+
+                    case 2: {
+                        System.out.print("Enter new Last Name: ");
+
+                        String name = input.nextLine();
+                        account.setLastName(name);
+                        System.out.println("Last Name has been changed successfully");
+                        System.out.println();
+                    }
+                    break;
+
+                    case 3: {
+                        System.out.println("Enter new username: ");
+
+                        String name = input.nextLine();
+                        account.setUserName(name);
+                        System.out.println("Username has been changed successfully");
+                        System.out.println();
+
+                    }
+                    break;
+
+                    case 4: {
+
+                        System.out.print("Enter new Password: ");
+                        String password = input.nextLine();
+                        account.setPassword(password);
+                        System.out.println("Password has been changed successfully");
+                        System.out.println();
+                    }
+                    break;
+
+                    default:
+                        System.out.println("You entered wrong number");
+                        break;
+                }
+            } while (choice > 0);
         }
-    }
+    } // end of editAccounts function
 }

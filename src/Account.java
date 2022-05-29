@@ -31,7 +31,7 @@ public class Account {
     private String lastName;
     private Date dateOfBirth;
     private String phoneNumber;
-    private Vector<Place> hostedPlaces; // this LinkedList will contain the places which every user host
+    private Vector<Place> hostedPlaces; // this vector will contain the places which every user host
     private Place reservedPlace; // this object will contain the place which is reserved by the traveler
 
     //methods
@@ -67,7 +67,6 @@ public class Account {
     } // end of toString function (contract version)
 
 
-
     // PRINT CLASS DATA => used with admin
     public String toString(int param){
         String finalShape = toString();
@@ -85,16 +84,6 @@ public class Account {
         return finalShape;
     } // end of toString function (admin version)
 
-    public static void displayAccounts(){
-        String data = "";
-
-        for(Account user : ALL_ACCOUNTS.values()){
-            data =  user.toString();
-            System.out.println(data);
-        }
-
-
-    } // end of displayAccounts function
 
 
     public void inputInterface() {
@@ -136,9 +125,9 @@ public class Account {
 
         Account user = ALL_ACCOUNTS.get(userName); // here we fetch the account whose username is provided from the TreeMap Data Structure
         // if user is equal to null => this mean that there is no account input the TreeMap Data Structure has the username which is provided.
-       /* if (user == null) {
+       if (user == null) {
             System.out.println("Incorrect username");
-        }*/
+        }
         return user; // if the there is no account has the username provided it will return => null
 
     } // end of findAccount function
@@ -166,8 +155,6 @@ public class Account {
 
         Pages.login_page();
     } // end of logout function
-
-
 
 
     public static boolean deleteAccount(Account user) {
@@ -208,9 +195,85 @@ public class Account {
 
     } // end of deleteAccount function
 
-    public static HashMap<String, Account> getAllAccounts() {
-        return ALL_ACCOUNTS;
-    }
+
+    public void edit(){
+
+        int choice;
+        do {
+
+            System.out.println("[1] Change First Name: ");
+            System.out.println("[2] Change Last Name: ");
+            System.out.println("[3] Change Password: ");
+            System.out.println("[4] Change Phone Number: ");
+            System.out.println("[5] Delete Account: ");
+            System.out.println("[0] Back: ");
+
+            System.out.print("> ");
+            choice = input.nextInt();
+            input.nextLine();
+
+            switch (choice) {
+                case 1: {
+
+                    System.out.print("Enter new First Name: ");
+                    String name = input.nextLine();
+                    this.firstName = name;
+                    System.out.println("First Name has been changed successfully");
+                    System.out.println();
+                }
+                break;
+
+                case 2: {
+                    System.out.print("Enter new Last Name: ");
+
+                    String name = input.nextLine();
+                    this.lastName = name;
+                    System.out.println("Last Name has been changed successfully");
+                    System.out.println();
+                }
+                break;
+
+                case 3: {
+
+                    System.out.print("Enter new Password: ");
+                    String password = input.nextLine();
+                    this.password = password;
+                    System.out.println("Password has been changed successfully");
+                    System.out.println();
+                }
+                break;
+
+                case 4: {
+
+                    System.out.print("Enter new Phone Number: ");
+                    String number = input.nextLine();
+                    this.phoneNumber = phoneNumber;
+                    System.out.println("Phone Number has been changed successfully");
+                    System.out.println();
+                }
+                break;
+
+                case 5: {
+                    boolean isDeleted = Account.deleteAccount(this);
+                    if(isDeleted == true){
+                        System.out.println();
+                       Pages.home_page();
+                    }
+
+                }
+                break;
+
+                default:
+                    System.out.println("You entered wrong number");
+                    break;
+            }
+        }  while (choice > 0);
+
+    } // end edit function
+
+
+
+
 
     public void reservePlace(Place place) {
         reservedPlace = place;
@@ -252,7 +315,7 @@ public class Account {
         this.password = password;
     }
 
-    private void setUserName(String userName) {
+    public void setUserName(String userName) {
         if (ALL_ACCOUNTS.get(userName) != null) {
             System.out.println("Username already taken!, try againput.");
             this.inputInterface();
@@ -283,6 +346,10 @@ public class Account {
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
+    public static HashMap<String, Account> getAllAccounts() {
+        return ALL_ACCOUNTS;
+    } // end of getAllAccounts function
 
     public String getUserName() {
 

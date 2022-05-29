@@ -273,18 +273,20 @@ public class Place {
                 break;
 
                 case 5: {
-                    System.out.println("\n Input order to delete your account write \'DELETE PLACE\' without quotes");
-                    String choice1;
-                    do {
-                         choice1 = input.nextLine();
-                        if(!(choice1.equals("DELETE PLACE"))) {
-                            System.out.println("Place has been deleted successfully");
+                    System.out.print("\nInput order to delete your account write \'DELETE PLACE\' without quotes\n> ");
+                    
+                    while (true) {
                         
-                            host.deleteHostedPlace(this.placeID);
-                            return;
+                        String choice1 = input.nextLine();
+                        if(!choice1.equals("DELETE PLACE")) {
+                            System.out.print("Incorrect, try again.\n> ");
+                            continue;
                         }
-
-                    } while (!choice1.equals("DELETE PLACE"));
+                        System.out.println("Place has been deleted successfully");
+                        System.out.println();
+                        host.deleteHostedPlace(this.placeID);
+                        break;
+                    }
                 }
             }
 

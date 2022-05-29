@@ -17,6 +17,7 @@ public abstract class Pages {
         
         System.out.println("[1] Login: ");
         System.out.println("[2] Signup: ");
+        System.out.println("[0] Exit: ");
 
         System.out.print("> ");
         int choice = input.nextInt();
@@ -29,8 +30,15 @@ public abstract class Pages {
             case 2: signup_page();
                 break;
 
-            default:
-                System.out.println("You entered wrong number");
+            case 0: {
+                System.exit(0);
+            }
+                break;
+
+            default: {
+                System.out.println("Invalid input, try again.");
+                home_page();
+            }
                 break;
         }
 
@@ -191,7 +199,7 @@ public abstract class Pages {
 
                 System.out.println();
                 
-                System.out.print("Enter place number to edit, or press Enter to return:");
+                System.out.print("Enter place number to edit, or press Enter to return: ");
                 String place_idx = input.nextLine();
 
                 if (place_idx.length() == 0) {

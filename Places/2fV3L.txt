@@ -5,7 +5,7 @@ ar: 300
 #r: 3
 rd: 10
 pr: 450
-rs: true
+rs: false
 LC: Egypt
 Lc: Giza\
 Lt: El-Harm

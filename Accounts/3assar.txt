@@ -7,6 +7,6 @@ dd: 11
 mm: 3
 yy: 2000
 rp: null
-hp: null
-hp: null
-hp: null
+hp: 6125B
+hp: A761i
+hp: uUeSK

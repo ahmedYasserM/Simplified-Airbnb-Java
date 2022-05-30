@@ -1,0 +1,17 @@
+ht: esawy132
+pt: apartment
+id: RoAf4
+ar: 220
+#r: 4
+rd: 19
+pr: 550
+rs: false
+LC: egypt
+Lc: cairo
+Lt: down town
+Ls: el-tahreir
+Lb: 101
+Rg: 5
+Rp: true
+Rs: true
+ds: good place

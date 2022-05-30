@@ -1,0 +1,17 @@
+ht: khatab123
+pt: villa
+id: b9jpJ
+ar: 700
+#r: 10
+rd: 10
+pr: 2700
+rs: false
+LC: egypt
+Lc: cairo
+Lt: fifth-settlement
+Ls: 32
+Lb: 
+Rg: 12
+Rp: true
+Rs: true
+ds: good place

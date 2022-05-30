@@ -1,0 +1,17 @@
+ht: 3assar
+pt: suite
+id: 6125B
+ar: 190
+#r: 3
+rd: 10
+pr: 400
+rs: false
+LC: Egypt
+Lc: Cairo
+Lt: El-Tahrier
+Ls: street 51
+Lb: 11
+Rg: 3
+Rp: false
+Rs: true
+ds: One of the best suits in Cairo

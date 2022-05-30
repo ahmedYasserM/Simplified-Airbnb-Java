@@ -1,0 +1,17 @@
+ht: ahmedmohammed
+pt: apartment
+id: b6E83
+ar: 200
+#r: 2
+rd: 10
+pr: 200
+rs: false
+LC: egypt
+Lc: giza
+Lt: haram
+Ls: el-mahmodya
+Lb: 37
+Rg: 3
+Rp: true
+Rs: false
+ds: good place

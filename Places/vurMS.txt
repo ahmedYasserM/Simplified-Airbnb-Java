@@ -1,0 +1,17 @@
+ht: esawy132
+pt: villa
+id: vurMS
+ar: 450
+#r: 5
+rd: 10
+pr: 1200
+rs: false
+LC: egypt
+Lc: cairo
+Lt: third-settlement
+Ls: el-golf
+Lb: 199
+Rg: 6
+Rp: true
+Rs: true
+ds: good place

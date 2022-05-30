@@ -104,6 +104,11 @@ public abstract class Pages {
             break;
 
             case 2: {
+                if (currentUser.getHostedPlaces().size() >= 3) {
+                    System.out.println("You cannot host more than 3 places.");
+                    user_menu();
+                    return;
+                }
                 hosting();
             }
             break;
@@ -164,6 +169,8 @@ public abstract class Pages {
 
         System.out.println("[1] Edit your personal info");
         System.out.println("[2] View Hosted Places");
+        if (currentUser.getReservedPlace() != null)
+            System.out.println("[3] Depart");
         System.out.println("[0] Back");
 
         System.out.print("> ");
@@ -213,6 +220,29 @@ public abstract class Pages {
             }
             break;
 
+            case 3: {
+                if (currentUser.getReservedPlace() != null) {
+                    System.out.println("Type 'yes' to confirm or press ENTER to return.");
+                    System.out.print("Confirm leaving: ");
+                    String check = input.nextLine();
+                    if (check.toLowerCase().equals("yes")) {
+                        Place place = currentUser.getReservedPlace(); 
+                        DataFiles.editFile("Places/" + place.getPlaceID(), "rs", String.valueOf(place.isReserved()), String.valueOf(!place.isReserved()));
+                        place.setReserved(false);
+                        
+                        DataFiles.editFile("Accounts/" + currentUser.getUserName(), "rp", place.getPlaceID(), "null");
+                        currentUser.reservePlace(null);
+
+                        System.out.println("Departure done successfully");
+                    }
+                    else {
+                        profile_page();
+                        return;
+                    }
+                }
+            }
+            break;
+
             // Back case (exit profile function)
             case 0: {
                 user_menu();
@@ -238,9 +268,6 @@ public abstract class Pages {
         place.setHost(currentUser); // sets the host of the place to the calling object which is the class account
         DataFiles.writePlace(place);
 
-
-
-
         System.out.println("Place added successfully");
     }
 
@@ -248,7 +275,7 @@ public abstract class Pages {
 
         // Checks if the user has a reserved place 
         if (currentUser.getReservedPlace() != null) {
-            System.out.println("You cannot reserve 2 at a time.");
+            System.out.println("You cannot reserve more than one place at a time.");
             return;
         }
 

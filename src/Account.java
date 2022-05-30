@@ -295,7 +295,6 @@ public class Account {
 
     public void reservePlace(Place place) {
         reservedPlace = place;
-        place.setReserved(true);
     }  // end of reservePlace function
 
 

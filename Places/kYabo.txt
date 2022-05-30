@@ -1,0 +1,17 @@
+ht: mkamel
+pt: apartment
+id: kYabo
+ar: 110
+#r: 2
+rd: 10
+pr: 120
+rs: false
+LC: egypt
+Lc: giza
+Lt: haram
+Ls: el-aranb
+Lb: 106
+Rg: 2
+Rp: false
+Rs: true
+ds: good place

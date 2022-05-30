@@ -204,8 +204,6 @@ public class Place {
         setPrice(input.nextInt());
         input.nextLine();
 
-        System.out.print("Location: ");
-
         Location location = new Location();
         location.inputInterface();
         setLocation(location);
@@ -222,7 +220,7 @@ public class Place {
         setSmokeFree(input.nextBoolean());
         input.nextLine();
 
-        System.out.println("Description: ");
+        System.out.print("Description: ");
         setDescription(input.nextLine());
     }
 

@@ -1,0 +1,17 @@
+ht: 3assar
+pt: room
+id: A761i
+ar: 25
+#r: 1
+rd: 5
+pr: 80
+rs: false
+LC: Egypt
+Lc: Cairo
+Lt: Abbaseya
+Ls: El-Medan
+Lb: 2
+Rg: 1
+Rp: false
+Rs: false
+ds: Room for students

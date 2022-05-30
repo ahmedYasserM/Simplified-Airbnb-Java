@@ -38,7 +38,7 @@ public class Account {
 
     // default constructor
     public Account() {
-        hostedPlaces = new Vector<Place>();
+        hostedPlaces = new Vector<Place>(3);
         dateOfBirth = new Date();
     }
 
@@ -49,7 +49,7 @@ public class Account {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
-        hostedPlaces = new Vector<Place>();
+        hostedPlaces = new Vector<Place>(3);
     } // end of Account parametrized constructor
 
 
@@ -112,7 +112,8 @@ public class Account {
     public static void signUp(Account account) {
 
         ALL_ACCOUNTS.put(account.getUserName(), account);
-        DataFiles.writeAccount(account); // Add new file.txt with account data
+
+        DataFiles.writeAccount(account); // Add new file.txt with the account data
 
         System.out.println("Account has been created successfully.");
 
@@ -223,7 +224,7 @@ public class Account {
                     System.out.print("Enter new First Name: ");
                     String name = input.nextLine();
 
-                    DataFiles.editFile(userName, "fn", this.firstName, name); // edit first name in the file.txt
+                    DataFiles.editFile("Accounts/" + userName, "fn", this.firstName, name); // edit first name in the file.txt
                     
                     this.firstName = name;
                     System.out.println("First Name has been changed successfully");
@@ -236,7 +237,7 @@ public class Account {
 
                     String name = input.nextLine();
 
-                    DataFiles.editFile(userName, "ln", this.lastName, name); // edit last name in the file.txt
+                    DataFiles.editFile("Accounts/" + userName, "ln", this.lastName, name); // edit last name in the file.txt
 
                     this.lastName = name;
                     System.out.println("Last Name has been changed successfully");
@@ -249,7 +250,7 @@ public class Account {
                     System.out.print("Enter new Password: ");
                     String password = input.nextLine();
 
-                    DataFiles.editFile(userName, "ps", this.password, password); // edit password in the file.txt
+                    DataFiles.editFile("Accounts/" + userName, "ps", this.password, password); // edit password in the file.txt
 
                     this.password = password;
                     System.out.println("Password has been changed successfully");
@@ -262,7 +263,7 @@ public class Account {
                     System.out.print("Enter new Phone Number: ");
                     String number = input.nextLine();
                     
-                    DataFiles.editFile(userName, "ph", this.phoneNumber, number); // edit phone number in the file.txt
+                    DataFiles.editFile("Accounts/" + userName, "ph", this.phoneNumber, number); // edit phone number in the file.txt
                     
                     this.phoneNumber = number;
                     System.out.println("Phone Number has been changed successfully");
@@ -310,7 +311,6 @@ public class Account {
 
     public void hostPlace(Place place) {
         hostedPlaces.add(place); // adds the place to LinkedList of places
-        place.setHost(this); // sets the host of the place to the calling object which is the class account
     } // end of hostPlace function
 
 
@@ -319,9 +319,9 @@ public class Account {
         Place place = Place.removePlace(id); // returns the place and removes it from the PLACES container
 
         if (place != null)  {// checks if the place exists   // ???? and you have to check if this place is taken or not also from a user (khtb)
-            String typeDef = "hp" + (this.getHostedPlaces().size() + 1) + ": ";
-            DataFiles.editFile(userName, typeDef, id, "");
             hostedPlaces.remove(place);
+            
+            DataFiles.editFile("Accounts/" + userName, "hp", id, "null");
         }
         else
             System.out.println("Place not found.");

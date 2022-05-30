@@ -1,0 +1,17 @@
+ht: khatab123
+pt: Tent
+id: dkNcy
+ar: 15
+#r: 0
+rd: 3
+pr: 250
+rs: true
+LC: Egypt
+Lc: Cairo
+Lt: Dahab
+Ls: ....
+Lb: 10
+Rg: 3
+Rp: true
+Rs: true
+ds: A tent to relax from the word in.

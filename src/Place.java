@@ -3,7 +3,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
-import javafx.scene.chart.PieChart.Data;
 
 public class Place {
 
@@ -102,6 +101,7 @@ public class Place {
 
     public void create_contract(Account customer) {
         place_contract = new Contract();
+        
         place_contract.setHost(host);
         place_contract.setCustomer(customer);
         place_contract.setPrice(price);
@@ -259,7 +259,7 @@ public class Place {
                     if (nPrice == 0) 
                         continue;
 
-                    DataFiles.editFile(placeID, "pr", String.valueOf(price), String.valueOf(nPrice));
+                    DataFiles.editFile("Places/" + placeID, "pr", String.valueOf(price), String.valueOf(nPrice));
 
                     setPrice(nPrice);
                 }
@@ -281,7 +281,7 @@ public class Place {
                         if (newRentalDuration == 0) 
                             continue;
                         
-                        DataFiles.editFile(placeID, "rd", String.valueOf(rentalDuration), String.valueOf(newRentalDuration));
+                        DataFiles.editFile("Places/" + placeID, "rd", String.valueOf(rentalDuration), String.valueOf(newRentalDuration));
 
                         setRentalDuration(newRentalDuration);
                         break;
@@ -298,11 +298,11 @@ public class Place {
                     System.out.print("Pets Allowed (yes / ENTER): ");
                     String flag = input.nextLine();
                     if (flag.equals("yes")) {
-                        DataFiles.editFile(placeID, "Rs", String.valueOf(arePetsAllowed()), "true");
+                        DataFiles.editFile("Places/" + placeID, "Rs", String.valueOf(arePetsAllowed()), "true");
                         setPetsAllowed(true);
                     }
                     else {
-                        DataFiles.editFile(placeID, "Rs", String.valueOf(arePetsAllowed()), "false");
+                        DataFiles.editFile("Places/" + placeID, "Rs", String.valueOf(arePetsAllowed()), "false");
                         setPetsAllowed(false);
                     }
 
@@ -310,11 +310,11 @@ public class Place {
                     System.out.print("SmokeFree (yes / ENTER): ");
                     flag = input.nextLine();
                     if (flag.equals("yes")) {
-                        DataFiles.editFile(placeID, "Rs", String.valueOf(isSmokeFree()), "true");
+                        DataFiles.editFile("Places/" + placeID, "Rs", String.valueOf(isSmokeFree()), "true");
                         setSmokeFree(true);
                     }
                     else {
-                        DataFiles.editFile(placeID, "Rs", String.valueOf(isSmokeFree()), "false");
+                        DataFiles.editFile("Places/" + placeID, "Rs", String.valueOf(isSmokeFree()), "false");
                         setSmokeFree(false);
                     }
                 }
@@ -325,7 +325,7 @@ public class Place {
                     System.out.print("New Description: ");
                     String newDes = input.nextLine();
 
-                    DataFiles.editFile(placeID, "ds", description, newDes);
+                    DataFiles.editFile("Places/" + placeID, "ds", description, newDes);
 
                     setDescription(newDes);
                 }
@@ -345,7 +345,7 @@ public class Place {
                         System.out.println("Place has been deleted successfully");
                         System.out.println();
                         host.deleteHostedPlace(this.placeID);
-                        break;
+                        return;
                     }
                 }
             }

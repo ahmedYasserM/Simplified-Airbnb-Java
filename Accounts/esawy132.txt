@@ -6,6 +6,7 @@ ph: 01222301569
 dd: 15
 mm: 1
 yy: 2001
-hp1: 
-hp2: 
-hp3: 
+rp: null
+hp: null
+hp: null
+hp: null

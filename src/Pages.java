@@ -1,8 +1,6 @@
 
 import java.util.Scanner;
 
-import javax.xml.crypto.Data;
-
 
 public abstract class Pages {
 
@@ -208,8 +206,8 @@ public abstract class Pages {
                     profile_page();
                     return;
                 }
-
-                hostedPlaces.elementAt(Integer.valueOf(place_idx) - 1).edit();
+                int index = Integer.valueOf(place_idx) - 1;
+                hostedPlaces.elementAt(index).edit();
 
                 profile_page();
             }
@@ -233,12 +231,15 @@ public abstract class Pages {
 
         Place place = new Place();
         place.inputInterface();
+
         currentUser.hostPlace(place);
+        DataFiles.editFile("Accounts/" + currentUser.getUserName(), "hp", "null", place.getPlaceID());
 
+        place.setHost(currentUser); // sets the host of the place to the calling object which is the class account
         DataFiles.writePlace(place);
-        String typeDef = "hp" + (currentUser.getHostedPlaces().size() + 1) + ": ";
 
-        DataFiles.editFile(currentUser.getUserName(), typeDef, "", place.getPlaceID());
+
+
 
         System.out.println("Place added successfully");
     }
@@ -287,8 +288,15 @@ public abstract class Pages {
     
         // Creating a contract with currentUser as a "Customer"
         place.create_contract(currentUser);
+        
         currentUser.reservePlace(place);
-        System.out.println("Place was reserved successfully");
+        DataFiles.editFile("Accounts/" + currentUser.getUserName(), "rp", "null", place.getPlaceID());
+        
+        place.setReserved(true);
+        DataFiles.editFile("Places/" + place.getPlaceID(), "rs", "false", "true");
+
+        // DataFiles.editFile("Accounts/" + currentUser.getUserName(), typeDef, oldValue, newValue);
+        System.out.println("Place has been reserved successfully");
     }
 
 

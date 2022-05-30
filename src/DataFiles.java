@@ -29,12 +29,15 @@ public abstract class DataFiles {
                 account.setDateOfBirth(new Date(br.readLine().replace("dd: ", "")
                 , br.readLine().replace("mm: ", "")
                 , br.readLine().replace("yy: ", "")));
+                Place place = Place.getAllPlaces().get(br.readLine().replace("rp: ", "")); 
+
+                if (place != null) 
+                    account.reservePlace(place);
 
                 for (int i = 0; i < 3; i++) { 
                     String placeID = br.readLine();
-                    if (placeID.length() <= 5) continue;
-                    String typeDef = "hp" + (account.getHostedPlaces().size() + 1) + ": ";
-                    account.hostPlace(Place.getAllPlaces().get(placeID.replace(typeDef, ""))); 
+                    if (placeID.length() == 8) continue;
+                    account.hostPlace(Place.getAllPlaces().get(placeID.replace("hp: ", ""))); 
                 }
 
                 Account.getAllAccounts().put(account.getUserName(), account);
@@ -82,7 +85,28 @@ public abstract class DataFiles {
                 br.close();
             }
         } catch(Exception e) {
-            System.out.println("Error in reading Accounts.");
+            System.out.println("Error in reading Places.");
+            e.printStackTrace();
+        }
+    }
+
+    public static void readHosts(String placeID) {
+        try {
+                
+            Place place = Place.getAllPlaces().get(placeID);
+
+            File file = new File("Places/" + placeID + ".txt");
+
+            FileReader fileReader = new FileReader(file);
+            BufferedReader br = new BufferedReader(fileReader);
+
+            place.setHost(Account.getAllAccounts().get(br.readLine().replace("ht: ", "")));
+
+            fileReader.close();
+            br.close();
+        
+        } catch(Exception e) {
+            System.out.println("Error in reading Hosts.");
             e.printStackTrace();
         }
     }
@@ -104,9 +128,14 @@ public abstract class DataFiles {
             bw.write("dd: " + account.getDateOfBirth().getDay() + '\n');
             bw.write("mm: " + account.getDateOfBirth().getMonth() + '\n');
             bw.write("yy: " + account.getDateOfBirth().getYear() + '\n');
+            bw.write("rp: " + String.valueOf(account.getReservedPlace()) + '\n');
+
             for (int i = 0; i < 3; i++) {
-                String typeDef = "hp" + String.valueOf(account.getHostedPlaces().size() + 1) + ": ";
-                bw.write(typeDef + account.getHostedPlaces().elementAt(i).getPlaceID());
+                if (i >= account.getHostedPlaces().size()) {
+                    bw.write("hp: " + "null" + '\n');
+                    continue;
+                } 
+                bw.write("hp: " + account.getHostedPlaces().elementAt(i).getPlaceID());
             }
             
 
@@ -117,7 +146,6 @@ public abstract class DataFiles {
             System.out.println("Error occurred in writing account");
             e.printStackTrace();
         }
-        Account.getAllAccounts().put(account.getUserName(), account);
     }
 
     public static void writePlace(Place place) {
@@ -154,17 +182,17 @@ public abstract class DataFiles {
             System.out.println("Error occurred in writing account");
             e.printStackTrace();
         }
-        // Place.getAllPlaces().put(place.getPlaceID(), place);
     } 
 
     public static void editFile(String fileName, String typeDef, String oldValue, String newValue) {
         List<String> lines = new ArrayList<String>();
         String line_in_lines = null;
 
+
         try {
             
             if (typeDef.equals("un")) {
-                File file = new File("Accounts/" + fileName + ".txt");
+                File file = new File(fileName + ".txt");
                 file.renameTo(new File("Accounts/" + newValue + ".txt"));
                 fileName = String.copyValueOf(newValue.toCharArray());
             }
@@ -172,13 +200,16 @@ public abstract class DataFiles {
             oldValue = typeDef + ": " + oldValue;
             newValue = typeDef + ": " + newValue;
 
-            File file = new File("Accounts/" + fileName + ".txt");
+            File file = new File(fileName + ".txt");
             FileReader fileReader = new FileReader(file);
             BufferedReader br = new BufferedReader(fileReader);
 
+            Boolean oneChangeOnly = false;
             while ((line_in_lines = br.readLine()) != null) {
-                if (line_in_lines.contains(oldValue)) 
+                if (line_in_lines.contains(oldValue) && !oneChangeOnly) {
                     line_in_lines = line_in_lines.replace(oldValue, newValue);
+                    oneChangeOnly = true;
+                } 
                 
                 lines.add(line_in_lines + '\n');
             }

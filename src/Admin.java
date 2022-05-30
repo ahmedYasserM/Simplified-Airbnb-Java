@@ -24,13 +24,14 @@ public class Admin {
 
     public void displayAllAccounts(){
 
-        int accountNumber = 0;
+        int accountNumber = 1;
 
         for(Account user : Account.getAllAccounts().values()){
 
             System.out.println("Account # " + accountNumber + ":");
-            System.out.println(user.toString());
+            System.out.println(user.toString(0));
             System.out.println("#####################################################################");
+            accountNumber++;
         }
 
 
@@ -41,6 +42,7 @@ public class Admin {
         int userNumber = 1;
         for(Account user : Account.getAllAccounts().values()){
             System.out.println("User # "+userNumber+" => "+ user.getUserName());
+            userNumber++;
         }
 
 
@@ -53,30 +55,52 @@ public class Admin {
         host.deleteHostedPlace(id);
     } // end of deletePlace function
 
-    /*
-    // delete an account using its username
-    public void deleteAccount(String userName) {
-        Account account = Account.findAccount(userName);
-        if(account != null){
-            Account.deleteAccount(account);
-        }
 
+    // delete an account using its username
+    public boolean deleteAccount(String userName) {
+        Account user = Account.findAccount(userName);
+
+        if(user != null) {
+
+            System.out.println("\n In order to delete this account write \'DELETE ACCOUNT\' without quotes");
+
+            String choice1 = input.nextLine();
+            if (!(choice1.equals("DELETE ACCOUNT"))) {
+                System.out.println("Account hasn't been deleted");
+                return false; // if you do not want to delete the acccount
+            }
+
+            for (Place place : user.getHostedPlaces()) {
+                String placeId = place.getPlaceID();
+                Place.removePlace(placeId);
+
+            }
+            Account.getAllAccounts().remove(user.getUserName()); // HashMap.remove() is a built-in method of HashMap class and is used to remove the mapping of any particular key from the map.
+            System.out.println("Account has been deleted successfully");
+            return true; // if you deleted the account
+
+        }
+        return false; // if the account not found
     } // end of deleteAccount function
 
-     */
+
     // Edit the attributes of the places
     public void editPlaces(String id) throws Exception {
 
         Place place = Place.findPlace(id);
         int change;
-        System.out.println("[1] Place Type");
-        System.out.println("[2] Location");
-        System.out.println("[3] Description");
-        System.out.println("[4] Number of Rooms");
-        System.out.println("[5] Price");
-        System.out.println("[6] Rules");
-        System.out.println("[7] Rental Duration");
-        System.out.println("[8] Area");
+        System.out.println("[1] Place Type.");
+        System.out.println("[2] Location.");
+        System.out.println("[3] Description.");
+        System.out.println("[4] Number of Rooms.");
+        System.out.println("[5] Number of Beds.");
+        System.out.println("[6] Number of Bathrooms.");
+        System.out.println("[7] Price.");
+        System.out.println("[8] Rules.");
+        System.out.println("[9] Rental Duration.");
+        System.out.println("[10] Area.");
+        System.out.println("[11] Place Reservation Status.");
+        System.out.println("[0] Back.");
         change = input.nextInt();
         input.nextLine();
         
@@ -129,18 +153,40 @@ public class Admin {
 
             case 4: {
                 int roomsNum;
-                System.out.println("Enter the new number of rooms");
+                System.out.print("Enter the new number of rooms: ");
                 roomsNum = input.nextInt();
                 input.nextLine();
 
-                place.setNumOfRooms(roomsNum);
+                place.setNumOfBedrooms(roomsNum);
                 System.out.println("The number of rooms is updated successfully");
             }       
                 break;
 
             case 5: {
+                int bedsNum;
+                System.out.print("Enter the new number of beds: ");
+                bedsNum = input.nextInt();
+                input.nextLine();
+
+                place.setNumOfBeds(bedsNum);
+                System.out.println("The number of beds is updated successfully");
+            }
+            break;
+
+            case 6: {
+                int bathRoomsNum;
+                System.out.print("Enter the new number of bathrooms: ");
+                bathRoomsNum = input.nextInt();
+                input.nextLine();
+
+                place.setNumOfBedrooms(bathRoomsNum);
+                System.out.println("The number of bathrooms is updated successfully");
+            }
+            break;
+
+            case 7: {
                 int price;
-                System.out.println("Enter the new price");
+                System.out.print("Enter the new price: ");
                 price = input.nextInt();
                 input.nextLine();
 
@@ -149,9 +195,10 @@ public class Admin {
             }
                 break;
 
-            case 6: {
+
+            case 8: {
                 int maximumGuests = 0, allowPets = 0, allows = 0;
-                System.out.println("Enter the maximum number of guests");
+                System.out.print("Enter the maximum number of guests: ");
                 maximumGuests = input.nextInt();
                 input.nextLine();
 
@@ -182,9 +229,10 @@ public class Admin {
             }
                 break;
 
-            case 7: {
+
+            case 9: {
                 int rentalDuration;
-                System.out.println("Enter the new rental duration");
+                System.out.print("Enter the new rental duration: ");
                 rentalDuration = input.nextInt();
                 input.nextLine();
 
@@ -192,9 +240,9 @@ public class Admin {
             }
                 break;
 
-            case 8: {
+            case 10: {
                 int area;
-                System.out.println("Enter the new area");
+                System.out.print("Enter the new area: ");
                 area = input.nextInt();
                 input.nextLine();
 
@@ -202,9 +250,9 @@ public class Admin {
             }
                 break;
 
-            case 9: {
+            case 11: {
                 boolean reserved;
-                System.out.println("Enter 1 to make the place reserved or 0 to make it unreserved");
+                System.out.print("Enter 1 to make the place reserved or 0 to make it unreserved: ");
                 reserved = input.hasNext();
                 if (reserved == true)
                     place.setReserved(true);
@@ -212,11 +260,15 @@ public class Admin {
                     place.setReserved(false);
             }
                 break;
+            case 0:{
+                return;
+            }
                 
             default:
                 System.out.println("You entered wrong number");
                 break;
         }
+
     } // end of editPlaces function
 
     // Edit the attributes of the accounts
@@ -234,6 +286,8 @@ public class Admin {
                 System.out.println("[2] Change Last Name: ");
                 System.out.println("[4] Change Username: ");
                 System.out.println("[4] Change Password: ");
+                System.out.println("[5] Change Date of Birth: ");
+                System.out.println("[6] Change Phone Number: ");
                 System.out.println("[0] Back: ");
 
                 System.out.print("> ");
@@ -262,7 +316,7 @@ public class Admin {
                     break;
 
                     case 3: {
-                        System.out.println("Enter new username: ");
+                        System.out.print("Enter new username: ");
 
                         String name = input.nextLine();
                         account.setUserName(name);
@@ -281,6 +335,28 @@ public class Admin {
                         System.out.println();
                     }
                     break;
+
+                    case 5:{
+                        System.out.print("Enter new ");
+                        account.getDateOfBirth().inputInterface("Birth");
+                        System.out.println("Date of Birth has been changed successfully");
+                        System.out.println();
+                    }
+                    break;
+
+                    case 6:{
+                        System.out.print("Enter new Phone Number: ");
+                        String number = input.nextLine();
+                        account.setPhoneNumber(number);
+                        System.out.println("Phone Number has been changed successfully");
+                        System.out.println();
+
+                    }
+                    break;
+
+                    case 0:{
+                        return;
+                    }
 
                     default:
                         System.out.println("You entered wrong number");

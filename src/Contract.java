@@ -16,7 +16,7 @@ public class Contract {
     public Contract() {}
 
     public Contract(Date dateOfBooking, Date dateOfArrival, Date dateOfLeaving,
-                    int price, Account customer, Account host,  int penaltyClause) {
+                    int price, Account customer, Account host, int penaltyClause) {
         this.dateOfBooking = dateOfBooking;
         this.dateOfArrival = dateOfArrival;
         this.dateOfLeaving = dateOfLeaving;

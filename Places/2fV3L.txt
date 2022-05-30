@@ -7,7 +7,7 @@ rd: 10
 pr: 450
 rs: false
 LC: Egypt
-Lc: Giza\
+Lc: Giza
 Lt: El-Harm
 Ls: El3momy
 Lb: 11

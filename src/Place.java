@@ -1,7 +1,5 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
+
 
 
 public class Place {
@@ -10,11 +8,14 @@ public class Place {
     // list containing all the places input the program
     private static Scanner input = new Scanner(System.in);
     private static HashMap<String, Place> ALL_PLACES = new HashMap<String, Place>();
+public static HashMap<String, Place> tmpPlaces = new HashMap<>();
 
     Account host;
     String placeType;
     private int area;
-    private int numOfRooms;
+    private int numOfBedrooms;
+    private int numOfBeds; // new
+    private int numOfBathrooms; // new
     private Location location;
     private int price;
     private int rentalDuration;
@@ -35,6 +36,13 @@ public class Place {
 
 // --- CONSTRUCTORS ---
 
+    public Place(int ignore) {
+        rules = new PlaceRules();
+        isReserved = false;
+        location = new Location();
+        placeID = generatePlaceID();
+    }
+
     public Place() {
         rules = new PlaceRules();
         isReserved = false;
@@ -43,20 +51,15 @@ public class Place {
         ALL_PLACES.put(placeID, this); // adding the place to ALL_PLACES list every time we create a place
     }
 
-    public Place(int ignore) {
-        host = null;
-        rules = new PlaceRules();
-        isReserved = false;
-        location = new Location();
-    }
-
-    public Place(String placeType, Account host, int area, int numOfRooms, Location location, int price,
+    public Place(String placeType, Account host, int area, int numOfRooms,int numOfBeds, int numOfBathrooms, Location location, int price,
                  int rentalDuration, PlaceRules rules, String place_description, boolean isReserved_place) {
 
         this.placeType = placeType;
         this.host = host;
         this.area = area;
-        this.numOfRooms = numOfRooms;
+        this.numOfBedrooms = numOfRooms;
+        this.numOfBeds = numOfBeds; // new
+        this.numOfBathrooms = numOfBathrooms; // new
         this.location = location;
         this.price = price;
         this.rentalDuration = rentalDuration;
@@ -65,6 +68,8 @@ public class Place {
         this.isReserved = false;
         this.placeID = generatePlaceID();
         ALL_PLACES.put(placeID, this); // adding the place to ALL_PLACES list every time we create a place
+
+
     }
 
 // --- METHODS ---
@@ -128,7 +133,9 @@ public class Place {
         finalShape += "ID: " + placeID + '\n';
         finalShape += "Status: " + (isReserved ? "Reserved" : "Available") + '\n';
         finalShape += "Area: " + area + " m\n";
-        finalShape += "Rooms: " + numOfRooms + '\n';
+        finalShape += "Rooms: " + numOfBedrooms + '\n';
+        finalShape += "Beds: " + numOfBeds + '\n';
+        finalShape += "Bathrooms: " + numOfBathrooms + '\n';
         finalShape += "Location: " + location.toString() + '\n';
         finalShape += "Rental Duration: " + rentalDuration + " day/s" + '\n';
         finalShape += "Rules: " + '\n';
@@ -147,7 +154,6 @@ public class Place {
     // removing a place from the ALL_PLACES container and returning it
     // removes by ID
     public static Place removePlace(String placeID) {
-        DataFiles.erasePlace(placeID);
         return ALL_PLACES.remove(placeID);
     }  //this method is used input another method : removeHostedPlace (Khtb)
 
@@ -155,19 +161,20 @@ public class Place {
         return ALL_PLACES;
     }
 
-    // prints all the places input the ALL_PLACES hashmap
+    // prints all the places input the ALL_PLACES hashmap (if type == 0) and the vec_Temp_Filtered_Places vector (if type == 1)
     public static void displayPlaces() {
-
         // printing all non-reserved places
         for (Map.Entry<String, Place> it : ALL_PLACES.entrySet()) {
             Place place = it.getValue();
 
             if (!place.isReserved())
-                System.out.println(place.toString());
-                
+                System.out.println(place.toString());                
             System.out.println("==================================================");
+
         }
     }
+
+
 
     // Returns the place with the passed id
     public static Place findPlace(String id) throws Exception {
@@ -177,6 +184,137 @@ public class Place {
             return place;
         throw new Exception("Place doesn't exist."); // throwing an exception if no place found
     }
+
+
+    // Filter methods
+
+    // if you pass zero it will not work
+    public static void filterPlacesCountry(String country) {      // filtering depending on the  country
+        Place value = null;
+
+        if(country.equals("0"))
+            return;
+
+        for (String id : ALL_PLACES.keySet()) {
+            try {
+                 value = findPlace(id);
+            }catch (Exception e){
+                e.toString();
+        }
+            if (!(value.location.getCountry().equals(country)))
+                tmpPlaces.remove(id);
+        }
+    }
+
+
+    // if you pass zero it will not work
+    public static void filterPlacesCity(String city) {      // filtering depending on the city
+        Place value = null;
+
+        if(city.equals("0"))
+            return;
+
+        for (String id : ALL_PLACES.keySet()) {
+            try {
+                value = findPlace(id);
+            }catch (Exception e){
+                e.toString();
+            }
+            if (!(value.location.getCity().equals(city) ))
+                tmpPlaces.remove(id);
+        }
+
+
+    }
+
+
+    // if you pass zero it will not work
+    public static void filterPlacesPrice(float Min_price, float Max_price) {        // filtering depending on the Price
+
+        Place value = null;
+
+        if(Min_price == 0 && Max_price == 0)
+            return;
+
+        for (String id : ALL_PLACES.keySet()) {
+            try {
+                value = findPlace(id);
+            }catch (Exception e){
+                e.toString();
+            }
+            if (!(value.getPrice() >= Min_price && value.getPrice() <= Max_price))
+                tmpPlaces.remove(id);
+        }
+
+    }
+
+    // if you pass zero it will not work
+    public static void filterPlacesNumOfBedrooms(int numOfRooms) {                 // filtering depending on number of bedrooms
+
+
+        Place value = null;
+
+        if(numOfRooms == 0)
+            return;
+
+        for (String id : ALL_PLACES.keySet()) {
+            try {
+                value = findPlace(id);
+            }catch (Exception e){
+                e.toString();
+            }
+            if (!(value.getNumOfBedrooms() == numOfRooms))
+                tmpPlaces.remove(id);
+        }
+
+    }
+
+    // if you pass zero it will not work
+    public static void filterPlacesNumOfBeds(int numOfBeds) {                 // filtering depending on number of beds
+
+
+        Place value = null;
+
+
+        if(numOfBeds == 0)
+            return;
+
+        for (String id : ALL_PLACES.keySet()) {
+            try {
+                value = findPlace(id);
+            }catch (Exception e){
+                e.toString();
+            }
+            if (!(value.getNumOfBedrooms() == numOfBeds))
+                tmpPlaces.remove(id);
+        }
+    }
+
+    // if you pass zero it will not work
+    public static void filterPlacesNumOfBathRooms(int numOfBathrooms) {                 // filtering depending on number of bathrooms
+
+        Place value = null;
+
+
+        if(numOfBathrooms == 0)
+            return;
+
+
+        for (String id : ALL_PLACES.keySet()) {
+            try {
+                value = findPlace(id);
+            }catch (Exception e){
+                e.toString();
+            }
+            if (!(value.getNumOfBedrooms() == numOfBathrooms))
+                tmpPlaces.remove(id);
+        }
+    }
+
+
+  // public static void filterPlacesRentalDuration( ) ;
+
+
 
 
 // ---- METHODS -----
@@ -192,36 +330,29 @@ public class Place {
         setArea(input.nextInt());
         input.nextLine();
 
-        System.out.print("Number of rooms: ");
-        setNumOfRooms(input.nextInt());
+
+        System.out.print("Enter place number of rooms: ");
+        setNumOfBedrooms(input.nextInt());
         input.nextLine();
 
-        System.out.print("Rental Duration: ");
-        setRentalDuration(input.nextInt());
+        System.out.print("Enter place number of beds: ");
+        setNumOfBeds(input.nextInt());
         input.nextLine();
 
-        System.out.print("Price: ");
+        System.out.print("Enter place number of bathrooms: ");
+        setNumOfBathrooms(input.nextInt());
+        input.nextLine();
+
+        System.out.print("Enter price: ");
         setPrice(input.nextInt());
         input.nextLine();
 
-        Location location = new Location();
-        location.inputInterface();
-        setLocation(location);
+        System.out.print("Enter Country: ");
+        this.location.setCountry(input.nextLine());
 
-        System.out.print("Maximum Guests: ");
-        setMaximumGuests(input.nextInt());
-        input.nextLine();
+        System.out.print("Enter City: ");
+        this.location.setCity(input.nextLine());
 
-        System.out.print("Pets Allowed: ");
-        setPetsAllowed(input.nextBoolean());
-        input.nextLine();
-
-        System.out.print("SmokeFree: ");
-        setSmokeFree(input.nextBoolean());
-        input.nextLine();
-
-        System.out.print("Description: ");
-        setDescription(input.nextLine());
     }
 
     public void edit() {
@@ -257,7 +388,6 @@ public class Place {
                     if (nPrice == 0) 
                         continue;
 
-                    DataFiles.editFile("Places/" + placeID, "pr", String.valueOf(price), String.valueOf(nPrice));
 
                     setPrice(nPrice);
                 }
@@ -279,7 +409,6 @@ public class Place {
                         if (newRentalDuration == 0) 
                             continue;
                         
-                        DataFiles.editFile("Places/" + placeID, "rd", String.valueOf(rentalDuration), String.valueOf(newRentalDuration));
 
                         setRentalDuration(newRentalDuration);
                         break;
@@ -296,11 +425,9 @@ public class Place {
                     System.out.print("Pets Allowed (yes / ENTER): ");
                     String flag = input.nextLine();
                     if (flag.equals("yes")) {
-                        DataFiles.editFile("Places/" + placeID, "Rs", String.valueOf(arePetsAllowed()), "true");
                         setPetsAllowed(true);
                     }
                     else {
-                        DataFiles.editFile("Places/" + placeID, "Rs", String.valueOf(arePetsAllowed()), "false");
                         setPetsAllowed(false);
                     }
 
@@ -308,11 +435,9 @@ public class Place {
                     System.out.print("SmokeFree (yes / ENTER): ");
                     flag = input.nextLine();
                     if (flag.equals("yes")) {
-                        DataFiles.editFile("Places/" + placeID, "Rs", String.valueOf(isSmokeFree()), "true");
                         setSmokeFree(true);
                     }
                     else {
-                        DataFiles.editFile("Places/" + placeID, "Rs", String.valueOf(isSmokeFree()), "false");
                         setSmokeFree(false);
                     }
                 }
@@ -322,8 +447,6 @@ public class Place {
                     
                     System.out.print("New Description: ");
                     String newDes = input.nextLine();
-
-                    DataFiles.editFile("Places/" + placeID, "ds", description, newDes);
 
                     setDescription(newDes);
                 }
@@ -377,12 +500,28 @@ public class Place {
         this.area = area;
     }
 
-    public int getNumOfRooms() {
-        return numOfRooms;
+    public int getNumOfBedrooms() {
+        return numOfBedrooms;
     }
 
-    public void setNumOfRooms(int numOfRooms) {
-        this.numOfRooms = numOfRooms;
+    public void setNumOfBedrooms(int numOfBedrooms) {
+        this.numOfBedrooms = numOfBedrooms;
+    }
+
+    public int getNumOfBeds() {
+        return numOfBeds;
+    }
+
+    public void setNumOfBeds(int numOfBeds) {
+        this.numOfBeds = numOfBeds;
+    }
+
+    public int getNumOfBathrooms() {
+        return numOfBathrooms;
+    }
+
+    public void setNumOfBathrooms(int numOfBathrooms) {
+        this.numOfBathrooms = numOfBathrooms;
     }
 
     public Location getLocation() {
@@ -472,4 +611,6 @@ public class Place {
     public void setContract(Contract contract) {
         this.place_contract = contract;
     }
+
+
 }

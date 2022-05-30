@@ -1,6 +1,3 @@
-//
-// Created by Hesham.
-//
 
 
 //Date class to use it input date of arrival,leaving and booking input Class contract

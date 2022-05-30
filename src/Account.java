@@ -1,6 +1,4 @@
-//
-// Created by Yasser.
-//
+
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -13,6 +11,10 @@ public class Account {
     // attributes
     private static Scanner input = new Scanner(System.in);
     private static HashMap<String, Account> ALL_ACCOUNTS = new HashMap<>();
+    public static float Male_Counter = 0;
+    public static float Female_Counter = 0;
+
+    public static int AccountCnt = 0;   // counter for Accounts NEW - Khatab
 
     /*this map will contain the account of every user
      (the key will be the username of the user and the value will be its account)
@@ -31,6 +33,7 @@ public class Account {
     private String lastName;
     private Date dateOfBirth;
     private String phoneNumber;
+    private String gender;
     private Vector<Place> hostedPlaces; // this vector will contain the places which every user host
     private Place reservedPlace; // this object will contain the place which is reserved by the traveler
 
@@ -40,18 +43,29 @@ public class Account {
     public Account() {
         hostedPlaces = new Vector<Place>(3);
         dateOfBirth = new Date();
+        AccountCnt++;
     }
 
 
-    // parametrized constructor
-    public Account(String userName, String password, String phoneNumber, Date dateOfBirth) {
+
+    // parametrised constructor
+    /*public Account(String userName, String password, String phoneNumber, String gender,Date dateOfBirth) {
         this.userName = userName;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
-        hostedPlaces = new Vector<Place>(3);
-    } // end of Account parametrized constructor
 
+        hostedPlaces = new Vector<Place>();
+
+        this.gender = gender;
+        if(gender.equals('M') || gender.equals('m'))
+            Male_Counter++;
+        else if(gender.equals('F') || gender.equals('f'))
+            Female_Counter++;
+
+
+    } // end of Account parametrised constructor
+*/
 
     @Override
     public String toString() {
@@ -61,8 +75,8 @@ public class Account {
         finalShape += "Name: " + firstName + ' ';
         finalShape += lastName + '\n';
         finalShape += "Phone Number: " + phoneNumber + '\n';
+        finalShape += "Gender: " + gender + '\n';
         finalShape += "Username: " + userName + '\n';
-
         return finalShape;
     } // end of toString function (contract version)
 
@@ -73,10 +87,14 @@ public class Account {
 
         finalShape += "Password: " + password + '\n';
         finalShape += "Date of Birth: " + dateOfBirth.toString() + '\n';
+        if(reservedPlace != null){
         finalShape += "Reserved Place ID: " + reservedPlace.getPlaceID() + '\n';
+        }
         finalShape += "Hosted Places IDs: ";
-        for (Place place : hostedPlaces) {
-          finalShape += place.getPlaceID() + "  ";
+        if(hostedPlaces.size() != 0){
+            for (Place place : hostedPlaces) {
+                finalShape += place.getPlaceID() + "  ";
+            }
         }
 
         finalShape += '\n';
@@ -86,9 +104,9 @@ public class Account {
 
 
 
-    public void inputInterface() {
-        
+    public void inputInterface() {        
         System.out.println("--- Enter your information ---");
+
 
         System.out.print("First Name: ");
         setFirstName(input.nextLine());
@@ -96,14 +114,34 @@ public class Account {
         System.out.print("Last Name: ");
         setLastName(input.nextLine());
 
-        System.out.print("Username: ");
-        setUserName(input.nextLine());
+        String name;
+        // this do_while loop to prevent the user to use userName admin
+        do {
+            System.out.print("Username: ");
+             name = input.nextLine();
+            if (name.equals("admin") || name.equals("ADMIN") || name.equals("Admin")|| ALL_ACCOUNTS.get(name) != null ) {
+                System.out.println("Username already taken!, try again.");
+                System.out.println();
+                continue;
+            } else {
+                setUserName(name);
+            }
+        }while(name.equals("admin") || name.equals("ADMIN") || name.equals("Admin") || ALL_ACCOUNTS.get(name) != null);
 
         System.out.print("Password: ");
         setPassword(input.nextLine());
 
-        System.out.print("Phone Number : ");
+        System.out.print("Phone Number: ");
         setPhoneNumber(input.nextLine());
+
+        System.out.print("Gender (M for Male | F for female): ");
+        String gender = input.nextLine();
+        if(gender.equals('M') || gender.equals('m'))
+            Male_Counter++;
+        else if(gender.equals('F') || gender.equals('f'))
+            Female_Counter++;
+        setGender(gender);
+
 
         dateOfBirth.inputInterface("Birth");
     } // end of inputInterface function
@@ -112,9 +150,6 @@ public class Account {
     public static void signUp(Account account) {
 
         ALL_ACCOUNTS.put(account.getUserName(), account);
-
-        DataFiles.writeAccount(account); // Add new file.txt with the account data
-
         System.out.println("Account has been created successfully.");
 
     } // end of signUp function
@@ -154,14 +189,8 @@ public class Account {
 
 
 
-    public static void logout() {
-
-        Pages.login_page();
-    } // end of logout function
-
-
     public static boolean deleteAccount(Account user) {
-        System.out.println("\n Input order to delete your account write \'DELETE MY ACCOUNT\' without quotes");
+        System.out.println("\n In order to delete your account write \'DELETE MY ACCOUNT\' without quotes");
         
         String choice1 = input.nextLine();
         if(!(choice1.equals("DELETE MY ACCOUNT"))) {
@@ -193,7 +222,6 @@ public class Account {
 
         }
 
-        DataFiles.eraseAccount(user.getUserName()); // Removes the file.txt that contains the account
 
         ALL_ACCOUNTS.remove(user.getUserName()); // HashMap.remove() is a built-in method of HashMap class and is used to remove the mapping of any particular key from the map.
         System.out.println("Account has been deleted successfully");
@@ -206,7 +234,6 @@ public class Account {
 
         int choice;
         do {
-
             System.out.println("[1] Change First Name: ");
             System.out.println("[2] Change Last Name: ");
             System.out.println("[3] Change Password: ");
@@ -218,13 +245,21 @@ public class Account {
             choice = input.nextInt();
             input.nextLine();
 
+            if(choice > 5 || choice < 0){
+                System.out.println("Incorrect input, please choose number from 0 to 5.");
+                System.out.println();
+                System.out.println("===================================================");
+                System.out.println();
+                continue;
+            }
+
+
             switch (choice) {
                 case 1: {
 
                     System.out.print("Enter new First Name: ");
                     String name = input.nextLine();
 
-                    DataFiles.editFile("Accounts/" + userName, "fn", this.firstName, name); // edit first name in the file.txt
                     
                     this.firstName = name;
                     System.out.println("First Name has been changed successfully");
@@ -237,7 +272,6 @@ public class Account {
 
                     String name = input.nextLine();
 
-                    DataFiles.editFile("Accounts/" + userName, "ln", this.lastName, name); // edit last name in the file.txt
 
                     this.lastName = name;
                     System.out.println("Last Name has been changed successfully");
@@ -250,7 +284,6 @@ public class Account {
                     System.out.print("Enter new Password: ");
                     String password = input.nextLine();
 
-                    DataFiles.editFile("Accounts/" + userName, "ps", this.password, password); // edit password in the file.txt
 
                     this.password = password;
                     System.out.println("Password has been changed successfully");
@@ -262,8 +295,6 @@ public class Account {
 
                     System.out.print("Enter new Phone Number: ");
                     String number = input.nextLine();
-                    
-                    DataFiles.editFile("Accounts/" + userName, "ph", this.phoneNumber, number); // edit phone number in the file.txt
                     
                     this.phoneNumber = number;
                     System.out.println("Phone Number has been changed successfully");
@@ -281,16 +312,10 @@ public class Account {
                 }
                 break;
 
-                default:
-                    System.out.println("You entered wrong number");
-                    break;
             }
         }  while (choice > 0);
 
     } // end edit function
-
-
-
 
 
     public void reservePlace(Place place) {
@@ -320,7 +345,6 @@ public class Account {
         if (place != null)  {// checks if the place exists   // ???? and you have to check if this place is taken or not also from a user (khtb)
             hostedPlaces.remove(place);
             
-            DataFiles.editFile("Accounts/" + userName, "hp", id, "null");
         }
         else
             System.out.println("Place not found.");
@@ -360,6 +384,9 @@ public class Account {
         this.phoneNumber = phoneNumber;
     }
 
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
@@ -391,6 +418,10 @@ public class Account {
         return lastName;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -404,5 +435,5 @@ public class Account {
         return hostedPlaces;
     }
 
-}
+} // end of Account class
 

@@ -41,7 +41,7 @@ public class Account {
 
     // default constructor
     public Account() {
-        hostedPlaces = new Vector<Place>(3);
+        hostedPlaces = new Vector<Place>();
         dateOfBirth = new Date();
         AccountCnt++;
     }

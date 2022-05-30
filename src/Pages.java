@@ -1,6 +1,9 @@
 
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.Vector;
 
 
 public abstract class Pages {
@@ -131,7 +134,7 @@ public abstract class Pages {
 
         System.out.println("[1] Profile. ");
         System.out.println("[2] Host a Place. ");
-        System.out.println("[3] Check available Places. ");
+        System.out.println("[3] Filters. "); // contain filter page
         System.out.println("[4] Logout. ");
         System.out.println("[0] Exit. ");
 
@@ -153,14 +156,61 @@ public abstract class Pages {
 
             case 3: {
                 System.out.println();
-                System.out.println("\t-----( Available Places )-----");
-        
+                System.out.println("\t-----( Filters )-----");
+
                 if (Place.getAllPlaces().size() == 0) {
                     System.out.println("No Available Places at the moment.");
                     break;
                 }
-                // Prints all the available places
-                Place.displayPlaces();
+
+                Place.tmpPlaces.putAll(Place.getAllPlaces());
+
+                System.out.println("1-Country and City:");
+                System.out.println();
+                System.out.print("  Country(0 means no filter): " );
+                String country = input.nextLine().toString();
+                Place.filterPlacesCountry(country);
+                System.out.print("  City(0 means no filter): ");
+                String city = input.nextLine().toString();
+                Place.filterPlacesCity(city);
+                System.out.println();
+                System.out.println();
+
+                System.out.println("2-Price range( 0 and 0 means no filter):");
+                System.out.println();
+                System.out.print("  min price: " );
+                int min = input.nextInt();
+                System.out.print("  max price: ");
+                int max = input.nextInt();
+                Place.filterPlacesPrice(min, max);
+                System.out.println();
+                System.out.println();
+
+
+                System.out.println("3-Rooms and beds:");
+                System.out.println();
+                System.out.print("  Bedrooms(0 means no filter): " );
+                int bedrooms= input.nextInt();
+                Place.filterPlacesNumOfBedrooms(bedrooms);
+                System.out.print("  Beds(0 means no filter): ");
+                int beds = input.nextInt();
+                Place.filterPlacesNumOfBeds(beds);
+                System.out.print("  Bathrooms(0 means no filter): ");
+                int bathrooms = input.nextInt();
+                Place.filterPlacesNumOfBathRooms(bathrooms);
+                System.out.println();
+                System.out.println();
+
+
+                System.out.println("_______Filtered Places_______");
+
+                for(Place place: Place.tmpPlaces.values())
+                    System.out.println(place.toString());
+
+               // Place.displayPlaces(1);
+
+                //Place.vec_Temp_Filtered_Places = new LinkedList<>(Place.getAllPlaces().values()); // reset the vector  to be ready for future filters
+
 
                 System.out.println("[1] Reserve.");
                 System.out.println("[0] Back.");
@@ -169,9 +219,9 @@ public abstract class Pages {
                 int choice_2 = input.nextInt();
                 input.nextLine();
 
-                if (choice_2 == 1) 
+                if (choice_2 == 1)
                     reserving();
-                else 
+                else
                     break;
             }
             break;
@@ -190,6 +240,8 @@ public abstract class Pages {
                 break;
         }
         user_menu();
+
+
     } // end of user_menu function
     
 
@@ -232,7 +284,7 @@ public abstract class Pages {
 
                 int hp_size = hostedPlaces.size();
                 for (int i = 0; i < hp_size; i++) {
-                    System.out.println("# " + (i + 1));
+                    System.out.println("Place number " + (i + 1));
                     System.out.println(hostedPlaces.elementAt(i).toString());
                     System.out.println("===================================================");
                 }

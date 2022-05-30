@@ -89,15 +89,18 @@ public class Admin {
 
         Place place = Place.findPlace(id);
         int change;
-        System.out.println("[1] Place Type");
-        System.out.println("[2] Location");
-        System.out.println("[3] Description");
-        System.out.println("[4] Number of Rooms");
-        System.out.println("[5] Price");
-        System.out.println("[6] Rules");
-        System.out.println("[7] Rental Duration");
-        System.out.println("[8] Area");
-        System.out.println("[0] Back");
+        System.out.println("[1] Place Type.");
+        System.out.println("[2] Location.");
+        System.out.println("[3] Description.");
+        System.out.println("[4] Number of Rooms.");
+        System.out.println("[5] Number of Beds.");
+        System.out.println("[6] Number of Bathrooms.");
+        System.out.println("[7] Price.");
+        System.out.println("[8] Rules.");
+        System.out.println("[9] Rental Duration.");
+        System.out.println("[10] Area.");
+        System.out.println("[11] Place Reservation Status.");
+        System.out.println("[0] Back.");
         change = input.nextInt();
         input.nextLine();
         
@@ -150,18 +153,40 @@ public class Admin {
 
             case 4: {
                 int roomsNum;
-                System.out.println("Enter the new number of rooms");
+                System.out.print("Enter the new number of rooms: ");
                 roomsNum = input.nextInt();
                 input.nextLine();
 
-                place.setNumOfRooms(roomsNum);
+                place.setNumOfBedrooms(roomsNum);
                 System.out.println("The number of rooms is updated successfully");
             }       
                 break;
 
             case 5: {
+                int bedsNum;
+                System.out.print("Enter the new number of beds: ");
+                bedsNum = input.nextInt();
+                input.nextLine();
+
+                place.setNumOfBeds(bedsNum);
+                System.out.println("The number of beds is updated successfully");
+            }
+            break;
+
+            case 6: {
+                int bathRoomsNum;
+                System.out.print("Enter the new number of bathrooms: ");
+                bathRoomsNum = input.nextInt();
+                input.nextLine();
+
+                place.setNumOfBedrooms(bathRoomsNum);
+                System.out.println("The number of bathrooms is updated successfully");
+            }
+            break;
+
+            case 7: {
                 int price;
-                System.out.println("Enter the new price");
+                System.out.print("Enter the new price: ");
                 price = input.nextInt();
                 input.nextLine();
 
@@ -170,9 +195,9 @@ public class Admin {
             }
                 break;
 
-            case 6: {
+            case 8: {
                 int maximumGuests = 0, allowp = 0, allows = 0;
-                System.out.println("Enter the maximum number of guests");
+                System.out.print("Enter the maximum number of guests: ");
                 maximumGuests = input.nextInt();
                 input.nextLine();
 
@@ -203,9 +228,9 @@ public class Admin {
             }
                 break;
 
-            case 7: {
+            case 9: {
                 int rentalduration;
-                System.out.println("Enter the new rental duration");
+                System.out.print("Enter the new rental duration: ");
                 rentalduration = input.nextInt();
                 input.nextLine();
 
@@ -213,9 +238,9 @@ public class Admin {
             }
                 break;
 
-            case 8: {
+            case 10: {
                 int area;
-                System.out.println("Enter the new area");
+                System.out.print("Enter the new area: ");
                 area = input.nextInt();
                 input.nextLine();
 
@@ -223,9 +248,9 @@ public class Admin {
             }
                 break;
 
-            case 9: {
+            case 11: {
                 boolean reserved;
-                System.out.println("Enter 1 to make the place reserved or 0 to make it unreserved");
+                System.out.print("Enter 1 to make the place reserved or 0 to make it unreserved: ");
                 reserved = input.hasNext();
                 if (reserved == true)
                     place.setReserved(true);
@@ -241,6 +266,7 @@ public class Admin {
                 System.out.println("You entered wrong number");
                 break;
         }
+
     } // end of editPlaces function
 
     // Edit the attributes of the accounts

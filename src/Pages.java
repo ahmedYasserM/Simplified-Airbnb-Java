@@ -127,7 +127,8 @@ public abstract class Pages {
         System.out.println("[1] Profile. ");
         System.out.println("[2] Host a Place. ");
         System.out.println("[3] Filters. "); // contain filter page
-        System.out.println("[4] Logout. ");
+        System.out.println("[4] All places.");
+        System.out.println("[5] Logout. ");
         System.out.println("[0] Exit. ");
 
         System.out.print("> ");
@@ -200,14 +201,16 @@ public abstract class Pages {
                 System.out.println();
 
 
-                System.out.println("_______Filtered Places_______");
+                System.out.println("\t_______Filtered Places_______");
 
+                if(Place.tmpPlaces.isEmpty() == true)
+                    System.out.println("No Available Places at the moment.");
+                else{
                 for(Place place: Place.tmpPlaces.values())
                     System.out.println(place.toString());
+                }
 
-               // Place.displayPlaces(1);
-
-                //Place.vec_Temp_Filtered_Places = new LinkedList<>(Place.getAllPlaces().values()); // reset the vector  to be ready for future filters
+                System.out.println("==============================================================");
 
 
                 System.out.println("[1] Reserve.");
@@ -224,7 +227,34 @@ public abstract class Pages {
             }
             break;
 
-            case 4: {
+            case 4:{
+                if (Place.getAllPlaces().size() == 0) {
+                    System.out.println("No Available Places at the moment.");
+                    break;
+                }
+
+                System.out.println("\t_______All Places_______");
+                System.out.println();
+                Place.displayPlaces();
+
+
+                System.out.println("[1] Reserve.");
+                System.out.println("[0] Back.");
+
+                System.out.print("> ");
+                int choice_2 = input.nextInt();
+                input.nextLine();
+
+                if (choice_2 == 1)
+                    reserving();
+                else
+                    break;
+
+
+            }
+            break;
+
+            case 5: {
                 return;
             }
 
@@ -248,7 +278,7 @@ public abstract class Pages {
         System.out.println();
         System.out.println("\t-----( Profile )-----");
 
-        System.out.println(currentUser.toString());
+        System.out.println(currentUser.toString(0));
 
         System.out.println("[1] Edit your personal info");
         System.out.println("[2] View Hosted Places");

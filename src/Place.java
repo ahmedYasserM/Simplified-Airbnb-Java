@@ -285,7 +285,7 @@ public static HashMap<String, Place> tmpPlaces = new HashMap<>();
             }catch (Exception e){
                 e.toString();
             }
-            if (!(value.getNumOfBedrooms() == numOfBeds))
+            if (!(value.getNumOfBeds() == numOfBeds))
                 tmpPlaces.remove(id);
         }
     }
@@ -306,7 +306,7 @@ public static HashMap<String, Place> tmpPlaces = new HashMap<>();
             }catch (Exception e){
                 e.toString();
             }
-            if (!(value.getNumOfBedrooms() == numOfBathrooms))
+            if (!(value.getNumOfBathrooms() == numOfBathrooms))
                 tmpPlaces.remove(id);
         }
     }

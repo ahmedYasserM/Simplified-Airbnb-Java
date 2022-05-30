@@ -4,6 +4,7 @@ import java.util.Map;
 
 public class Main {
 
+                /* this function is just for test data */
     public static void init() {
         Account acc1, acc2, acc3, acc4;
 
@@ -89,7 +90,7 @@ public class Main {
         p3.setNumOfBedrooms(3);
         p3.setNumOfBeds(2);
         p3.setNumOfBathrooms(1);
-        p3.setLocation(new Location("egypt", "giz", "haram", "", "25"));
+        p3.setLocation(new Location("egypt", "giza", "haram", "", "25"));
         p3.setMaximumGuests(3);
         p3.setPetsAllowed(true);
         p3.setSmokeFree(true);
@@ -104,7 +105,7 @@ public class Main {
         p4.setNumOfBedrooms(12);
         p4.setNumOfBeds(10);
         p4.setNumOfBathrooms(4);
-        p4.setLocation(new Location("egypt", "cair", "fifth-settlement", "el-golf", "100"));
+        p4.setLocation(new Location("egypt", "cairo", "fifth-settlement", "el-golf", "100"));
         p4.setMaximumGuests(3);
         p4.setPetsAllowed(true);
         p4.setSmokeFree(false);
@@ -113,7 +114,8 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException  {
-        init();
+
+          // init();
         Pages.home_page();
     }
    

@@ -157,7 +157,7 @@ public abstract class Pages {
                 System.out.println("\t-----( Filters )-----");
 
                 if (Place.getAllPlaces().size() == 0) {
-                    System.out.println("No Available Places at the moment.");
+                    System.out.println("No Available Places at the moment.\n");
                     break;
                 }
 
@@ -201,7 +201,7 @@ public abstract class Pages {
                 System.out.println();
 
 
-                System.out.println("\t_______Filtered Places_______");
+                System.out.println("\t_______Filtered Places_______\n");
 
                 if(Place.tmpPlaces.isEmpty() == true)
                     System.out.println("No Available Places at the moment.");

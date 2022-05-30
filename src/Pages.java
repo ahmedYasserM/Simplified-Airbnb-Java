@@ -1,12 +1,19 @@
 
+
 import java.util.Scanner;
 
 
 public abstract class Pages {
-
+    // Attributes
     public static Account currentUser;
+    public static Admin admin;
     public static Scanner input = new Scanner(System.in);
 
+
+
+
+
+    // Functions
     public static void home_page() {
         System.out.println();
         System.out.println("\t-----( Home Page )-----");
@@ -15,19 +22,26 @@ public abstract class Pages {
         currentUser = null; 
 
         
-        System.out.println("[1] Login: ");
-        System.out.println("[2] Signup: ");
-        System.out.println("[0] Exit: ");
+        System.out.println("[1] Login. ");
+        System.out.println("[2] Signup. ");
+        System.out.println("[0] Exit. ");
 
         System.out.print("> ");
         int choice = input.nextInt();
         input.nextLine();
 
         switch (choice) {
-            case 1: login_page();
+            case 1: {
+
+                login_page();
+
+            }
                 break;
 
-            case 2: signup_page();
+            case 2: {
+
+                signup_page();
+            }
                 break;
 
             case 0: {
@@ -41,9 +55,16 @@ public abstract class Pages {
             }
                 break;
         }
+        if(currentUser != null){
+            user_menu();
+        }
+        else {
+            admin_page();
+        }
 
-        user_menu();
+        home_page();
     }  // end of home_page function
+
 
     public static void signup_page(){
         System.out.println();
@@ -71,14 +92,35 @@ public abstract class Pages {
         System.out.print("Password: ");
         String password = input.nextLine();
 
-        currentUser = Account.login(userName, password);
+        if(userName.equals("admin") && password.equals("admin")){
+            admin = new Admin();
+            currentUser = null;
+        }
+        else {
 
-        if (currentUser == null) {
-            System.out.println("try again.");
-            login_page();
+            currentUser = Account.login(userName, password);
+
+            if (currentUser == null) {
+                System.out.println();
+                System.out.println("[1] Are you Sure you are already Have an Account? Try again:  ");
+                System.out.println("[2] Not Registered Yet? SignUp: ");
+                System.out.print("> ");
+                int in = input.nextInt();
+                input.nextLine();
+
+                if (in == 1) {
+                    login_page();
+                } else if (in == 2) {
+                    signup_page();
+                } else {
+                    System.out.println("Incorrect input, please choose either 1 or 2");
+                    login_page(); // dump but clean ...  if enter -> [1]:login // [2]:SignUp  // [incorrect choice]:login -- Khtb
+                }
+
+
+            }
         }
     } // end of login_page function
-
 
 
     public static void user_menu() {
@@ -87,11 +129,11 @@ public abstract class Pages {
 
         
 
-        System.out.println("[1] Profile: ");
-        System.out.println("[2] Host a Place: ");
-        System.out.println("[3] Check available Places: ");
-        System.out.println("[4] Logout: ");
-        System.out.println("[0] Exit: ");
+        System.out.println("[1] Profile. ");
+        System.out.println("[2] Host a Place. ");
+        System.out.println("[3] Check available Places. ");
+        System.out.println("[4] Logout. ");
+        System.out.println("[0] Exit. ");
 
         System.out.print("> ");
         int choice = input.nextInt();
@@ -100,6 +142,7 @@ public abstract class Pages {
         switch (choice) {
             case 1: {
                 profile_page();
+
             }
             break;
 
@@ -119,8 +162,8 @@ public abstract class Pages {
                 // Prints all the available places
                 Place.displayPlaces();
 
-                System.out.println("[1] Reserve");
-                System.out.println("[0] Back");
+                System.out.println("[1] Reserve.");
+                System.out.println("[0] Back.");
 
                 System.out.print("> ");
                 int choice_2 = input.nextInt();
@@ -129,29 +172,26 @@ public abstract class Pages {
                 if (choice_2 == 1) 
                     reserving();
                 else 
-                    user_menu();
+                    break;
             }
             break;
 
             case 4: {
-                home_page();
+                return;
             }
-            break;
-            
+
             case 0: {
                 System.exit(0);
             }
             break;
 
             default:
-                System.out.println("You entered wrong number");
+                System.out.println("You entered wrong number.");
                 break;
         }
         user_menu();
     } // end of user_menu function
     
-
-
 
 
     public static void profile_page() {
@@ -160,11 +200,11 @@ public abstract class Pages {
 
         System.out.println(currentUser.toString());
 
-        
-
-        System.out.println("[1] Edit your personal info");
-        System.out.println("[2] View Hosted Places");
-        System.out.println("[0] Back");
+        System.out.println("===================================================");
+        System.out.println();
+        System.out.println("[1] Edit your personal info.");
+        System.out.println("[2] View Hosted Places.");
+        System.out.println("[0] Back.");
 
         System.out.print("> ");
         int choice = input.nextInt();
@@ -215,15 +255,88 @@ public abstract class Pages {
 
             // Back case (exit profile function)
             case 0: {
-                user_menu();
+                return;
+            }
+
+            default:
+                System.out.println("You entered wrong number.");
+                break;
+        }
+    } // end of profile_page function
+
+    public static void admin_page(){
+        System.out.println();
+        System.out.println("\t-----( Admin )-----");
+
+
+        System.out.println("[1] Display All Places Data. ");
+        System.out.println("[2] Display All Accounts' Usernames. ");
+        System.out.println("[3] Display All Accounts Data. ");
+        System.out.println("[4] Delete Place. ");
+        System.out.println("[5] Delete Account. ");
+        System.out.println("[6] Edit Places. ");
+        System.out.println("[7] Edit Accounts. ");
+        System.out.println("[0] Back. ");
+
+        System.out.print("> ");
+        int choice = input.nextInt();
+        input.nextLine();
+
+        switch(choice){
+            case 1:{
+                admin.displayPlaces();
             }
             break;
 
-            default:
-                System.out.println("You entered wrong number");
-                break;
+            case 2:{
+                admin.displayAllUserNames();
+            }
+            break;
+
+            case 3:{
+                admin.displayAllAccounts();
+            }
+            break;
+
+            case 4:{
+                System.out.print("Enter the id of the place you want to delete: ");
+                             admin.deletePlace(input.nextLine());
+
+            }
+            break;
+
+            case 5:{
+                System.out.print("Enter the username of the account you want to delete: ");
+                admin.deleteAccount(input.nextLine());
+            }
+            break;
+
+            case 6:{
+                System.out.print("Enter the id of the place you want to edit: ");
+                try {
+                    admin.editPlaces(input.nextLine());
+                }catch (Exception e){
+                    e.toString();
+                }
+            }
+            break;
+
+            case 7:{
+                System.out.print("Enter the user name of the account you want to edit: ");
+                admin.editAccounts(input.nextLine());
+            }
+            break;
+
+            case 0:{
+                return;
+            }
+
+
         }
-    }
+
+        admin_page();
+    } // end of admin_page function
+
 
     public static void hosting() {
         System.out.println();
@@ -233,7 +346,8 @@ public abstract class Pages {
         place.inputInterface();
         currentUser.hostPlace(place);
         System.out.println("Place added successfully");
-    }
+    } // end of hosting function
+
 
     public static void reserving() {
 
@@ -281,7 +395,7 @@ public abstract class Pages {
         place.create_contract(currentUser);
         currentUser.reservePlace(place);
         System.out.println("Place was reserved successfully");
-    }
+    } // end of reserving function
 
 
    

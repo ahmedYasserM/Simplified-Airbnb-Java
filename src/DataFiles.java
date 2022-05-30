@@ -36,7 +36,7 @@ public abstract class DataFiles {
 
                 for (int i = 0; i < 3; i++) { 
                     String placeID = br.readLine();
-                    if (placeID.length() == 8) continue;
+                    if (placeID.equals("hp: null")) continue;
                     account.hostPlace(Place.getAllPlaces().get(placeID.replace("hp: ", ""))); 
                 }
 

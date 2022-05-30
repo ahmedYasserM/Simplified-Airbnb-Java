@@ -227,7 +227,9 @@ public abstract class Pages {
                     String check = input.nextLine();
                     if (check.toLowerCase().equals("yes")) {
                         Place place = currentUser.getReservedPlace(); 
+
                         DataFiles.editFile("Places/" + place.getPlaceID(), "rs", String.valueOf(place.isReserved()), String.valueOf(!place.isReserved()));
+                        
                         place.setReserved(false);
                         
                         DataFiles.editFile("Accounts/" + currentUser.getUserName(), "rp", place.getPlaceID(), "null");

@@ -165,7 +165,7 @@ public class Place {
             if (!place.isReserved())
                 System.out.println(place.toString());
                 
-            System.out.println("#####################################################################");
+            System.out.println("==================================================");
         }
     }
 

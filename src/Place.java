@@ -8,7 +8,7 @@ public class Place {
     // list containing all the places input the program
     private static Scanner input = new Scanner(System.in);
     private static HashMap<String, Place> ALL_PLACES = new HashMap<String, Place>();
-public static HashMap<String, Place> tmpPlaces = new HashMap<>();
+    public static HashMap<String, Place> tmpPlaces = new HashMap<>();
 
     Account host;
     String placeType;
@@ -106,27 +106,27 @@ public static HashMap<String, Place> tmpPlaces = new HashMap<>();
 
     public void create_contract(Account customer) {
         place_contract = new Contract();
-        
+
         place_contract.setHost(host);
         place_contract.setCustomer(customer);
         place_contract.setPrice(price);
 
         Date date = new Date();
 
-        date.inputInterface("Booking");
+        date.Date_inputInterface("Booking");
         place_contract.setDateOfBooking(date);
 
-        date.inputInterface("Arrival");
+        date.Date_inputInterface("Arrival");
         place_contract.setDateOfArrival(date);
 
-        date.inputInterface("Leaving");
+        date.Date_inputInterface("Leaving");
         place_contract.setDateOfLeaving(date);
     }
 
     // PRINT CLASS DATA
     @Override
     public String toString() {
-        String finalShape = "";        
+        String finalShape = "";
 
         finalShape += "--- " + placeType.toUpperCase() + " ---" + '\n';
         finalShape += "Owner: " + host.getFirstName() + ' ' + host.getLastName() + '\n';
@@ -168,7 +168,7 @@ public static HashMap<String, Place> tmpPlaces = new HashMap<>();
             Place place = it.getValue();
 
             if (!place.isReserved())
-                System.out.println(place.toString());                
+                System.out.println(place.toString());
             System.out.println("==================================================");
 
         }
@@ -197,10 +197,10 @@ public static HashMap<String, Place> tmpPlaces = new HashMap<>();
 
         for (String id : ALL_PLACES.keySet()) {
             try {
-                 value = findPlace(id);
+                value = findPlace(id);
             }catch (Exception e){
                 e.toString();
-        }
+            }
             if (!(value.location.getCountry().equals(country)))
                 tmpPlaces.remove(id);
         }
@@ -312,7 +312,7 @@ public static HashMap<String, Place> tmpPlaces = new HashMap<>();
     }
 
 
-  // public static void filterPlacesRentalDuration( ) ;
+    // public static void filterPlacesRentalDuration( ) ;
 
 
 
@@ -325,7 +325,7 @@ public static HashMap<String, Place> tmpPlaces = new HashMap<>();
 
         System.out.print("Type: ");
         setPlaceType(input.nextLine());
-        
+
         System.out.print("Area: ");
         setArea(input.nextInt());
         input.nextLine();
@@ -361,40 +361,40 @@ public static HashMap<String, Place> tmpPlaces = new HashMap<>();
             System.out.println("You cannot edit/delete a reserved place.");
             return;
         }
-        
+
         System.out.println("---- [ Edit Place ] ----");
-        
+
         int choice;
         do {
-            
+
             System.out.println("[1] Price");
             System.out.println("[2] Rental Duration");
             System.out.println("[3] Rules");
             System.out.println("[4] Description");
             System.out.println("[5] Delete Place");
             System.out.println("[0] Back");
-            
-            System.out.print("> ");
-           choice = input.nextInt();
-           input.nextLine();
 
-           switch (choice) {
-               case 1: {
-                    
+            System.out.print("> ");
+            choice = input.nextInt();
+            input.nextLine();
+
+            switch (choice) {
+                case 1: {
+
                     System.out.print("Enter new price, or '0' to return: ");
                     int nPrice = input.nextInt();
                     input.nextLine();
 
-                    if (nPrice == 0) 
+                    if (nPrice == 0)
                         continue;
 
 
                     setPrice(nPrice);
                 }
                 break;
-                
+
                 case 2: {
-                    
+
                     System.out.println("Enter new Rental Duration, or '0' to return: ");
                     int newRentalDuration;
                     while (true) {
@@ -405,19 +405,19 @@ public static HashMap<String, Place> tmpPlaces = new HashMap<>();
                             System.out.println("You entered the same rental duration, try again!");
                             continue;
                         }
-                        
-                        if (newRentalDuration == 0) 
+
+                        if (newRentalDuration == 0)
                             continue;
-                        
+
 
                         setRentalDuration(newRentalDuration);
                         break;
-                    } 
+                    }
                 }
                 break;
 
                 case 3: {
-                    
+
                     System.out.print("Maximum Guests: ");
                     setMaximumGuests(input.nextInt());
                     input.nextLine();
@@ -444,7 +444,7 @@ public static HashMap<String, Place> tmpPlaces = new HashMap<>();
                 break;
 
                 case 4: {
-                    
+
                     System.out.print("New Description: ");
                     String newDes = input.nextLine();
 
@@ -454,9 +454,9 @@ public static HashMap<String, Place> tmpPlaces = new HashMap<>();
 
                 case 5: {
                     System.out.print("\nInput order to delete your account write \'DELETE PLACE\' without quotes\n> ");
-                    
+
                     while (true) {
-                        
+
                         String choice1 = input.nextLine();
                         if(!choice1.equals("DELETE PLACE")) {
                             System.out.print("Incorrect, try again.\n> ");

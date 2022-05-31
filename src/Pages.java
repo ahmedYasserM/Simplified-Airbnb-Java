@@ -12,11 +12,11 @@ public abstract class Pages {
     public static void home_page() {
         System.out.println();
         System.out.println("\t-----( Home Page )-----");
-        
-        // Every time we return to the 'Home Page' i.e "logged out", we set the currentUser to null
-        currentUser = null; 
 
-        
+        // Every time we return to the 'Home Page' i.e "logged out", we set the currentUser to null
+        currentUser = null;
+
+
         System.out.println("[1] Login. ");
         System.out.println("[2] Signup. ");
         System.out.println("[0] Exit. ");
@@ -31,24 +31,24 @@ public abstract class Pages {
                 login_page();
 
             }
-                break;
+            break;
 
             case 2: {
 
                 signup_page();
             }
-                break;
+            break;
 
             case 0: {
                 System.exit(0);
             }
-                break;
+            break;
 
             default: {
                 System.out.println("Invalid input, try again.");
                 home_page();
             }
-                break;
+            break;
         }
         if(currentUser != null){
             user_menu();
@@ -65,7 +65,7 @@ public abstract class Pages {
         System.out.println();
         System.out.println("\t-----( SignUp )-----");
 
-        
+
 
         Account user = new Account();
         user.inputInterface();
@@ -79,7 +79,7 @@ public abstract class Pages {
         System.out.println();
         System.out.println("\t-----( Login )-----");
 
-        
+
 
         System.out.print("Username: ");
         String userName = input.nextLine();
@@ -122,7 +122,7 @@ public abstract class Pages {
         System.out.println();
         System.out.println("\t-----( Main Menu )-----");
 
-        
+
 
         System.out.println("[1] Profile. ");
         System.out.println("[2] Host a Place. ");
@@ -206,8 +206,8 @@ public abstract class Pages {
                 if(Place.tmpPlaces.isEmpty() == true)
                     System.out.println("No Available Places at the moment.");
                 else{
-                for(Place place: Place.tmpPlaces.values())
-                    System.out.println(place.toString());
+                    for(Place place: Place.tmpPlaces.values())
+                        System.out.println(place.toString());
                 }
 
                 System.out.println("==============================================================");
@@ -271,7 +271,7 @@ public abstract class Pages {
 
 
     } // end of user_menu function
-    
+
 
 
     public static void profile_page() {
@@ -301,13 +301,13 @@ public abstract class Pages {
 
             // View Hosted Places case
             case 2: {
-                
+
                 System.out.println();
 
                 var hostedPlaces = currentUser.getHostedPlaces();
                 /*
-                 var can be used in a local variable declaration instead of the variable’s type.
-                 With var, the Java compiler infers the type of the variable at compile time, using type information obtained from the variable’s initializer.
+                 var can be used in a local variable declaration instead of the variableâ€™s type.
+                 With var, the Java compiler infers the type of the variable at compile time, using type information obtained from the variableâ€™s initializer.
                  The inferred type is then used as the static type of the variable.
                  */
 
@@ -319,7 +319,7 @@ public abstract class Pages {
                 }
 
                 System.out.println();
-                
+
                 System.out.print("Enter place number to edit, or press Enter to return: ");
                 String place_idx = input.nextLine();
 
@@ -340,10 +340,10 @@ public abstract class Pages {
                     System.out.print("Confirm leaving: ");
                     String check = input.nextLine();
                     if (check.toLowerCase().equals("yes")) {
-                        Place place = currentUser.getReservedPlace(); 
-                        
+                        Place place = currentUser.getReservedPlace();
+
                         place.setReserved(false);
-                        
+
                         currentUser.reservePlace(null);
 
                         System.out.println("Departure done successfully");
@@ -403,7 +403,7 @@ public abstract class Pages {
 
             case 4:{
                 System.out.print("Enter the id of the place you want to delete: ");
-                             admin.deletePlace(input.nextLine());
+                admin.deletePlace(input.nextLine());
 
             }
             break;
@@ -458,7 +458,7 @@ public abstract class Pages {
 
     public static void reserving() {
 
-        // Checks if the user has a reserved place 
+        // Checks if the user has a reserved place
         if (currentUser.getReservedPlace() != null) {
             System.out.println("You cannot reserve more than one place at a time.");
             return;
@@ -477,7 +477,7 @@ public abstract class Pages {
                 user_menu();
                 return;
             }
-            
+
             place = Place.getAllPlaces().get(ID);
 
             //  Checks if the ID matches with any of the displayed places
@@ -497,12 +497,12 @@ public abstract class Pages {
             }
 
         } while (place == null);
-    
+
         // Creating a contract with currentUser as a "Customer"
         place.create_contract(currentUser);
-        
+
         currentUser.reservePlace(place);
-        
+
         place.setReserved(true);
 
         // DataFiles.editFile("Accounts/" + currentUser.getUserName(), typeDef, oldValue, newValue);

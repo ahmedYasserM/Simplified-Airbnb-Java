@@ -88,7 +88,7 @@ public class Account {
         finalShape += "Password: " + password + '\n';
         finalShape += "Date of Birth: " + dateOfBirth.toString() + '\n';
         if(reservedPlace != null){
-        finalShape += "Reserved Place ID: " + reservedPlace.getPlaceID() + '\n';
+            finalShape += "Reserved Place ID: " + reservedPlace.getPlaceID() + '\n';
         }
         finalShape += "Hosted Places IDs: ";
         if(hostedPlaces.size() != 0){
@@ -104,7 +104,7 @@ public class Account {
 
 
 
-    public void inputInterface() {        
+    public void inputInterface() {
         System.out.println("--- Enter your information ---");
 
 
@@ -118,7 +118,7 @@ public class Account {
         // this do_while loop to prevent the user to use userName admin
         do {
             System.out.print("Username: ");
-             name = input.nextLine();
+            name = input.nextLine();
             if (name.equals("admin") || name.equals("ADMIN") || name.equals("Admin")|| ALL_ACCOUNTS.get(name) != null ) {
                 System.out.println("Username already taken!, try again.");
                 System.out.println();
@@ -143,7 +143,7 @@ public class Account {
         setGender(gender);
 
 
-        dateOfBirth.inputInterface("Birth");
+        dateOfBirth.Date_inputInterface("Birth");
     } // end of inputInterface function
 
 
@@ -163,7 +163,7 @@ public class Account {
 
         Account user = ALL_ACCOUNTS.get(userName); // here we fetch the account whose username is provided from the TreeMap Data Structure
         // if user is equal to null => this mean that there is no account input the TreeMap Data Structure has the username which is provided.
-       if (user == null) {
+        if (user == null) {
             System.out.println("Incorrect username");
         }
         return user; // if the there is no account has the username provided it will return => null
@@ -191,7 +191,7 @@ public class Account {
 
     public static boolean deleteAccount(Account user) {
         System.out.println("\n In order to delete your account write \'DELETE MY ACCOUNT\' without quotes");
-        
+
         String choice1 = input.nextLine();
         if(!(choice1.equals("DELETE MY ACCOUNT"))) {
             System.out.println("Account hasn't been deleted");
@@ -256,11 +256,11 @@ public class Account {
 
             switch (choice) {
                 case 1: {
-
+                    System.out.println("Your OLD first Name: " + firstName );
                     System.out.print("Enter new First Name: ");
                     String name = input.nextLine();
 
-                    
+
                     this.firstName = name;
                     System.out.println("First Name has been changed successfully");
                     System.out.println();
@@ -268,6 +268,9 @@ public class Account {
                 break;
 
                 case 2: {
+
+                    System.out.println("Your OLD last Name: " + lastName );
+
                     System.out.print("Enter new Last Name: ");
 
                     String name = input.nextLine();
@@ -281,6 +284,17 @@ public class Account {
 
                 case 3: {
 
+                    System.out.print("Enter Your OLD Password : ");         // Khatab - NEW
+                    String old_PW = input.nextLine();
+
+                    System.out.println(); // just for spacing
+
+                    if(!old_PW.equals(password))
+                    {
+                        System.out.println("you entered a Wrong OlD Password ...\n");
+                        break;
+                    }
+
                     System.out.print("Enter new Password: ");
                     String password = input.nextLine();
 
@@ -288,14 +302,17 @@ public class Account {
                     this.password = password;
                     System.out.println("Password has been changed successfully");
                     System.out.println();
+
                 }
                 break;
 
                 case 4: {
 
+                    System.out.println("Your OLD Phone Num: " + phoneNumber );
+
                     System.out.print("Enter new Phone Number: ");
                     String number = input.nextLine();
-                    
+
                     this.phoneNumber = number;
                     System.out.println("Phone Number has been changed successfully");
                     System.out.println();
@@ -306,13 +323,14 @@ public class Account {
                     boolean isDeleted = Account.deleteAccount(this);
                     if(isDeleted == true){
                         System.out.println();
-                       Pages.home_page();
+                        Pages.home_page();
                     }
 
                 }
                 break;
 
             }
+
         }  while (choice > 0);
 
     } // end edit function
@@ -344,7 +362,7 @@ public class Account {
 
         if (place != null)  {// checks if the place exists   // ???? and you have to check if this place is taken or not also from a user (khtb)
             hostedPlaces.remove(place);
-            
+
         }
         else
             System.out.println("Place not found.");

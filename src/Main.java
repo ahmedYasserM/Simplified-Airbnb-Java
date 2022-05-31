@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Main {
 
-                /* this function is just for test data */
+    /* this function is just for test data */
     public static void init() {
         Account acc1, acc2, acc3, acc4;
 
@@ -115,10 +115,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException  {
 
-          // init();
+        init();
         Pages.home_page();
     }
-   
+
 }
 
 

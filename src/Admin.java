@@ -103,7 +103,7 @@ public class Admin {
         System.out.println("[0] Back.");
         change = input.nextInt();
         input.nextLine();
-        
+
         switch (change) {
             case 1: {
                 String placeType;
@@ -112,8 +112,8 @@ public class Admin {
                 place.setPlaceType(placeType);
                 System.out.println("The place type is updated successfully");
             }
-                break;
-                
+            break;
+
             case 2: {
                 Location location = new Location();
                 String country, city, town, street, bn;
@@ -140,16 +140,16 @@ public class Admin {
                 place.setLocation(location);
                 System.out.println("The country is updated successfully");
             }
-                break;
+            break;
 
             case 3: {
                 String description;
                 System.out.println("Enter the new description");
                 description = input.nextLine();
-                place.setDescription(description); 
+                place.setDescription(description);
                 System.out.println("The description of the place is updated successfully");
             }
-                break;
+            break;
 
             case 4: {
                 int roomsNum;
@@ -159,8 +159,8 @@ public class Admin {
 
                 place.setNumOfBedrooms(roomsNum);
                 System.out.println("The number of rooms is updated successfully");
-            }       
-                break;
+            }
+            break;
 
             case 5: {
                 int bedsNum;
@@ -193,7 +193,7 @@ public class Admin {
                 place.setPrice(price);
                 System.out.println("The price of the place is updated successfully");
             }
-                break;
+            break;
 
 
             case 8: {
@@ -227,7 +227,7 @@ public class Admin {
                     System.out.println("Smoking is not allowed");
                 }
             }
-                break;
+            break;
 
 
             case 9: {
@@ -238,7 +238,7 @@ public class Admin {
 
                 place.setRentalDuration(rentalDuration);
             }
-                break;
+            break;
 
             case 10: {
                 int area;
@@ -248,7 +248,7 @@ public class Admin {
 
                 place.setArea(area);
             }
-                break;
+            break;
 
             case 11: {
                 boolean reserved;
@@ -259,11 +259,11 @@ public class Admin {
                 else
                     place.setReserved(false);
             }
-                break;
+            break;
             case 0:{
                 return;
             }
-                
+
             default:
                 System.out.println("You entered wrong number");
                 break;
@@ -338,7 +338,7 @@ public class Admin {
 
                     case 5:{
                         System.out.print("Enter new ");
-                        account.getDateOfBirth().inputInterface("Birth");
+                        account.getDateOfBirth().Date_inputInterface("Birth");
                         System.out.println("Date of Birth has been changed successfully");
                         System.out.println();
                     }

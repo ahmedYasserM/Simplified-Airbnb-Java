@@ -39,10 +39,10 @@ public class Date {
         year = date.year;
     } // end of copyAnotherDate function
 
-    public void inputInterface(String date) {
-        
+    public void Date_inputInterface(String date) {
 
-        System.out.println("Date of " + date + ": ");
+
+        System.out.println("Date of " + date + " -- ");
 
         System.out.print("Day: ");
         setDay(input.nextLine());
